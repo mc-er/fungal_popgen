@@ -420,9 +420,3 @@ After lunch we set up Nextflow and get the pipeline running — see [Sarek Setup
 - [HPC2N documentation](https://docs.hpc2n.umu.se) — the authoritative source for everything Kebnekaise
 - [HPC2N: Introduction to Kebnekaise](https://hpc2n.github.io/intro-course/) — the material from HPC2N's own introductory course, including many more batch script examples
 - [SLURM command cheat sheet](https://slurm.schedmd.com/pdfs/summary.pdf) — one page, worth printing
-
-::: {.callout-tip}
-## Asking for help
-
-HPC2N has a support desk, and they would much rather hear from you than have you struggle for two days. When you write to them, include your username, the job ID, and the exact error message. The same applies to asking us.
-:::
