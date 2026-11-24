@@ -1,0 +1,368 @@
+---
+title: "Session 2: Nextflow Sarek setup"
+---
+
+## Introduction
+
+This afternoon we set up [nf-core/sarek](https://nf-co.re/sarek/3.11.0/) and get it running.
+
+We are deliberately not analysing anything today. Getting a pipeline to start — correct software, correct samplesheet, correct reference, correct cluster settings — is a real part of bioinformatics work, and it is where most of the time goes the first time you meet a new pipeline. Tomorrow morning we look at what came out of it.
+
+::: {.callout-note}
+## Plan for the afternoon
+
+1. Get Nextflow and a container runtime working on Kebnekaise
+2. Run Sarek's own test profile, to prove the machinery works before any of our data is involved
+3. Look at what Nextflow left behind, so that you can debug a failure on your own
+4. Configure Sarek to submit jobs to SLURM instead of running them where you launched it
+5. Point it at our data and leave it running
+
+Steps 1–3 are the ones that matter. If you get that far and understand what you did, the afternoon was a success.
+:::
+
+If the words Nextflow, nf-core, container and environment manager are new, the background pages on [Nextflow](./course_nextflow.html), [nf-core](./course_nf-core.html), [Containers](./course_containers.html) and [Pixi](./course_pixi.html) cover the concepts. This page is only about making it run.
+
+## What Sarek does
+
+Sarek is an nf-core pipeline for germline and somatic variant calling from short reads. In the configuration we care about it takes FASTQ files and a reference genome, and gives back aligned, duplicate-marked BAM or CRAM files and a VCF.
+
+| Stage | Tools | What you get |
+|---|---|---|
+| Preprocessing | FastQC, bwa-mem / bwa-mem2 | Aligned reads, read QC |
+| Duplicate marking | GATK MarkDuplicates | Deduplicated BAM/CRAM |
+| Recalibration | GATK BaseRecalibrator | Recalibrated base qualities — *we will switch this off* |
+| Variant calling | HaplotypeCaller, FreeBayes, Strelka, … | VCF |
+| Reporting | MultiQC | One HTML report over everything |
+
+## A human pipeline on a non-model organism
+
+This is the part of the afternoon worth paying attention to, and it is the reason we are running Sarek rather than something simpler.
+
+::: {.callout-tip}
+There is another pipeline in development that looks like a promising replacement to Sarek for non model/non human data. It lives here for now: https://github.com/NBISweden/biovat
+:::
+
+Sarek is excellent software, but it was written for human clinical genomics and it assumes the world that comes with that: a finished reference genome, decades of curated variant databases, a diploid organism, and a patient. Our fungus has none of these. Nothing here stops the pipeline from running, but each assumption has to be recognised and dealt with deliberately — and if you work on wild organisms, you will do this with every pipeline you ever pick up.
+
+| What Sarek assumes | Why that fails for us | What we do about it |
+|---|---|---|
+| The reference is one of the standard human builds, shipped via iGenomes | There is no iGenomes entry our species.  | `--genome null --igenomes_ignore --fasta <our reference>` |
+| A curated set of known variant sites exists (dbSNP, Mills) for base quality recalibration | No such set exists for our species. Recalibration would be trained on our own candidate variants, which is circular | `--skip_tools baserecalibrator` |
+| The assembly is chromosome-level, and a sensible WGS intervals file exists | Our assembly is scaffolds. Without a BED file Sarek derives intervals from the reference index, so a fragmented assembly produces a great many small intervals | Group them with `--nucleotides_per_second`, or switch the scatter off with `--no_intervals` |
+| The organism is diploid | What if our species is haploid? | No ploidy parameter exists — see the note below |
+| Variants can be annotated against a species cache (VEP, snpEff) | No cache exists for our species | Skip annotation; later in the week we intersect regions of interest with the GFF3 by hand |
+| Samples belong to *patients*, who have a *sex* and a tumour/normal *status* | Our species have none of these | Map each isolate onto `patient` and `sample`, set `sex` to `NA` and `status` to `0` |
+
+::: {.callout-important}
+Notice what the pattern is. Every one of these is a case where a default encodes an assumption, and where accepting the default silently would produce output that looks perfectly normal — plausible file sizes, no error messages — but is not meaningful. Base quality recalibration against your own candidate variants does not crash. It just quietly makes your data worse.
+
+This is the central skill of the course: knowing what a tool assumes, and checking whether your organism satisfies it.
+:::
+
+::: {.callout-warning}
+## Ploidy, specifically
+
+The germline callers in Sarek assume a diploid genome, and Sarek does not expose a ploidy parameter for them. The VCF we get will therefore carry diploid genotype calls for a haploid organism — mostly homozygous, since there is only one allele present, with heterozygous calls appearing where reads disagree.
+
+This matters more than it looks. Several summary statistics we calculate on Wednesday are derived from genotype counts, and they are simply wrong if the genotypes claim two alleles where the organism has one. It is why the VCFtools build we use later in the week is a [haploid-aware version](https://github.com/jydu/vcftools).
+
+Keep this in mind when we look at the output tomorrow: it is a real limitation of using this pipeline for this organism, and it is a fair thing to raise in the discussion.
+:::
+
+## Before you start
+
+From this morning you should have:
+
+- A working login to Kebnekaise
+- Your project ID
+- A directory of your own in the course project storage under `/proj/nobackup/fungal_popgen_course/`
+
+Work in the project storage, not in your home directory. Nextflow writes an intermediate `work/` directory that grows quickly — tens of gigabytes is normal — and a home quota will stop the run dead.
+
+```bash
+cd /proj/nobackup/fungal_popgen_course/analysis/<group-name>/<your-name>
+mkdir -p sarek_run && cd sarek_run
+```
+
+Set two environment variables before you launch anything. The first keeps the Nextflow Java process from claiming too much memory on the login node; the second makes containers be downloaded once into a shared cache instead of once per run.
+
+```bash
+export NXF_OPTS='-Xms1g -Xmx4g'
+export NXF_SINGULARITY_CACHEDIR=/proj/nobackup/fungal_popgen_course/analysis/<group-name>/<your-name>/singularity_cache
+```
+
+::: {.callout-tip}
+Put both lines in your `~/.bashrc` so you do not have to remember them. If you forget the cache variable, every run re-downloads several gigabytes of container images, which is slow for you and unkind to everybody else on the system.
+:::
+
+## Step 1: Nextflow and containers
+
+Find and load Nextflow:
+
+```bash
+module spider Nextflow
+module load Nextflow/<version>
+nextflow -version
+```
+
+Sarek runs each tool inside a container, so you also need a container runtime. On an HPC system that is Singularity or Apptainer, never Docker — Docker needs root privileges, which no shared cluster will give you.
+
+```bash
+module spider Singularity
+singularity --version
+```
+
+::: {.callout-note}
+If Singularity is available without loading a module, that is normal on many systems. The check is simply that `singularity --version` answers.
+:::
+
+## Step 2: the smoke test
+
+Before involving our data, run the test profile that ships with the pipeline. It downloads a tiny dataset and runs the whole workflow on it. If this works, Nextflow, the containers and the filesystem are all fine, and any later failure is about *our* configuration rather than the machinery.
+
+```bash
+nextflow run nf-core/sarek -r 3.11.0 -profile test,singularity --outdir test_results
+```
+
+The first time, this also downloads the pipeline itself and its containers, so it will spend several minutes apparently doing nothing. Then you should see a process list that fills in as work completes:
+
+```
+[85/6b7739] NFCORE_SAREK:SAREK:PREPARE_GENOME:BWAMEM1_INDEX (genome.fasta) [100%] 1 of 1 ✔
+[22/cf54a8] NFCORE_SAREK:SAREK:PREPARE_GENOME:GATK4_CREATESEQUENCEDICTIONARY [100%] 1 of 1 ✔
+...
+```
+
+Read that line. `[85/6b7739]` is the start of the hash of the directory where the task ran — you will need it in a moment. The name tells you which workflow, subworkflow and process it belongs to. `1 of 1 ✔` is how many tasks of that process have finished.
+
+::: {.callout-tip}
+With default parameters the test profile runs preprocessing and calls variants with Strelka. It is small, but it is not instant. While it runs, carry on with Step 3 in a second terminal rather than watching the progress bar.
+:::
+
+::: {.callout-note collapse="true"}
+## If the test fails
+
+Work through this in order — it is almost always one of these:
+
+1. `nextflow: command not found` — the module is not loaded in this shell.
+2. Java heap errors — `NXF_OPTS` is not set.
+3. Container pull errors or "no space left on device" — the cache variable is not set, or your quota is full. Check where you are with `pwd`; you should not be in `/home`.
+4. Jobs fail immediately with a permission error — you are probably trying to use Docker. Use `-profile test,singularity`.
+
+If none of these is it, read Step 3 and then ask us.
+:::
+
+## Step 3: what Nextflow leaves behind
+
+This is the part of the session with the longest shelf life. Every Nextflow pipeline you ever run will fail at some point, and the debugging procedure is always the same.
+
+Each task runs in its own directory under `work/`, named by that hash you saw in the console. Go into one:
+
+```bash
+cd work/85/6b7739*     # tab-completion is your friend here
+ls -a
+```
+
+You will find:
+
+| File | What it is |
+|---|---|
+| `.command.sh` | The actual command that was run. Human-readable. Start here. |
+| `.command.log` | Everything the tool printed |
+| `.command.err` | Standard error — the error message lives here |
+| `.command.run` | The wrapper Nextflow built, including the container and SLURM settings |
+| `.exitcode` | The exit status. `0` means success. |
+
+The method for any failed process: Nextflow prints the work directory of the failure, you `cd` into it, read `.command.err`, and if that is not enough, run `bash .command.sh` by hand and watch it break. There is no magic in a pipeline — it is a shell command in a directory.
+
+After the run, look at the reports Nextflow wrote:
+
+```bash
+ls test_results/pipeline_info/
+```
+
+The execution report tells you how long each process took and how much memory it actually used, which is how you make sensible resource requests for the real run.
+
+::: {.callout-important}
+If a run stops and you fix the problem, relaunch with `-resume` (one hyphen):
+
+```bash
+nextflow run nf-core/sarek -r 3.11.0 -profile test,singularity --outdir test_results -resume
+```
+
+Nextflow then reuses every task whose inputs have not changed and continues from the failure. Without `-resume` you start from the beginning, which on real data can cost you a day. Note that it matches on file *content*, not just filenames, and that it only works if you relaunch from the same directory, with the same `work/`.
+:::
+
+## Step 4: making it use the cluster
+
+So far every task has run wherever you launched Nextflow. That is fine for a test dataset and completely wrong for real data — it would mean running an alignment on the login node.
+
+What we want is for Nextflow itself to be a small, patient process that submits each task to SLURM as its own job. That takes a config file. Create `hpc2n.config` next to your run directory:
+
+```nextflow
+params {
+    project = 'hpc2nXXXX-YYY'
+}
+
+process {
+    executor       = 'slurm'
+    clusterOptions = "-A ${params.project}"
+    resourceLimits = [ cpus: 28, memory: 128.GB, time: 24.h ]
+}
+
+singularity {
+    enabled    = true
+    autoMounts = true
+}
+```
+
+and add it with `-c`:
+
+```bash
+nextflow run nf-core/sarek -r 3.11.0 \
+    -profile singularity \
+    -c hpc2n.config \
+    --input samplesheet.csv \
+    --outdir results
+```
+
+::: {.callout-warning}
+`-c` is for infrastructure only — executor, resources, container settings. Do not put pipeline parameters (`--input`, `--outdir`, `--tools`) in a `-c` config file; nf-core pipelines will either ignore them or fail in a confusing way. Parameters go on the command line or in a `-params-file`.
+:::
+
+::: {.callout-note collapse="true"}
+## Why not an institutional profile?
+
+nf-core maintains ready-made configurations for many clusters, loaded with `-profile <institution>`. There is a `naiss` profile, but at the time of writing it only configures Arrhenius specifically, so we write our own small config for Kebnekaise instead.
+
+The `resourceLimits` values above are a starting point, not a measurement. Check them against the node sizes in HPC2N's documentation, and against what the execution report says your processes actually used.
+:::
+
+Nextflow has to keep running for as long as the pipeline does, which can be many hours. Two ways to survive losing your connection:
+
+```bash
+# Option 1: a tmux session on the login node, detach with Ctrl-b d
+tmux new -s sarek
+
+# Option 2: let Nextflow detach itself and write to a log
+nextflow run nf-core/sarek ... -bg
+```
+
+::: {.callout-tip}
+The Nextflow process itself uses very little CPU — it waits for SLURM — so running it on a login node inside `tmux` is accepted practice. It is the *tasks* that must go to compute nodes, and the config above is what sends them there.
+:::
+
+## Step 5: our own data
+
+::: {.callout-important}
+The raw data for the course is not finalised yet, so the paths below are placeholders. The structure is what you should learn; the exact files will be given to you in the room.
+:::
+
+### The samplesheet
+
+Sarek takes a CSV with one row per sample and lane:
+
+```csv
+patient,sex,status,sample,lane,fastq_1,fastq_2
+Bil_01,NA,0,Bil_01,L001,/proj/.../Bil_01_R1.fastq.gz,/proj/.../Bil_01_R2.fastq.gz
+Bil_02,NA,0,Bil_02,L001,/proj/.../Bil_02_R1.fastq.gz,/proj/.../Bil_02_R2.fastq.gz
+Bnp_11,NA,0,Bnp_11,L001,/proj/.../Bnp_11_R1.fastq.gz,/proj/.../Bnp_11_R2.fastq.gz
+```
+
+| Column | What we put in it |
+|---|---|
+| `patient` | Our isolate name. Sarek groups samples by patient; for us each isolate is its own "patient". |
+| `sex` | `NA`. Only used for copy-number analysis in tumour/normal pairs. |
+| `status` | `0`, meaning normal. There are no tumours in a fungus. |
+| `sample` | The isolate name again |
+| `lane` | A lane identifier. Rows for the same `sample` with different `lane` values are merged. |
+| `fastq_1`, `fastq_2` | Absolute paths to the gzipped read files |
+
+Use absolute paths, and keep the isolate naming convention from the dataset — the population prefix in the name is what we will group on later in the week.
+
+### The reference genome
+
+Sarek defaults to human reference bundles. For our organism we switch that off entirely and give it a FASTA:
+
+```bash
+--genome null --igenomes_ignore --fasta /proj/.../reference.fasta
+```
+
+The FASTA is the only reference file that is required; Sarek builds the index, the `.fai` and the sequence dictionary itself.
+
+### Putting it together
+
+Rather than a very long command line, write a parameter file, `params.yaml`:
+
+```yaml
+input: '/proj/nobackup/<course-project>/<your-folder>/samplesheet.csv'
+outdir: '/proj/nobackup/<course-project>/<your-folder>/results'
+genome: null
+igenomes_ignore: true
+fasta: '/proj/nobackup/<course-project>/<your-folder>/reference/reference.fasta'
+tools: 'haplotypecaller'
+joint_germline: true
+skip_tools: 'baserecalibrator'
+```
+
+and launch:
+
+```bash
+nextflow run nf-core/sarek -r 3.11.0 \
+    -profile singularity \
+    -c hpc2n.config \
+    -params-file params.yaml \
+    -resume
+```
+
+::: {.callout-note collapse="true"}
+## Why those last three parameters
+
+- `tools: 'haplotypecaller'` — GATK HaplotypeCaller is the general-purpose germline caller. Strelka, the default in the test profile, is tuned for human data.
+- `joint_germline: true` — calls all samples together and gives one multi-sample VCF instead of one VCF per isolate. We need a multi-sample VCF for everything we do on Wednesday and Thursday: allele frequencies, Fst and population structure are all comparisons *between* individuals.
+- `skip_tools: 'baserecalibrator'` — base quality score recalibration needs a trusted set of known variants to tell real variation from sequencing error. For human data that is dbSNP. For our fungus no such set exists, so recalibration would be trained on our own candidate variants, which is circular. Switch it off.
+:::
+
+::: {.callout-tip}
+Each of these is one row of the table in [A human pipeline on a non-model organism](#a-human-pipeline-on-a-non-model-organism). When you write the parameter file, be able to say out loud why each line is there. A parameter you copied without understanding is a result you cannot defend.
+:::
+
+## Before we stop
+
+- [ ] The test profile ran to completion
+- [ ] I have looked inside a `work/` directory and can say what `.command.sh` and `.exitcode` are
+- [ ] I have an `hpc2n.config` with my project ID in it
+- [ ] I have a samplesheet with absolute paths
+- [ ] My real run is launched, in `tmux` or with `-bg`, and `squeue --me` shows jobs appearing
+
+::: {.callout-tip}
+## Write down what you ran
+
+Before you leave, note the pipeline version (`-r 3.11.0`), the exact command, and the Nextflow run name — the two random words it prints at startup, like `focused_darwin`. You can get it back later with `nextflow log`.
+
+This is the minimum you need to be able to say, in a methods section, what you actually did. The course dataset was chosen partly because the original authors did this well.
+:::
+
+Tomorrow at 9.00 we look at the output: the MultiQC report, the QC metrics for the raw reads and the alignments, and what they tell us about whether the variant calls can be trusted. After that we move on to [Population Statistics](./course_pop_stats.html).
+
+## Where to look things up
+
+- [nf-core/sarek 3.11.0 documentation](https://nf-co.re/sarek/3.11.0/) — usage, parameters and output, for exactly this version
+- [nf-core/sarek parameters](https://nf-co.re/sarek/3.11.0/parameters/) — the full list, generated from the pipeline schema
+- [Nextflow documentation](https://www.nextflow.io/docs/latest/) — the language and the runtime
+- [nf-core: running pipelines](https://nf-co.re/docs/usage/getting_started/introduction) — general guidance that applies to any nf-core pipeline
+- [nf-core Slack](https://nf-co.re/join/slack) — including a channel for HPC users in Sweden
+
+::: {.callout-note collapse="true"}
+## Troubleshooting quick reference
+
+| Symptom | Usual cause |
+|---|---|
+| `command not found: nextflow` | Module not loaded in this shell |
+| Java heap space / huge memory use | `NXF_OPTS` not set |
+| Container download fails or disk fills | `NXF_SINGULARITY_CACHEDIR` not set, or you are running from `/home` |
+| `Not a valid path value` | A path in the samplesheet is wrong, or relative instead of absolute |
+| Process killed, exit code 137 | Out of memory — raise the request for that process |
+| Job exceeds time limit | `resourceLimits` or the per-process time is too low |
+| `-resume` re-runs everything | You launched from a different directory, or an input file changed |
+| Everything runs on the login node | `-c hpc2n.config` was forgotten, so the executor is still `local` |
+:::

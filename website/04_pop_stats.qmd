@@ -1,5 +1,5 @@
 ---
-title: "Population Statistics"
+title: "Session 4: Population Statistics"
 ---
 
 ## Introduction

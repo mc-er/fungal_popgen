@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Session 1: Introduction to Bash and HPC2N – Fungal Population Genomics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Fungal Population Genomics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Session 1: Introduction to Bash and HPC2N</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Background knowledge</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_linux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A Brief Introduction to Linux</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_nextflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Nextflow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_nf-core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nfcore introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_pixi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environment managers: Pixi</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_containers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Containers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_ai.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Caution: AI in Bioinformatics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_ai_literacy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">AI Literacy and Implementation at VF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Markdown and Quarto</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Practicals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_bash_hpc2n_intro.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Session 1: Introduction to Bash and HPC2N</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_nextflow_intro_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">02 Nextflow intro and setup</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_qc_nextflow-output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">03 QC and nextflow output</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_pop_stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Population Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_pop_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Population Structure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extra_genome_annotation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genome Annotation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extra_solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spoiler: Solutions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Discussion</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./discussion_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discussion Guiding Questions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#part-1-the-shell" id="toc-part-1-the-shell" class="nav-link" data-scroll-target="#part-1-the-shell">Part 1: The shell</a>
+  <ul class="collapse">
+  <li><a href="#everyone-software-carpentry" id="toc-everyone-software-carpentry" class="nav-link" data-scroll-target="#everyone-software-carpentry">Everyone: Software Carpentry</a></li>
+  <li><a href="#advanced-track-overthewire-bandit" id="toc-advanced-track-overthewire-bandit" class="nav-link" data-scroll-target="#advanced-track-overthewire-bandit">Advanced track: OverTheWire Bandit</a></li>
+  <li><a href="#advanced-track-alternative-scripting-drills" id="toc-advanced-track-alternative-scripting-drills" class="nav-link" data-scroll-target="#advanced-track-alternative-scripting-drills">Advanced track, alternative: scripting drills</a></li>
+  </ul></li>
+  <li><a href="#part-2-hpc2n" id="toc-part-2-hpc2n" class="nav-link" data-scroll-target="#part-2-hpc2n">Part 2: HPC2N</a>
+  <ul class="collapse">
+  <li><a href="#what-a-cluster-actually-is" id="toc-what-a-cluster-actually-is" class="nav-link" data-scroll-target="#what-a-cluster-actually-is">What a cluster actually is</a></li>
+  <li><a href="#logging-in" id="toc-logging-in" class="nav-link" data-scroll-target="#logging-in">Logging in</a></li>
+  <li><a href="#where-to-put-your-files" id="toc-where-to-put-your-files" class="nav-link" data-scroll-target="#where-to-put-your-files">Where to put your files</a></li>
+  <li><a href="#finding-and-loading-software" id="toc-finding-and-loading-software" class="nav-link" data-scroll-target="#finding-and-loading-software">Finding and loading software</a></li>
+  <li><a href="#your-first-batch-job" id="toc-your-first-batch-job" class="nav-link" data-scroll-target="#your-first-batch-job">Your first batch job</a></li>
+  <li><a href="#a-more-realistic-example" id="toc-a-more-realistic-example" class="nav-link" data-scroll-target="#a-more-realistic-example">A more realistic example</a></li>
+  <li><a href="#interactive-jobs" id="toc-interactive-jobs" class="nav-link" data-scroll-target="#interactive-jobs">Interactive jobs</a></li>
+  </ul></li>
+  <li><a href="#part-3-open-ondemand" id="toc-part-3-open-ondemand" class="nav-link" data-scroll-target="#part-3-open-ondemand">Part 3: Open OnDemand</a>
+  <ul class="collapse">
+  <li><a href="#rstudio" id="toc-rstudio" class="nav-link" data-scroll-target="#rstudio">RStudio</a></li>
+  <li><a href="#vs-code" id="toc-vs-code" class="nav-link" data-scroll-target="#vs-code">VS Code</a></li>
+  </ul></li>
+  <li><a href="#before-lunch" id="toc-before-lunch" class="nav-link" data-scroll-target="#before-lunch">Before lunch</a></li>
+  <li><a href="#where-to-look-things-up" id="toc-where-to-look-things-up" class="nav-link" data-scroll-target="#where-to-look-things-up">Where to look things up</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Session 1: Introduction to Bash and HPC2N</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Session 1: Introduction to Bash and HPC2N</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This is the first practical session of the course. The aim of the morning is to get everyone to the same starting point: comfortable enough in a terminal to move around a filesystem and chain a few commands together, and able to log in to HPC2N, load software, and submit a job to the queue.</p>
+<p>Everything we do from Tuesday afternoon onwards happens on a cluster. You will not be able to run Nextflow, VCFtools, plink or R on your own laptop for this dataset, so the time you invest this morning pays off for the rest of the week.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Plan for the morning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>A self-paced shell tutorial (about 1.5–2 hours, pick the track that suits your level)</li>
+<li>Logging in to HPC2N and finding your way around</li>
+<li>Loading software with the module system</li>
+<li>Your first <code>sbatch</code> job</li>
+<li>Open OnDemand: RStudio and VS Code in the browser</li>
+</ol>
+<p>We will be in the room the whole time, so ask as soon as something does not behave the way you expect. Working through an error with someone is the fastest way to learn.</p>
+</div>
+</div>
+<p>If you have never used a terminal before, have a quick look at <a href="./course_linux.html">A Brief Introduction to Linux</a> first. It covers the filesystem, absolute and relative paths, and the handful of commands we use constantly.</p>
+</section>
+<section id="part-1-the-shell" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-the-shell">Part 1: The shell</h2>
+<section id="everyone-software-carpentry" class="level3">
+<h3 class="anchored" data-anchor-id="everyone-software-carpentry">Everyone: Software Carpentry</h3>
+<p>Work through <a href="https://swcarpentry.github.io/shell-novice/">The Unix Shell</a> from Software Carpentry. It is the best introduction to the shell we know of, it is free, and it is written to be done on your own at your own pace.</p>
+<p>Download the lesson data (<code>shell-lesson-data.zip</code>) as described in the setup instructions on the first page, and unzip it somewhere sensible in your home directory. Do not skip the data — the whole lesson is built around it.</p>
+<p>The episodes to cover are:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Episode</th>
+<th>Why it matters for this course</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. Introducing the Shell</td>
+<td>Knowing what the prompt is telling you</td>
+</tr>
+<tr class="even">
+<td>2. Navigating Files and Directories</td>
+<td><code>cd</code>, <code>ls</code>, <code>pwd</code> — you will do this hundreds of times</td>
+</tr>
+<tr class="odd">
+<td>3. Working with Files and Directories</td>
+<td>Making, copying, moving and deleting your analysis folders</td>
+</tr>
+<tr class="even">
+<td>4. Pipes and Filters</td>
+<td><code>head</code>, <code>wc</code>, <code>sort</code>, <code>cut</code>, and the pipe — this is how we inspect VCFs</td>
+</tr>
+<tr class="odd">
+<td>5. Loops</td>
+<td>Running the same command over 20 scaffolds without typing it 20 times</td>
+</tr>
+<tr class="even">
+<td>6. Shell Scripts</td>
+<td>The step before a batch script</td>
+</tr>
+<tr class="odd">
+<td>7. Finding Things</td>
+<td><code>grep</code> and <code>find</code>, for when an output file has gone missing</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Episodes 4, 5 and 6 are the ones that will save you the most time later in the week. If you are short on time, do those properly and skim the rest.</p>
+</div>
+</div>
+<p>You are ready to move on when you can do the following without looking anything up:</p>
+<ul>
+<li>Say where you are in the filesystem and list what is there, including hidden files</li>
+<li>Make a directory, move into it, and copy a file into it using a relative path</li>
+<li>Count how many lines of a file contain a particular word</li>
+<li>Write a <code>for</code> loop that prints the name of every <code>.txt</code> file in a directory</li>
+<li>Write those commands into a file and run it as a script</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+A quick self-test
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Using the Carpentry data, try to answer these with a single command line each:</p>
+<ol type="1">
+<li>How many files are in <code>shell-lesson-data/exercise-data/animal-counts/</code>?</li>
+<li>How many lines does <code>animals.csv</code> have?</li>
+<li>Which lines in <code>animals.csv</code> mention rabbits?</li>
+<li>Write those rabbit lines to a new file called <code>rabbits.csv</code>.</li>
+<li>Make a copy of every <code>.dat</code> file in <code>exercise-data/alkanes/</code> with the extension <code>.bak</code>, using a loop.</li>
+</ol>
+<p>If all five felt comfortable, go to the advanced track below. If they did not, stay with the Carpentry lesson — there is no advantage in rushing this.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="advanced-track-overthewire-bandit" class="level3">
+<h3 class="anchored" data-anchor-id="advanced-track-overthewire-bandit">Advanced track: OverTheWire Bandit</h3>
+<p>If you already use the shell regularly, the Carpentry lesson will be too slow for you. Instead, play <a href="https://overthewire.org/wargames/bandit/">Bandit</a>.</p>
+<p>Bandit is a wargame: each level hides a password somewhere on a server, and you need the password to log in to the next level. It teaches exactly the skills that make someone fast on a cluster — reading unfamiliar files, searching a filesystem you did not build, and dealing with awkward filenames.</p>
+<p>Start by reading the <a href="https://overthewire.org/wargames/bandit/bandit0.html">Level 0 page</a>, then connect:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> bandit0@bandit.labs.overthewire.org <span class="at">-p</span> 2220</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The password for level 0 is <code>bandit0</code>. Each level’s page lists the commands you are expected to need, and there is a link at the bottom to the next level.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Levels 0 to 10 are a good target for one morning. Levels 11 and up drift into encoding, cron and git puzzles that are fun but less relevant to us.</p>
+<p>Keep a text file with the passwords as you go. You will want to reconnect after a break, and nobody enjoys replaying levels.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Bandit is a public server that is deliberately full of other people’s attempts. Do not put anything of your own there, and do not use a password you use elsewhere. Play it from your own laptop, not from your HPC2N account.</p>
+</div>
+</div>
+</section>
+<section id="advanced-track-alternative-scripting-drills" class="level3">
+<h3 class="anchored" data-anchor-id="advanced-track-alternative-scripting-drills">Advanced track, alternative: scripting drills</h3>
+<p>If puzzles are not your thing but you want something harder than Carpentry, write a small script that does something you will actually need this week. For example:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># For every VCF in a directory, report the filename and the number of variant lines</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> vcf <span class="kw">in</span> <span class="pp">*</span>.vcf</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">n</span><span class="op">=</span><span class="va">$(</span><span class="fu">grep</span> <span class="at">-v</span> <span class="st">"^#"</span> <span class="st">"</span><span class="va">$vcf</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span><span class="va">)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="at">-e</span> <span class="st">"</span><span class="va">${vcf}</span><span class="st">\t</span><span class="va">${n}</span><span class="st">"</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then extend it: take the directory as a command-line argument (<code>$1</code>), write the result to a tab-separated file, and make it skip files that are empty. Being able to write this kind of five-line script is worth more than knowing a hundred commands.</p>
+</section>
+</section>
+<section id="part-2-hpc2n" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-hpc2n">Part 2: HPC2N</h2>
+<section id="what-a-cluster-actually-is" class="level3">
+<h3 class="anchored" data-anchor-id="what-a-cluster-actually-is">What a cluster actually is</h3>
+<p>HPC2N (High Performance Computing Center North, at Umeå University) runs the cluster <strong>Kebnekaise</strong>, which is what we will use for the rest of the course. A cluster is not one big computer you log in to and work on. It has three parts that you need to keep apart in your head:</p>
+<ul>
+<li><strong>Login nodes.</strong> What you reach when you <code>ssh</code> in. Shared by everyone who is logged in. Meant for editing files, moving data, and submitting jobs — nothing heavy.</li>
+<li><strong>Compute nodes.</strong> Where the actual work happens. You never log in to these directly; you ask the scheduler for them.</li>
+<li><strong>A shared filesystem.</strong> Your files look the same from the login node and from every compute node, which is why a job can find your data.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Never run an analysis directly on the login node. Running <code>bwa</code>, <code>plink</code>, or a Nextflow pipeline there slows the machine down for every other user on the system, and the administrators will (rightly) kill the process. Everything heavier than <code>ls</code>, <code>less</code> and a text editor goes through the batch system.</p>
+</div>
+</div>
+<p>The scheduler on Kebnekaise is <strong>SLURM</strong>. You describe the job you want — how many cores, how much time, which project to charge it to — and SLURM decides when and where it runs. Your job sits in a queue until the resources you asked for are free.</p>
+</section>
+<section id="logging-in" class="level3">
+<h3 class="anchored" data-anchor-id="logging-in">Logging in</h3>
+<p>Connect from a terminal with:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>your-username<span class="op">&gt;</span>@kebnekaise.hpc2n.umu.se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You can also connect through VS Code with the Remote-SSH extension, exactly as described in <a href="./course_linux.html">A Brief Introduction to Linux</a>, which gives you a file browser and an editor alongside the terminal.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your username, your project ID and the details of the login procedure (including two-factor authentication) will be given to you in the room. HPC2N’s own <a href="https://docs.hpc2n.umu.se/tutorials/connections/">connection guides</a> cover every operating system in detail if you need to set this up again later.</p>
+</div>
+</div>
+</section>
+<section id="where-to-put-your-files" class="level3">
+<h3 class="anchored" data-anchor-id="where-to-put-your-files">Where to put your files</h3>
+<p>You have two places to work, and the difference matters:</p>
+<ul>
+<li><strong>Your home directory</strong> (<code>$HOME</code>). Small quota, backed up. Scripts, notes, configuration files.</li>
+<li><strong>Project storage</strong> (under <code>/proj/nobackup/</code>). Large, <em>not</em> backed up. Raw data, VCFs, Nextflow work directories, results.</li>
+</ul>
+<p>We will give you the exact path to the course project directory at the start of the session. Make yourself a folder there with your own name in it and keep all of your analysis inside it.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“nobackup” means exactly what it says. If you delete something there, it is gone. This is normal for HPC storage — the assumption is that raw data lives in an archive or a public repository and that everything else can be regenerated by rerunning your scripts. That assumption only holds if you keep your scripts somewhere safe.</p>
+</div>
+</div>
+<p>To copy a file from your laptop to the cluster, run this <em>from your laptop</em>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> results.csv <span class="op">&lt;</span>your-username<span class="op">&gt;</span>@kebnekaise.hpc2n.umu.se:/proj/nobackup/<span class="op">&lt;</span>course-project<span class="op">&gt;</span>/<span class="op">&lt;</span>your-folder<span class="op">&gt;</span>/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For directories, or anything you might need to re-copy, <code>rsync</code> is better, because it only transfers what has changed:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rsync</span> <span class="at">-avh</span> my_results/ <span class="op">&lt;</span>your-username<span class="op">&gt;</span>@kebnekaise.hpc2n.umu.se:/proj/nobackup/<span class="op">&lt;</span>course-project<span class="op">&gt;</span>/<span class="op">&lt;</span>your-folder<span class="op">&gt;</span>/my_results/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="finding-and-loading-software" class="level3">
+<h3 class="anchored" data-anchor-id="finding-and-loading-software">Finding and loading software</h3>
+<p>Software on a cluster is not simply installed and available. There are many versions of everything, and they would conflict with each other, so instead each piece of software sits in a <strong>module</strong> that you load when you need it. This is the same idea as the Pixi environments we use elsewhere in the course — isolate what you need, declare it explicitly.</p>
+<p>Search for software by name:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> spider R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This tells you which versions exist and, importantly, which other modules you need to load first. Kebnekaise groups software into <em>toolchains</em> (<code>foss</code>, <code>GCC</code>, <code>gompi</code> and so on), and a module is only visible once its toolchain is loaded.</p>
+<p>Load a specific version:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load GCC/12.3.0 R/4.3.2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>See what you currently have loaded, and start from a clean slate:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> list</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> purge</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>ml</code> is a shorthand for <code>module</code>: <code>ml R/4.3.2</code> and <code>ml purge</code> work the same way and save a lot of typing.</p>
+<p>Always write the version number. <code>module load R</code> will give you whatever the default is today, and the default changes. Six months from now, “it worked in October” is not a reproducible analysis.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Modules you load in your terminal are <strong>not</strong> automatically available inside a batch job. Every batch script has to load its own modules. This is the single most common reason a job dies with “command not found”.</p>
+</div>
+</div>
+</section>
+<section id="your-first-batch-job" class="level3">
+<h3 class="anchored" data-anchor-id="your-first-batch-job">Your first batch job</h3>
+<p>A batch script is an ordinary shell script with a block of <code>#SBATCH</code> lines at the top. Those lines look like comments to bash, but SLURM reads them as your resource request.</p>
+<p>Open an editor on the cluster (<code>nano first_job.sh</code> is fine if you have no preference) and write:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Project to charge the job to - change to the course project ID</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -A hpc2nXXXX-YYY</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># A name for the job, so you can recognise it in the queue</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -J first_job</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of cores</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -n 1</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Maximum run time, hh:mm:ss</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:05:00</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Where to write standard output and standard error</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=first_job.%J.out</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=first_job.%J.err</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Start from a clean module environment</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> purge <span class="op">&gt;</span> /dev/null <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"This job is running on: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"It started at: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">sleep</span> 60</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"It finished at: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Submit it:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> first_job.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>SLURM replies with a job ID. Use it to follow the job:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">--me</span>                  <span class="co"># all of your jobs, and their state</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">scontrol</span> show job <span class="op">&lt;</span>jobid<span class="op">&gt;</span>    <span class="co"># everything SLURM knows about one job</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>              <span class="co"># stop a job</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When the job is done, the output is waiting for you in <code>first_job.&lt;jobid&gt;.out</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> first_job.<span class="pp">*</span>.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note which machine it says it ran on. It is not the login node.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What the <code>#SBATCH</code> lines mean
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Directive</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>-A hpc2nXXXX-YYY</code></td>
+<td>The project the core hours are charged to. Jobs without a valid project are rejected.</td>
+</tr>
+<tr class="even">
+<td><code>-J name</code></td>
+<td>A job name, shown in <code>squeue</code>. Use something you will recognise.</td>
+</tr>
+<tr class="odd">
+<td><code>-n 1</code></td>
+<td>Number of tasks (think: cores) for a serial job.</td>
+</tr>
+<tr class="even">
+<td><code>-c 8</code></td>
+<td>Cores per task — this is the one you want for multithreaded tools like <code>bwa -t 8</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>--time=hh:mm:ss</code></td>
+<td>Wall-clock limit. The job is killed when it is reached.</td>
+</tr>
+<tr class="even">
+<td><code>--output</code> / <code>--error</code></td>
+<td>Where stdout and stderr go. <code>%J</code> is replaced by the job ID.</td>
+</tr>
+<tr class="odd">
+<td><code>--mem</code></td>
+<td>Memory, if you need more than the default per core.</td>
+</tr>
+</tbody>
+</table>
+<p>Ask for what you need and not much more. Short, modest jobs start sooner than long, greedy ones, because the scheduler can fit them into gaps.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="a-more-realistic-example" class="level3">
+<h3 class="anchored" data-anchor-id="a-more-realistic-example">A more realistic example</h3>
+<p>The same structure, but now doing something useful: loading a module and running a tool on a file.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -A hpc2nXXXX-YYY</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -J bcftools_stats</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -n 1</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:30:00</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=bcftools_stats.%J.out</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=bcftools_stats.%J.err</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> purge <span class="op">&gt;</span> /dev/null <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load GCC/12.3.0 BCFtools/1.18</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="va">VCF</span><span class="op">=</span>/proj/nobackup/<span class="op">&lt;</span>course-project<span class="op">&gt;</span>/<span class="op">&lt;</span>your-folder<span class="op">&gt;</span>/my_data.vcf</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> stats <span class="st">"</span><span class="va">$VCF</span><span class="st">"</span> <span class="op">&gt;</span> my_data.stats.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercises
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Submit <code>first_job.sh</code> three times in a row and look at <code>squeue --me</code>. What are the jobs doing?</li>
+<li>Change <code>--time</code> to <code>00:00:30</code> and resubmit. What happens to the job, and where do you see the evidence?</li>
+<li>Change the script to use 4 cores. Which directive did you use, and why?</li>
+<li>Deliberately remove the <code>module load</code> line from the second script and submit it. Read the <code>.err</code> file. Recognising this error message will save you hours later in the week.</li>
+<li>Use <code>module spider</code> to find out which version of VCFtools is available on Kebnekaise.</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="interactive-jobs" class="level3">
+<h3 class="anchored" data-anchor-id="interactive-jobs">Interactive jobs</h3>
+<p>Sometimes you want a compute node under your fingers — to test a command, or to debug a pipeline that keeps failing. Ask for an allocation instead of submitting a script:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">salloc</span> <span class="at">-A</span> hpc2nXXXX-YYY <span class="at">-n</span> 1 <span class="at">--time</span><span class="op">=</span>01:00:00</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>When the allocation is granted you can run commands on the compute node, and <code>exit</code> gives the resources back. Release the allocation as soon as you are finished — it is charged to the project whether you use it or not.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are running something long over an ssh connection, your job dies when your laptop sleeps or the network drops. <code>tmux</code> on the login node solves this: start a session with <code>tmux</code>, detach with <code>Ctrl-b d</code>, and reattach later with <code>tmux attach</code>. For actual analyses, the real answer is to use <code>sbatch</code> — a batch job does not care whether you stay logged in.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="part-3-open-ondemand" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-open-ondemand">Part 3: Open OnDemand</h2>
+<p>Not everything is comfortable in a terminal. Plotting is the obvious case: you want to see the figure, adjust it, and see it again. HPC2N provides <a href="https://www.hpc2n.umu.se/node/1065">Open OnDemand</a>, a web portal that gives you graphical applications running on the cluster, in your browser.</p>
+<p>This is what we will use on Wednesday and Thursday for the R work, so it is worth setting up today.</p>
+<p>Point your browser at the HPC2N portal and log in with your HPC2N credentials. Under <strong>Interactive Apps</strong> you will find the applications you can start.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An OnDemand session is a SLURM job. When you fill in the form, you are writing a resource request: project ID, number of cores, memory, and how many hours the session should last. It queues like any other job, it is charged to your project like any other job, and it stops when the time you asked for runs out.</p>
+<p>Save your work as you go, and delete the session when you are finished rather than leaving it idle.</p>
+</div>
+</div>
+<section id="rstudio" class="level3">
+<h3 class="anchored" data-anchor-id="rstudio">RStudio</h3>
+<p>Choose the RStudio app, then fill in the form:</p>
+<ul>
+<li><strong>Project / account</strong>: the course project ID</li>
+<li><strong>Number of cores</strong>: 2 is plenty for what we do</li>
+<li><strong>Memory</strong>: start modest and increase it if R complains</li>
+<li><strong>Wall time</strong>: the length of the session — a few hours covers an afternoon</li>
+<li><strong>R version</strong>: pick a specific version and use the same one all week</li>
+</ul>
+<p>Start the session, wait for it to be allocated, and click <strong>Connect</strong>. You now have RStudio running on a compute node, with your project storage visible in the Files pane.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Packages you install go to your personal R library in your home directory and persist between sessions, so you only install them once. Install the ones we will need (<code>tidyverse</code>, <code>vcfR</code>, <code>LEA</code>) at the end of this session rather than on Wednesday morning — some of them take a while to compile, and it is more pleasant to have that happen while you are having coffee than while the rest of the group is waiting for you.</p>
+</div>
+</div>
+</section>
+<section id="vs-code" class="level3">
+<h3 class="anchored" data-anchor-id="vs-code">VS Code</h3>
+<p>The Code Server app gives you VS Code in the browser, again running on a compute node. It is the better choice when you are writing and running shell or Nextflow code rather than plotting, because you get the editor, the file tree and a terminal in one window.</p>
+<p>The form works the same way as for RStudio. One thing to be aware of: the terminal inside this VS Code session is already on a compute node, inside your allocation, so you do <strong>not</strong> submit jobs from it. Use it to write and test, and use the login node to <code>sbatch</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+RStudio, VS Code, or ssh?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task</th>
+<th>Easiest route</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Submitting and monitoring batch jobs</td>
+<td>ssh to the login node</td>
+</tr>
+<tr class="even">
+<td>Writing scripts and pipelines</td>
+<td>VS Code (Remote-SSH, or Code Server in OnDemand)</td>
+</tr>
+<tr class="odd">
+<td>Plotting, data wrangling in R</td>
+<td>RStudio in OnDemand</td>
+</tr>
+<tr class="even">
+<td>Moving data to and from your laptop</td>
+<td><code>scp</code> or <code>rsync</code> from your laptop</td>
+</tr>
+<tr class="odd">
+<td>Testing a command quickly</td>
+<td><code>salloc</code>, or a terminal in an OnDemand session</td>
+</tr>
+</tbody>
+</table>
+<p>There is no single correct setup. Most people end up with a terminal and an editor open at the same time, and switch between them without thinking about it.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="before-lunch" class="level2">
+<h2 class="anchored" data-anchor-id="before-lunch">Before lunch</h2>
+<p>A short checklist. If any of these are not true, say so before we break, because the afternoon session builds directly on them.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">I can log in to Kebnekaise from a terminal</label></li>
+<li><label><input type="checkbox">I know my project ID and the path to the course project storage</label></li>
+<li><label><input type="checkbox">I have made my own working directory in the project storage</label></li>
+<li><label><input type="checkbox">I can find software with <code>module spider</code> and load it with <code>module load</code></label></li>
+<li><label><input type="checkbox">I have submitted a batch job and read its output file</label></li>
+<li><label><input type="checkbox">I can start an RStudio session through Open OnDemand</label></li>
+</ul>
+<p>After lunch we set up Nextflow and get the pipeline running — see <a href="./course_sarek.html">Sarek Setup</a>.</p>
+</section>
+<section id="where-to-look-things-up" class="level2">
+<h2 class="anchored" data-anchor-id="where-to-look-things-up">Where to look things up</h2>
+<ul>
+<li><a href="https://swcarpentry.github.io/shell-novice/">Software Carpentry: The Unix Shell</a> — the tutorial from this morning, and a good reference afterwards</li>
+<li><a href="https://overthewire.org/wargames/bandit/">OverTheWire: Bandit</a> — keep playing if you enjoyed it</li>
+<li><a href="https://docs.hpc2n.umu.se">HPC2N documentation</a> — the authoritative source for everything Kebnekaise</li>
+<li><a href="https://hpc2n.github.io/intro-course/">HPC2N: Introduction to Kebnekaise</a> — the material from HPC2N’s own introductory course, including many more batch script examples</li>
+<li><a href="https://slurm.schedmd.com/pdfs/summary.pdf">SLURM command cheat sheet</a> — one page, worth printing</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Asking for help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>HPC2N has a support desk, and they would much rather hear from you than have you struggle for two days. When you write to them, include your username, the job ID, and the exact error message. The same applies to asking us.</p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

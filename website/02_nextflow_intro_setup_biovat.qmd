@@ -1,0 +1,438 @@
+---
+title: "Session 2: BioVAT Setup"
+---
+
+## Introduction
+
+This afternoon we set up [BioVAT](https://github.com/NBISweden/biovat) and get it running. That is the whole goal: by the time we stop at 14.30, a pipeline should be running on Kebnekaise and producing output while we go home.
+
+We are deliberately not analysing anything today. Getting a pipeline to start — correct software, correct samplesheet, correct reference, correct cluster settings — is a real part of bioinformatics work, and it is where most of the time goes the first time you meet a new pipeline. Tomorrow morning we look at what came out of it.
+
+BioVAT, the BIOdiversity Variant Analysis Toolkit, is a Nextflow pipeline from [NBIS](https://nbis.se), built specifically for population genomics in non-model organisms. It takes raw reads and a reference genome, and gives back a multi-sample VCF together with quality reports at every stage — which is exactly the input we need for Wednesday and Thursday.
+
+::: {.callout-note}
+## Plan for the afternoon
+
+1. Get Nextflow and a container runtime working on Kebnekaise
+2. Run BioVAT's own test profile, to prove the machinery works before any of our data is involved
+3. Look at what Nextflow left behind, so that you can debug a failure on your own
+4. Configure BioVAT to submit jobs to SLURM instead of running them where you launched it
+5. Point it at our data and leave it running
+
+Steps 1–3 are the ones that matter. If you get that far and understand what you did, the afternoon was a success.
+:::
+
+If the words Nextflow, nf-core, container and environment manager are new, the background pages on [Nextflow](./course_nextflow.html), [nf-core](./course_nf-core.html), [Containers](./course_containers.html) and [Pixi](./course_pixi.html) cover the concepts. This page is only about making it run.
+
+## What BioVAT does
+
+BioVAT is modular: each stage can be switched on or off, and by default all of them run.
+
+| Stage | Tools | What you get |
+|---|---|---|
+| Raw read QC | FastQC | Quality metrics for the reads as they arrived |
+| Trimming | fastp | Trimmed reads, before/after report |
+| Alignment | bwa-mem3 (or Parabricks on GPU) | Sorted, read-group tagged BAM |
+| Alignment QC | Qualimap, Riker, samtools flagstat | Coverage, insert sizes, mapping rates |
+| Duplicate marking | samtools (or Picard) | Deduplicated BAM, duplicate metrics |
+| Variant calling | BCFtools or GATK | One multi-sample VCF per sequencing platform |
+| Variant QC | bcftools stats | Variant metrics |
+| Reporting | MultiQC | One HTML report over everything |
+
+The output directories are numbered in the order the stages run (`01_input_checks/`, `02_read_trimming/`, `03_read_alignment/`, … `07_variant_calls/`), which makes it easy to find things tomorrow.
+
+::: {.callout-note}
+BioVAT is written with the nf-core template and follows nf-core conventions, so almost everything you learn here transfers to any nf-core pipeline: `-profile`, `-resume`, `-params-file`, the `work/` directory, the reports. It is not an official nf-core pipeline, which mainly means you find it on GitHub rather than on the nf-core website.
+:::
+
+## A pipeline built for non-model organisms
+
+This is the part of the afternoon worth paying attention to, and it is the reason we are running BioVAT rather than a human-genomics pipeline.
+
+Most variant calling pipelines were written for human clinical genomics, and they assume the world that comes with it: a finished reference genome, decades of curated variant databases, a diploid organism, and a patient. Our fungus has none of these. You *can* run such a pipeline on a wild organism, but you spend the first day switching human-specific behaviour off, and the defaults you forget to switch off quietly damage your data.
+
+BioVAT starts from the opposite assumption. Compare what the two kinds of pipeline expect:
+
+| Assumption in a human pipeline | How BioVAT handles it |
+|---|---|
+| The reference is a standard human build shipped with the pipeline | You give it any FASTA with `--reference`. There is no built-in genome list, so there is nothing to switch off |
+| Known variant sites (dbSNP, Mills) exist for base quality recalibration | BQSR is not part of the pipeline at all. Even in the GATK path, BioVAT deliberately follows the Best Practices *without* known-variant resources |
+| The assembly is chromosome-level | Variant calling is parallelised over genome chunks built from the reference index, grouping whole scaffolds until a chunk reaches `--chunk_size`. Short scaffolds can be dropped with `--min_length` |
+| The organism is diploid | The caller's ploidy is yours to set: `--bcftools_call_extra '--ploidy 1'` |
+| Samples belong to patients with a sex and a tumour/normal status | Samples belong to **populations**, declared in a sample metadata sheet |
+
+::: {.callout-important}
+Notice what the pattern is. In a human pipeline, every one of these is a default that encodes an assumption, and accepting it silently produces output that looks perfectly normal — plausible file sizes, no error messages — but is not meaningful. Base quality recalibration trained on your own candidate variants does not crash. It just quietly makes your data worse.
+
+Using a pipeline built for your kind of organism does not remove that problem. It moves it: now the defaults are reasonable for wild populations, and your job is to check that they are reasonable for *your* wild population. Below, ploidy and scaffold length are the two that matter for us.
+
+This is the central skill of the course: knowing what a tool assumes, and checking whether your organism satisfies it.
+:::
+
+::: {.callout-warning}
+## Ploidy, specifically
+
+Our organism is haploid for most of its life cycle. `bcftools call` assumes diploid samples unless told otherwise, so without intervention the VCF would carry diploid genotype calls for a haploid organism — mostly homozygous, since there is only one allele present, with heterozygous calls appearing where reads disagree.
+
+BioVAT lets you pass arguments straight through to the caller, so this one is fixable:
+
+```yaml
+bcftools_call_extra: '--ploidy 1'
+```
+
+This matters more than it looks. Several summary statistics we calculate on Wednesday are derived from genotype counts, and they are wrong if the genotypes claim two alleles where the organism has one. It is also why the VCFtools build we use later in the week is a [haploid-aware version](https://github.com/jydu/vcftools).
+:::
+
+## Before you start
+
+From this morning you should have:
+
+- A working login to Kebnekaise
+- Your project ID
+- A directory of your own in the course project storage under `/proj/nobackup/`
+
+Work in the project storage, not in your home directory. Nextflow writes an intermediate `work/` directory that grows quickly — tens of gigabytes is normal — and a home quota will stop the run dead.
+
+```bash
+cd /proj/nobackup/<course-project>/<your-folder>
+mkdir -p biovat_run && cd biovat_run
+```
+
+Set two environment variables before you launch anything. The first keeps the Nextflow Java process from claiming too much memory on the login node; the second makes containers be downloaded once into a shared cache instead of once per run.
+
+```bash
+export NXF_OPTS='-Xms1g -Xmx4g'
+export NXF_SINGULARITY_CACHEDIR=/proj/nobackup/<course-project>/singularity_cache
+```
+
+::: {.callout-tip}
+Put both lines in your `~/.bashrc` so you do not have to remember them. If you forget the cache variable, every run re-downloads several gigabytes of container images, which is slow for you and unkind to everybody else on the system.
+:::
+
+## Step 1: getting the pipeline and Nextflow
+
+BioVAT has no numbered release yet, so instead of letting Nextflow pull a version by tag, clone the repository and run it from there. You then know exactly which code you have.
+
+```bash
+git clone https://github.com/NBISweden/biovat.git
+cd biovat
+git log -1 --format='%H %ad' --date=short
+```
+
+Write that commit hash down. For a pipeline under active development it is the only honest version number you have.
+
+Now you need Nextflow itself. There are two routes, and either is fine:
+
+**Route A — the module system on Kebnekaise**
+
+```bash
+module spider Nextflow
+module load Nextflow/<version>
+nextflow -version
+```
+
+**Route B — Pixi**
+
+BioVAT ships a `pixi.toml` that declares the exact versions of Nextflow and its helper tools the pipeline expects. If you have Pixi (see [Environment managers: Pixi](./course_pixi.html)), you get a matching environment with one command:
+
+```bash
+pixi install
+pixi run help
+```
+
+::: {.callout-tip}
+Route B is the more reproducible of the two, and it is a good illustration of why we cover environment managers in this course: the pipeline declares its own tooling, so you do not have to guess which Nextflow version it was tested with. `pixi run help` prints the pipeline's full parameter list.
+:::
+
+BioVAT runs each tool inside a container, so you also need a container runtime. On an HPC system that is Singularity or Apptainer, never Docker — Docker needs root privileges, which no shared cluster will give you.
+
+```bash
+module spider Singularity
+singularity --version
+```
+
+## Step 2: the smoke test
+
+Before involving our data, run the test profile that ships with the pipeline. It uses a small monkeyflower dataset and runs the whole workflow on it, end to end. If this works, Nextflow, the containers and the filesystem are all fine, and any later failure is about *our* configuration rather than the machinery.
+
+```bash
+nextflow run main.nf -profile test,singularity --outdir test_results
+```
+
+or, with Pixi:
+
+```bash
+pixi run test-singularity
+```
+
+The first time, this downloads the test data and the containers, so it will spend several minutes apparently doing nothing. Then you should see a process list that fills in as work completes:
+
+```
+[85/6b7739] BIOVAT:FASTQC (SAMPLE_1)        [100%] 2 of 2 ✔
+[22/cf54a8] BIOVAT:FASTP (SAMPLE_1)         [100%] 2 of 2 ✔
+[28/dad25a] BIOVAT:BWA_INDEX (reference)    [100%] 1 of 1 ✔
+...
+```
+
+Read that line. `[85/6b7739]` is the start of the hash of the directory where the task ran — you will need it in a moment. The name tells you which workflow and process it belongs to. `2 of 2 ✔` is how many tasks of that process have finished.
+
+::: {.callout-tip}
+The test profile limits itself to 4 cores, 15 GB and an hour, so it fits comfortably in this session. While it runs, carry on with Step 3 in a second terminal rather than watching the progress bar.
+:::
+
+::: {.callout-note collapse="true"}
+## If the test fails
+
+Work through this in order — it is almost always one of these:
+
+1. `nextflow: command not found` — the module is not loaded in this shell, or you are outside your Pixi environment.
+2. Java heap errors — `NXF_OPTS` is not set.
+3. Container pull errors or "no space left on device" — the cache variable is not set, or your quota is full. Check where you are with `pwd`; you should not be in `/home`.
+4. Jobs fail immediately with a permission error — you are probably trying to use Docker. Use `-profile test,singularity`.
+
+If none of these is it, read Step 3 and then ask us.
+:::
+
+## Step 3: what Nextflow leaves behind
+
+This is the part of the session with the longest shelf life. Every Nextflow pipeline you ever run will fail at some point, and the debugging procedure is always the same.
+
+Each task runs in its own directory under `work/`, named by that hash you saw in the console. Go into one:
+
+```bash
+cd work/85/6b7739*     # tab-completion is your friend here
+ls -a
+```
+
+You will find:
+
+| File | What it is |
+|---|---|
+| `.command.sh` | The actual command that was run. Human-readable. Start here. |
+| `.command.log` | Everything the tool printed |
+| `.command.err` | Standard error — the error message lives here |
+| `.command.run` | The wrapper Nextflow built, including the container and SLURM settings |
+| `.exitcode` | The exit status. `0` means success. |
+
+The method for any failed process: Nextflow prints the work directory of the failure, you `cd` into it, read `.command.err`, and if that is not enough, run `bash .command.sh` by hand and watch it break. There is no magic in a pipeline — it is a shell command in a directory.
+
+After the run, look at the reports Nextflow wrote:
+
+```bash
+ls test_results/pipeline_info/
+```
+
+The execution report tells you how long each process took and how much memory it actually used, which is how you make sensible resource requests for the real run.
+
+::: {.callout-important}
+If a run stops and you fix the problem, relaunch with `-resume` (one hyphen):
+
+```bash
+nextflow run main.nf -profile test,singularity --outdir test_results -resume
+```
+
+Nextflow then reuses every task whose inputs have not changed and continues from the failure. Without `-resume` you start from the beginning, which on real data can cost you a day. Note that it matches on file *content*, not just filenames, and that it only works if you relaunch from the same directory, with the same `work/`.
+:::
+
+## Step 4: making it use the cluster
+
+So far every task has run wherever you launched Nextflow. That is fine for a test dataset and completely wrong for real data — it would mean running an alignment on the login node.
+
+What we want is for Nextflow itself to be a small, patient process that submits each task to SLURM as its own job. That takes a config file. Create `hpc2n.config` in your run directory:
+
+```nextflow
+params {
+    project = 'hpc2nXXXX-YYY'
+}
+
+process {
+    executor       = 'slurm'
+    clusterOptions = "-A ${params.project}"
+    resourceLimits = [ cpus: 28, memory: 128.GB, time: 24.h ]
+}
+
+singularity {
+    enabled    = true
+    autoMounts = true
+}
+```
+
+and add it with `-c`:
+
+```bash
+nextflow run main.nf \
+    -profile singularity \
+    -c hpc2n.config \
+    -params-file nf-params.yml \
+    --outdir results
+```
+
+::: {.callout-warning}
+`-c` is for infrastructure only — executor, resources, container settings. BioVAT's documentation is explicit that pipeline parameters must not be passed with `-c`; they go on the command line or in a `-params-file`.
+:::
+
+::: {.callout-note collapse="true"}
+## Why not an institutional profile?
+
+nf-core maintains ready-made configurations for many clusters, loaded with `-profile <institution>`. There is a `naiss` profile, but at the time of writing it only configures Arrhenius specifically, so we write our own small config for Kebnekaise instead.
+
+The `resourceLimits` values above are a starting point, not a measurement. Check them against the node sizes in HPC2N's documentation, and against what the execution report says your processes actually used.
+:::
+
+Nextflow has to keep running for as long as the pipeline does, which can be many hours. Two ways to survive losing your connection:
+
+```bash
+# Option 1: a tmux session on the login node, detach with Ctrl-b d
+tmux new -s biovat
+
+# Option 2: let Nextflow detach itself and write to a log
+nextflow run main.nf ... -bg
+```
+
+::: {.callout-tip}
+The Nextflow process itself uses very little CPU — it waits for SLURM — so running it on a login node inside `tmux` is accepted practice. It is the *tasks* that must go to compute nodes, and the config above is what sends them there.
+:::
+
+## Step 5: our own data
+
+::: {.callout-important}
+The raw data for the course is not finalised yet, so the paths below are placeholders. The structure is what you should learn; the exact files will be given to you in the room.
+:::
+
+### The samplesheet
+
+BioVAT takes a CSV with one row per sequencing run. A row supplies either raw reads (`fastq_1`, optionally `fastq_2`) **or** an already-aligned `bam`/`cram`:
+
+```csv
+sample,library_id,flowcell_id,lane,platform,fastq_1,fastq_2,bam,single_end
+Bil_01,1,AEG588A1,2,ILLUMINA,/proj/.../Bil_01_L002_R1.fastq.gz,/proj/.../Bil_01_L002_R2.fastq.gz,,
+Bil_01,1,AEG588A1,3,ILLUMINA,/proj/.../Bil_01_L003_R1.fastq.gz,/proj/.../Bil_01_L003_R2.fastq.gz,,
+Bnp_11,1,AEG588A2,2,ILLUMINA,/proj/.../Bnp_11_L002_R1.fastq.gz,/proj/.../Bnp_11_L002_R2.fastq.gz,,
+```
+
+| Column | What we put in it |
+|---|---|
+| `sample` | The isolate name. Repeat it on every row belonging to that isolate — rows are merged on it |
+| `library_id` | Sequencing library identifier |
+| `flowcell_id` | Flowcell identifier or barcode |
+| `lane` | Flowcell lane, a positive integer |
+| `platform` | `ILLUMINA` for our data. Must be uppercase |
+| `fastq_1`, `fastq_2` | Absolute paths to the gzipped read files |
+| `bam`, `single_end` | Only for pre-aligned input; leave empty when giving FASTQ |
+
+Each combination of `sample`, `library_id`, `flowcell_id` and `lane` has to be unique. That is stricter than many pipelines, and it is deliberate: these four fields become the read group, which is how the pipeline can later tell a sequencing-run artefact from a biological one.
+
+::: {.callout-tip}
+Keep the isolate naming convention from the dataset. The population prefix in the sample name is what we will group on for the rest of the week, and it is what makes the next file easy to write.
+:::
+
+### The sample metadata sheet — populations
+
+This is the file that makes BioVAT worth using for our question. It declares which population each isolate belongs to, one row per sample:
+
+```csv
+sample,population
+Bil_01,bil
+Bil_02,bil
+Bnp_11,bnp
+Her_03,her
+```
+
+Passing it with `--sample_metadata` turns on population grouping during variant calling: `bcftools call --group-samples` applies the Hardy–Weinberg prior *within* populations but not across them. In other words, the caller stops assuming that every sample is drawn from one randomly mating pool — which for a set of isolates from Sweden, Poland, Norway, Russia and two parts of Finland is obviously false.
+
+::: {.callout-note collapse="true"}
+## Two things to be careful of
+
+- Population grouping only applies with `--variant_caller bcftools_multisample` and the multiallelic caller (both are the defaults). With `gatk` the file is ignored, with a warning on the console.
+- Every sample in the samplesheet needs a population. Samples listed in the metadata but absent from the samplesheet are ignored, with a warning.
+
+And a question to hold on to: if we tell the caller which population each isolate belongs to, and then on Wednesday measure differentiation *between* those populations, have we biased the result? Worth a few minutes of discussion when we look at the output.
+:::
+
+### The parameter file
+
+BioVAT ships an example parameter file at `assets/nf-params.yml`. Copy it and edit it rather than building a long command line:
+
+```yaml
+input: '/proj/nobackup/<course-project>/<your-folder>/samplesheet.csv'
+sample_metadata: '/proj/nobackup/<course-project>/<your-folder>/sample_metadata.csv'
+reference: '/proj/nobackup/<course-project>/<your-folder>/reference/reference.fasta'
+outdir: '/proj/nobackup/<course-project>/<your-folder>/results'
+
+# Workflow stages
+enable_raw_read_qc: true
+enable_trim: true
+enable_align: true
+enable_align_qc: true
+enable_mark_duplicates: true
+enable_variant_calling: true
+enable_variant_qc: true
+
+# Variant calling
+callset_prefix: 'course_2026'
+bcftools_call_extra: '--ploidy 1'
+min_length: 1000
+```
+
+::: {.callout-note collapse="true"}
+## The two parameters to think about
+
+**`bcftools_call_extra: '--ploidy 1'`** — discussed above. Our organism is haploid; the caller assumes diploid unless told.
+
+**`min_length: 1000`** — scaffolds shorter than this are excluded from variant calling and will not appear in the VCF. For a fragmented assembly that is usually sensible: very short scaffolds carry few variants and a lot of mapping noise. But it is a choice, and it is your choice. Set it to `0` to keep everything. The pipeline lists what it dropped in `07_variant_calls/genome_chunk_bed_files/excluded_regions.tsv` and summarises it in the MultiQC report, and it warns on the console if more than 5% of the reference was excluded.
+
+Look at that number tomorrow. "We discarded 8% of the reference before calling any variants" is the kind of thing that belongs in a methods section, and the kind of thing that is easy not to notice.
+:::
+
+### Launching
+
+```bash
+nextflow run main.nf \
+    -profile singularity \
+    -c hpc2n.config \
+    -params-file nf-params.yml \
+    -resume
+```
+
+## Before we stop
+
+- [ ] The test profile ran to completion
+- [ ] I have looked inside a `work/` directory and can say what `.command.sh` and `.exitcode` are
+- [ ] I have an `hpc2n.config` with my project ID in it
+- [ ] I have a samplesheet and a sample metadata sheet, with absolute paths
+- [ ] My parameter file sets the ploidy correctly
+- [ ] My real run is launched, in `tmux` or with `-bg`, and `squeue --me` shows jobs appearing
+
+::: {.callout-tip}
+## Write down what you ran
+
+Before you leave, note the commit hash you cloned, the exact command, and the Nextflow run name — the two random words it prints at startup, like `focused_darwin`. You can get it back later with `nextflow log`.
+
+This is the minimum you need to be able to say, in a methods section, what you actually did. The course dataset was chosen partly because the original authors did this well.
+:::
+
+Tomorrow at 9.00 we look at the output: the MultiQC report, the QC metrics in `01_input_checks/` and `03_read_alignment/qc/`, and what they tell us about whether the variant calls in `07_variant_calls/` can be trusted. After that we move on to [Population Statistics](./course_pop_stats.html).
+
+## Where to look things up
+
+- [BioVAT on GitHub](https://github.com/NBISweden/biovat) — the pipeline itself
+- [BioVAT usage documentation](https://github.com/NBISweden/biovat/blob/dev/docs/usage.md) — samplesheets, parameters and profiles
+- [BioVAT output documentation](https://github.com/NBISweden/biovat/blob/dev/docs/output.md) — what lands in each numbered directory, which we will use tomorrow
+- [Nextflow documentation](https://www.nextflow.io/docs/latest/) — the language and the runtime
+- [nf-core: running pipelines](https://nf-co.re/docs/usage/getting_started/introduction) — general guidance that applies to any nf-core-style pipeline
+
+::: {.callout-note collapse="true"}
+## Troubleshooting quick reference
+
+| Symptom | Usual cause |
+|---|---|
+| `command not found: nextflow` | Module not loaded in this shell, or outside the Pixi environment |
+| Java heap space / huge memory use | `NXF_OPTS` not set |
+| Container download fails or disk fills | `NXF_SINGULARITY_CACHEDIR` not set, or you are running from `/home` |
+| Samplesheet rejected | A `sample`/`library_id`/`flowcell_id`/`lane` combination is repeated, or a path is relative |
+| `--sample_metadata` ignored with a warning | You selected `--variant_caller gatk`, which does not support population grouping |
+| Process killed, exit code 137 | Out of memory — raise the request for that process |
+| Job exceeds time limit | `resourceLimits` or the per-process time is too low |
+| `-resume` re-runs everything | You launched from a different directory, or an input file changed |
+| Everything runs on the login node | `-c hpc2n.config` was forgotten, so the executor is still `local` |
+:::

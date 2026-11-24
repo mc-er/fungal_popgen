@@ -1,0 +1,424 @@
+---
+title: "Session 1: Introduction to Bash and HPC2N"
+---
+
+## Introduction
+
+This is the first practical session of the course. The aim of the morning is to get everyone to the same starting point: comfortable enough in a terminal to move around a filesystem and chain a few commands together, and able to log in to HPC2N, load software, and submit a job to the queue.
+
+Everything we do from Tuesday afternoon onwards happens on a cluster. You will not run Nextflow, VCFtools, plink or R on your own laptop for this dataset, so the time you invest this morning pays off for the rest of the week.
+
+::: {.callout-note}
+## Plan for the morning
+
+1. A self-paced shell tutorial (about 1.5–2 hours, pick the track that suits your level)
+2. Logging in to HPC2N and finding your way around
+3. Loading software with the module system
+4. Your first `sbatch` job
+5. Open OnDemand: RStudio and VS Code in the browser
+
+Feel free to ask as soon as something does not behave the way you expect. Working through an error with someone is sometimes the fastest way to learn.
+:::
+
+## Part 1: The shell
+
+### Everyone: Software Carpentry
+
+Work through [The Unix Shell](https://swcarpentry.github.io/shell-novice/) from Software Carpentry. It is the best introduction to the shell we know of, it is free, and it is written to be done on your own at your own pace.
+
+Download the lesson data (`shell-lesson-data.zip`) as described in the setup instructions on the first page, and unzip it somewhere sensible in your home directory. Do not skip the data — the whole lesson is built around it.
+
+The episodes to cover are:
+
+| Episode | Why it matters for this course |
+|---|---|
+| 1. Introducing the Shell | Knowing what the prompt is telling you |
+| 2. Navigating Files and Directories | `cd`, `ls`, `pwd` — you will do this hundreds of times |
+| 3. Working with Files and Directories | Making, copying, moving and deleting your analysis folders |
+| 4. Pipes and Filters | `head`, `wc`, `sort`, `cut`, and the pipe — this is how we inspect VCFs |
+| 5. Loops | Running the same command over 20 files without typing it 20 times |
+| 6. Shell Scripts | The step before a batch script |
+| 7. Finding Things | `grep` and `find`, for when an output file has gone missing |
+
+::: {.callout-tip}
+Episodes 4, 5 and 6 are the ones that will save you the most time later in the week. If you are short on time, do those properly and skim the rest.
+:::
+
+You are ready to move on when you can do the following without looking anything up:
+
+- Say where you are in the filesystem and list what is there, including hidden files
+- Make a directory, move into it, and copy a file into it using a relative path
+- Count how many lines of a file contain a particular word
+- Write a `for` loop that prints the name of every `.txt` file in a directory
+- Write those commands into a file and run it as a script
+
+::: {.callout-note collapse="true"}
+## A quick self-test
+
+Using the Carpentry data, try to answer these with a single command line each:
+
+1. How many files are in `shell-lesson-data/exercise-data/animal-counts/`?
+2. How many lines does `animals.csv` have?
+3. Which lines in `animals.csv` mention rabbits?
+4. Write those rabbit lines to a new file called `rabbits.csv`.
+5. Make a copy of every `.dat` file in `exercise-data/alkanes/` with the extension `.bak`, using a loop.
+
+If all five felt comfortable, go to the advanced track below. If they did not, stay with the Carpentry lesson — there is no advantage in rushing this.
+:::
+
+### Advanced track: OverTheWire Bandit
+
+If you already use the shell regularly, the Carpentry lesson will be too slow for you. Instead, play [Bandit](https://overthewire.org/wargames/bandit/).
+
+Bandit is a wargame: each level hides a password somewhere on a server, and you need the password to log in to the next level. It teaches exactly the skills that make someone fast on a cluster — reading unfamiliar files, searching a filesystem you did not build, and dealing with awkward filenames.
+
+Start by reading the [Level 0 page](https://overthewire.org/wargames/bandit/bandit0.html), then connect:
+
+```bash
+ssh bandit0@bandit.labs.overthewire.org -p 2220
+```
+
+The password for level 0 is `bandit0`. Each level's page lists the commands you are expected to need, and there is a link at the bottom to the next level.
+
+::: {.callout-tip}
+Levels 0 to 10 are a good target for one morning. Levels 11 and up drift into encoding, cron and git puzzles that are fun but less relevant to us.
+
+Keep a text file with the passwords as you go. You will want to reconnect after a break, and nobody enjoys replaying levels.
+:::
+
+::: {.callout-warning}
+Bandit is a public server that is deliberately full of other people's attempts. Do not put anything of your own there, and do not use a password you use elsewhere. Play it from your own laptop, not from your HPC2N account.
+:::
+
+### Advanced track, alternative: scripting drills
+
+If puzzles are not your thing but you want something harder than Carpentry, write a small script that does something you will actually need this week.
+
+Later in the week you will need to split the individuals in it into populations, because the Fst analysis takes one file of sample names per population. You can do that by hand, or you can let the sample names do the work for you: they start with a three-letter population code (`Bil`, `Bnp`, `Her`, `Iss`, …).
+
+The sample names live on the `#CHROM` header line of the VCF, from the tenth column onwards:
+
+```bash
+#!/bin/bash
+# Pull the sample names out of a VCF header and write one file per population.
+
+VCF=my_chromosome.vcf
+
+# The #CHROM line is the last header line. Columns 1-9 describe the variant,
+# everything from column 10 onwards is an individual.
+grep -m 1 "^#CHROM" "$VCF" | cut -f 10- | tr '\t' '\n' > samples.txt
+
+for pop in $(cut -c 1-3 samples.txt | sort -u)
+do
+    grep "^${pop}" samples.txt > "pop_${pop}.txt"
+    echo -e "${pop}\t$(wc -l < pop_${pop}.txt)"
+done
+```
+
+Run it and you get a count of individuals per population on screen, and a set of `pop_*.txt` files you can hand straight to `vcftools --weir-fst-pop` later in the week.
+
+Then extend it:
+
+- Take the VCF as a command-line argument (`$1`) instead of hard-coding the filename, so it works on anybody's chromosome
+- Make it handle a compressed VCF as well (`zgrep` instead of `grep`, when the name ends in `.gz`)
+- Write the population files into a directory of their own instead of cluttering your working directory
+- Skip populations with fewer than four individuals, since an Fst estimate from two samples is not worth much
+
+::: {.callout-note}
+Side note: Later in the week you will be given a chromosome to extract from the main vcf, which will be the basis for your population genomics analysis. For now we only have the main vcf to work with.
+:::
+
+::: {.callout-tip}
+Being able to write this kind of ten-line script is worth more than knowing a hundred commands. It is also the honest answer to "how do I do this for all of my samples" — not a clever one-liner, but a loop you can read six months from now.
+:::
+
+::: {.callout-note collapse="true"}
+
+## More things to try on your own VCF
+
+Once you have the loop above working, these are all one or two lines each, and all of them tell you something real about the file you will be analysing for the rest of the week:
+
+1. How many individuals are in your VCF?
+2. How many header lines does it have, and how many variant lines?
+3. Which chromosome or scaffold is yours, and what are the first and last positions in it?
+4. How many variants are indels rather than SNPs? (Hint: compare the length of the `REF` and `ALT` fields.)
+5. How many populations are represented, and which is the largest?
+
+We will do all of this properly with VCFtools on Wednesday. Doing it first with `grep`, `cut` and `wc` is a good way to convince yourself that a VCF is just a text file, and that nothing in it is hidden from you.
+:::
+
+## Part 2: HPC2N
+
+### What a cluster actually is
+
+HPC2N (High Performance Computing Center North, at Umeå University) runs the cluster **Kebnekaise**, which is what we will use for the rest of the course. A cluster is not one big computer you log in to and work on. It has three parts that you need to keep apart in your head:
+
+- **Login nodes.** What you reach when you `ssh` in. Shared by everyone who is logged in. Meant for editing files, moving data, and submitting jobs — nothing heavy.
+- **Compute nodes.** Where the actual work happens. You never log in to these directly; you ask the scheduler for them.
+- **A shared filesystem.** Your files look the same from the login node and from every compute node, which is why a job can find your data.
+
+::: {.callout-important}
+Never run an analysis directly on the login node. Running `bwa`, `plink`, or a Nextflow pipeline there slows the machine down for every other user on the system, and the administrators will (rightly) kill the process. Everything heavier than `ls`, `less` and a text editor goes through the batch system.
+:::
+
+The scheduler on Kebnekaise is **SLURM**. You describe the job you want — how many cores, how much time, which project to charge it to — and SLURM decides when and where it runs. Your job sits in a queue until the resources you asked for are free.
+
+### Logging in
+
+Connect from a terminal with:
+
+```bash
+ssh <your-username>@kebnekaise.hpc2n.umu.se
+```
+
+You can also connect through VS Code with the Remote-SSH extension, exactly as described in [A Brief Introduction to Linux](./course_linux.html), which gives you a file browser and an editor alongside the terminal.
+
+
+### Where to put your files
+
+You have two places to work, and the difference matters:
+
+- **Your home directory** (`$HOME`). Small quota, backed up. Scripts, notes, configuration files.
+- **Project storage** (under `/proj/nobackup/fungal_popgen_course/`). Large, *not* backed up. Raw data, VCFs, Nextflow work directories, results.
+
+We will give you the exact path to the course project directory at the start of the session. Make yourself a folder there with your own name in it and keep all of your analysis inside it.
+
+::: {.callout-warning}
+"nobackup" means exactly what it says. If you delete something there, it is gone. This is normal for HPC storage — the assumption is that raw data lives in an archive or a public repository and that everything else can be regenerated by rerunning your scripts. That assumption only holds if you keep your scripts somewhere safe.
+:::
+
+To copy a file from your laptop to the cluster, run this *from your laptop*:
+
+```bash
+scp results.csv <your-username>@kebnekaise.hpc2n.umu.se:/proj/nobackup/<course-project>/<your-folder>/
+```
+
+For directories, or anything you might need to re-copy, `rsync` is better, because it only transfers what has changed:
+
+```bash
+rsync -avh my_results/ <your-username>@kebnekaise.hpc2n.umu.se:/proj/nobackup/<course-project>/<your-folder>/my_results/
+```
+
+### Finding and loading software
+
+Software on a cluster is not simply installed and available. There are many versions of everything, and they would conflict with each other, so instead each piece of software sits in a **module** that you load when you need it. This is the same idea as the Pixi environments we use elsewhere in the course — isolate what you need, declare it explicitly.
+
+Search for software by name:
+
+```bash
+module spider R
+```
+
+This tells you which versions exist and, importantly, which other modules you need to load first. Kebnekaise groups software into *toolchains* (`foss`, `GCC`, `gompi` and so on), and a module is only visible once its toolchain is loaded.
+
+Load a specific version:
+
+```bash
+module load GCC/12.3.0 R/4.3.2
+```
+
+See what you currently have loaded, and start from a clean slate:
+
+```bash
+module list
+module purge
+```
+
+::: {.callout-tip}
+`ml` is a shorthand for `module`: `ml R/4.3.2` and `ml purge` work the same way and save a lot of typing.
+
+Always write the version number. `module load R` will give you whatever the default is today, and the default changes. Six months from now, "it worked in October" is not a reproducible analysis.
+:::
+
+::: {.callout-important}
+Modules you load in your terminal are **not** automatically available inside a batch job. Every batch script has to load its own modules. This is the single most common reason a job dies with "command not found".
+:::
+
+### Your first batch job
+
+A batch script is an ordinary shell script with a block of `#SBATCH` lines at the top. Those lines look like comments to bash, but SLURM reads them as your resource request.
+
+Open an editor on the cluster (`nano first_job.sh` is fine if you have no preference) and write:
+
+```bash
+#!/bin/bash
+# Project to charge the job to - change to the course project ID
+#SBATCH -A hpc2nXXXX-YYY
+# A name for the job, so you can recognise it in the queue
+#SBATCH -J first_job
+# Number of cores
+#SBATCH -n 1
+# Maximum run time, hh:mm:ss
+#SBATCH --time=00:05:00
+# Where to write standard output and standard error
+#SBATCH --output=first_job.%J.out
+#SBATCH --error=first_job.%J.err
+
+# Start from a clean module environment
+module purge > /dev/null 2>&1
+
+echo "This job is running on: $(hostname)"
+echo "It started at: $(date)"
+sleep 60
+echo "It finished at: $(date)"
+```
+
+Submit it:
+
+```bash
+sbatch first_job.sh
+```
+
+SLURM replies with a job ID. Use it to follow the job:
+
+```bash
+squeue --me                  # all of your jobs, and their state
+scontrol show job <jobid>    # everything SLURM knows about one job
+scancel <jobid>              # stop a job
+```
+
+When the job is done, the output is waiting for you in `first_job.<jobid>.out`:
+
+```bash
+less first_job.*.out
+```
+
+Note which machine it says it ran on. It is not the login node.
+
+::: {.callout-note collapse="true"}
+## What the `#SBATCH` lines mean
+
+| Directive | What it does |
+|---|---|
+| `-A hpc2nXXXX-YYY` | The project the core hours are charged to. Jobs without a valid project are rejected. |
+| `-J name` | A job name, shown in `squeue`. Use something you will recognise. |
+| `-n 1` | Number of tasks (think: cores) for a serial job. |
+| `-c 8` | Cores per task — this is the one you want for multithreaded tools like `bwa -t 8`. |
+| `--time=hh:mm:ss` | Wall-clock limit. The job is killed when it is reached. |
+| `--output` / `--error` | Where stdout and stderr go. `%J` is replaced by the job ID. |
+| `--mem` | Memory, if you need more than the default per core. |
+
+Ask for what you need and not much more. Short, modest jobs start sooner than long, greedy ones, because the scheduler can fit them into gaps.
+:::
+
+### A more realistic example
+
+The same structure, but now doing something useful: loading a module and running a tool on a file.
+
+```bash
+#!/bin/bash
+#SBATCH -A hpc2nXXXX-YYY
+#SBATCH -J bcftools_stats
+#SBATCH -n 1
+#SBATCH --time=00:30:00
+#SBATCH --output=bcftools_stats.%J.out
+#SBATCH --error=bcftools_stats.%J.err
+
+module purge > /dev/null 2>&1
+module load GCC/12.3.0 BCFtools/1.18
+
+VCF=/proj/nobackup/<course-project>/<your-folder>/my_data.vcf
+
+bcftools stats "$VCF" > my_data.stats.txt
+```
+
+::: {.callout-note collapse="true"}
+## Exercises
+
+1. Submit `first_job.sh` three times in a row and look at `squeue --me`. What are the jobs doing?
+2. Change `--time` to `00:00:30` and resubmit. What happens to the job, and where do you see the evidence?
+3. Change the script to use 4 cores. Which directive did you use, and why?
+4. Deliberately remove the `module load` line from the second script and submit it. Read the `.err` file. Recognising this error message will save you hours later in the week.
+5. Use `module spider` to find out which version of VCFtools is available on Kebnekaise.
+:::
+
+### Interactive jobs
+
+Sometimes you want a compute node under your fingers — to test a command, or to debug a pipeline that keeps failing. Ask for an allocation instead of submitting a script:
+
+```bash
+salloc -A hpc2nXXXX-YYY -n 1 --time=01:00:00
+```
+
+When the allocation is granted you can run commands on the compute node, and `exit` gives the resources back. Release the allocation as soon as you are finished — it is charged to the project whether you use it or not.
+
+::: {.callout-tip}
+If you are running something long over an ssh connection, your job dies when your laptop sleeps or the network drops. `tmux` on the login node solves this: start a session with `tmux`, detach with `Ctrl-b d`, and reattach later with `tmux attach`. For actual analyses, the real answer is to use `sbatch` — a batch job does not care whether you stay logged in.
+:::
+
+## Part 3: Open OnDemand
+
+Not everything is comfortable in a terminal. Plotting is the obvious case: you want to see the figure, adjust it, and see it again. HPC2N provides [Open OnDemand](https://www.hpc2n.umu.se/node/1065), a web portal that gives you graphical applications running on the cluster, in your browser.
+
+This is what we will use on Wednesday and Thursday for the R work, so it is worth setting up today.
+
+Point your browser at the HPC2N portal and log in with your HPC2N credentials. Under **Interactive Apps** you will find the applications you can start.
+
+::: {.callout-important}
+An OnDemand session is a SLURM job. When you fill in the form, you are writing a resource request: project ID, number of cores, memory, and how many hours the session should last. It queues like any other job, it is charged to your project like any other job, and it stops when the time you asked for runs out.
+
+Save your work as you go, and delete the session when you are finished rather than leaving it idle.
+:::
+
+### RStudio
+
+Choose the RStudio app, then fill in the form:
+
+- **Project / account**: the course project ID
+- **Number of cores**: 2 is plenty for what we do
+- **Memory**: start modest and increase it if R complains
+- **Wall time**: the length of the session — a few hours covers an afternoon
+- **R version**: pick a specific version and use the same one all week
+
+Start the session, wait for it to be allocated, and click **Connect**. You now have RStudio running on a compute node, with your project storage visible in the Files pane.
+
+::: {.callout-tip}
+Packages you install go to your personal R library in your home directory and persist between sessions, so you only install them once. Install the ones we will need (`tidyverse`, `vcfR`, `LEA`) at the end of this session rather than on Wednesday morning — some of them take a while to compile, and it is more pleasant to have that happen while you are having coffee than while the rest of the group is waiting for you.
+:::
+
+### VS Code
+
+The Code Server app gives you VS Code in the browser, again running on a compute node. It is the better choice when you are writing and running shell or Nextflow code rather than plotting, because you get the editor, the file tree and a terminal in one window.
+
+The form works the same way as for RStudio. One thing to be aware of: the terminal inside this VS Code session is already on a compute node, inside your allocation, so you do **not** submit jobs from it. Use it to write and test, and use the login node to `sbatch`.
+
+::: {.callout-note collapse="true"}
+## RStudio, VS Code, or ssh?
+
+| Task | Easiest route |
+|---|---|
+| Submitting and monitoring batch jobs | ssh to the login node |
+| Writing scripts and pipelines | VS Code (Remote-SSH, or Code Server in OnDemand) |
+| Plotting, data wrangling in R | RStudio in OnDemand |
+| Moving data to and from your laptop | `scp` or `rsync` from your laptop |
+| Testing a command quickly | `salloc`, or a terminal in an OnDemand session |
+
+There is no single correct setup. Most people end up with a terminal and an editor open at the same time, and switch between them without thinking about it.
+:::
+
+## Before lunch
+
+A short checklist. If any of these are not true, say so before we break, because the afternoon session builds directly on them.
+
+- [ ] I can log in to Kebnekaise from a terminal
+- [ ] I know my project ID and the path to the course project storage
+- [ ] I have made my own working directory in the project storage
+- [ ] I can find software with `module spider` and load it with `module load`
+- [ ] I have submitted a batch job and read its output file
+- [ ] I can start an RStudio session through Open OnDemand
+
+After lunch we set up Nextflow and get the pipeline running — see [Sarek Setup](./course_sarek.html).
+
+## Where to look things up
+
+- [Software Carpentry: The Unix Shell](https://swcarpentry.github.io/shell-novice/) — the tutorial from this morning, and a good reference afterwards
+- [OverTheWire: Bandit](https://overthewire.org/wargames/bandit/) — keep playing if you enjoyed it
+- [HPC2N documentation](https://docs.hpc2n.umu.se) — the authoritative source for everything Kebnekaise
+- [HPC2N: Introduction to Kebnekaise](https://hpc2n.github.io/intro-course/) — the material from HPC2N's own introductory course, including many more batch script examples
+- [SLURM command cheat sheet](https://slurm.schedmd.com/pdfs/summary.pdf) — one page, worth printing
+
+::: {.callout-tip}
+## Asking for help
+
+HPC2N has a support desk, and they would much rather hear from you than have you struggle for two days. When you write to them, include your username, the job ID, and the exact error message. The same applies to asking us.
+:::

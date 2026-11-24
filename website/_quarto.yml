@@ -17,26 +17,27 @@ website:
         href: index.qmd
       - section: "Background knowledge"
         contents:
-          - course_linux.qmd
-          - course_nextflow.qmd
-          - course_nf-core.qmd
+          - background_linux.qmd
+          - background_nextflow.qmd
+          - background_nf-core.qmd
           - text: "Environment managers: Pixi"
-            href: course_pixi.qmd
-          - course_containers.qmd
-          - course_ai.qmd
-          - course_ai_literacy.qmd
-          - course_quarto.qmd
+            href: background_pixi.qmd
+          - background_containers.qmd
+          - background_ai.qmd
+          - background_ai_literacy.qmd
+          - background_quarto.qmd
       - section: "Practicals"
         contents:
-          - course_sarek.qmd
-          - course_pop_stats.qmd
-          - course_pop_structure.qmd
-          - course_genome_annotation.qmd
-          - course_solutions.qmd
-          - course_genome_annotation.qmd
+          - 01_bash_hpc2n_intro.qmd
+          - 02_nextflow_intro_setup_sarek.qmd
+          - 03_qc_nextflow-output.qmd
+          - 04_pop_stats.qmd
+          - 05_pop_structure.qmd
+          - extra_genome_annotation.qmd
+          - extra_solutions.qmd
       - section: "Discussion"
         contents:
-          - course_exercises.qmd
+          - discussion_exercises.qmd
 format:
   html:
     theme:
