@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>A Brief Introduction to Linux – Fungal Population Genomics</title>
+<title>Containers – Fungal Population Genomics</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -81,7 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ce0f0d1e95892c391167071f7e5e54e4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fae47caf9e852e6e4b6ee8ceec8e0f71.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -150,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./course_linux.html">Background knowledge</a></li><li class="breadcrumb-item"><a href="./course_linux.html">A Brief Introduction to Linux</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./background_linux.html">Background knowledge</a></li><li class="breadcrumb-item"><a href="./background_containers.html">Containers</a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -184,49 +184,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_linux.html" class="sidebar-item-text sidebar-link active">
+  <a href="./background_linux.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A Brief Introduction to Linux</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_nextflow.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_nextflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Nextflow</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_nf-core.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_nf-core.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">nfcore introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pixi.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_pixi.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Environment managers: Pixi</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_containers.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_containers.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Containers</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_ai.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_ai.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Caution: AI in Bioinformatics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_ai_literacy.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_ai_literacy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">AI Literacy and Implementation at VF</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_quarto.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_quarto.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Markdown and Quarto</span></a>
   </div>
 </li>
@@ -240,38 +240,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_sarek.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Sarek Setup</span></a>
+  <a href="./01_bash_hpc2n_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 1: Introduction to Bash and HPC2N</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pop_stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Population Statistics</span></a>
+  <a href="./02_nextflow_intro_setup_sarek.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 2: Nextflow Sarek setup</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pop_structure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Population Structure</span></a>
+  <a href="./03_qc_nextflow-output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 3: Quality Control and the VCF Format</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_genome_annotation.html" class="sidebar-item-text sidebar-link">
+  <a href="./04_pop_stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 4: Population Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_pop_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 5: Population Structure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extra_genome_annotation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Genome Annotation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_solutions.html" class="sidebar-item-text sidebar-link">
+  <a href="./extra_solutions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Spoiler: Solutions</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./course_genome_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Genome Annotation</span></a>
   </div>
 </li>
       </ul>
@@ -284,7 +290,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_exercises.html" class="sidebar-item-text sidebar-link">
+  <a href="./discussion_exercises.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Discussion Guiding Questions</span></a>
   </div>
 </li>
@@ -300,19 +306,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#filesystem-architecture" id="toc-filesystem-architecture" class="nav-link" data-scroll-target="#filesystem-architecture">Filesystem Architecture</a></li>
-  <li><a href="#connecting-to-a-server" id="toc-connecting-to-a-server" class="nav-link" data-scroll-target="#connecting-to-a-server">Connecting to a Server</a></li>
-  <li><a href="#navigating-with-the-terminal" id="toc-navigating-with-the-terminal" class="nav-link" data-scroll-target="#navigating-with-the-terminal">Navigating with the terminal</a></li>
+  <li><a href="#reproducibility-in-bioinformatics" id="toc-reproducibility-in-bioinformatics" class="nav-link active" data-scroll-target="#reproducibility-in-bioinformatics">Reproducibility in Bioinformatics</a></li>
+  <li><a href="#containers" id="toc-containers" class="nav-link" data-scroll-target="#containers">Containers</a>
+  <ul class="collapse">
+  <li><a href="#what-are-containers" id="toc-what-are-containers" class="nav-link" data-scroll-target="#what-are-containers">What are containers?</a></li>
+  <li><a href="#running-containers" id="toc-running-containers" class="nav-link" data-scroll-target="#running-containers">Running Containers</a></li>
+  <li><a href="#downloading-container-images" id="toc-downloading-container-images" class="nav-link" data-scroll-target="#downloading-container-images">Downloading Container Images</a></li>
+  <li><a href="#running-containers-1" id="toc-running-containers-1" class="nav-link" data-scroll-target="#running-containers-1">Running Containers</a></li>
+  <li><a href="#building-containers" id="toc-building-containers" class="nav-link" data-scroll-target="#building-containers">Building Containers</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./course_linux.html">Background knowledge</a></li><li class="breadcrumb-item"><a href="./course_linux.html">A Brief Introduction to Linux</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./background_linux.html">Background knowledge</a></li><li class="breadcrumb-item"><a href="./background_containers.html">Containers</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">A Brief Introduction to Linux</h1>
+<h1 class="title">Containers</h1>
 </div>
 
 
@@ -329,54 +340,67 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Unix-like operating systems are built under the model of free and open-source development and distribution. They often come with a graphical user interface (GUI) and can be run from the command line (CLI) or terminal. The CLI is a text-based interface that works exactly the same way as you would use your mouse, but you use words. It can be intimidating at first, but once you have mastered the basics, it’s really not different than using your mouse!</p>
-<p>It is important to know how to use the terminal as all servers, and most bioinformatics tools do not have a GUI and rely on the use of the terminal.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>MacOS and Linux, and Windows have significant differences in their syntax. Where we do things locally, we will point out some of the differences, but for the most part, we will provide Windows users with a local Linux platform so that this course can run as smoothly as possible</p>
-</div>
-</div>
-<p>For this course, we do not expect you to be masters of Linux, but we will need some knowledge of how to find files, and some other basic Linux commands.</p>
+<section id="reproducibility-in-bioinformatics" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility-in-bioinformatics">Reproducibility in Bioinformatics</h2>
+<p>In an ideal world I would be able to write a piece of software, or a develop some code to analyse data on my computer, and then send someone else this software or code and they could run it as well, getting the same results.</p>
+<p>In reality, I would very likely run into at least one of the following problems:</p>
+<ol type="1">
+<li>It is not uncommon for people within the same team to use different operating systems (whether MacOS, Windows, or different flavours of Unix builds). Even if everyone is using a MacOS, there are still different versions that impact the way people are able to work with their machines.</li>
+<li>Almost every piece of software has some sort of dependency - other software - it needs to run. Some programs might “just” need a bash shell or basic python, while others need a variety of compilers and additional libraries to function. Often, these dependencies require further dependencies to be installed. It is also not uncommon for dependencies for Program 1 to clash with the dependencies for Program 2, requiring the user to uninstall dependencies to be able to install others.</li>
+<li>In bioinformatics, tools are very often not maintained after the student that wrote the software graduated, the PI moved to a different university, or the funding simply ran out. This leads to a lot of really good software not really being supported by newer operating systems, usually due to dependencies not being easily available or, as before, clashing with newer versions. This makes installing a tool one of the biggest hurdles to overcome in bioinformatics.</li>
+<li>You often cannot install different versions of the same program on one computer due to conflicting names. This is particularly problematic when you want to rerun an analysis for a publication where you need to use the same software all the way through.</li>
+</ol>
+<p>Any of these points might lead to you not being able to run my code, or it running but giving different results. They make bioinformatics less reproducible as tools and code cannot be moved easily betweem systems (for example if you upgrade your computer or want to share your pipeline with a colleague). Fortunately, most of these problems can be overcome with containers.</p>
 </section>
-<section id="filesystem-architecture" class="level2">
-<h2 class="anchored" data-anchor-id="filesystem-architecture">Filesystem Architecture</h2>
-<p>Linux uses a hierarchical filesystem, similar to Windows and Mac. In this figure from <a href="https://tecadmin.net/filesystem-hierarchy-structure-in-linux/">TecAdmin</a>, there is a representation of this.</p>
+<section id="containers" class="level2">
+<h2 class="anchored" data-anchor-id="containers">Containers</h2>
+<section id="what-are-containers" class="level3">
+<h3 class="anchored" data-anchor-id="what-are-containers">What are containers?</h3>
+<p>Containers are stand-alone pieces of software that require a container management tool to run. They are build and exchanged as container images that specify the contents of the container, such as the operating system, all dependencies, and software in an isolated environment. The container management tool then takes the images and build the container. These management tools can be run on all operating systems, and since the container has the operating system within it, it will run the same in all environments. Container images are easily portable and immutable, so they are stable over time.</p>
+</section>
+<section id="running-containers" class="level3">
+<h3 class="anchored" data-anchor-id="running-containers">Running Containers</h3>
+<p>There are several programs that can be used to build and run containers. <a href="https://www.docker.com">Docker</a>, <a href="https://apptainer.org">Appptainer</a>, and <a href="https://podman.io">Podman</a> are the most commonly used platforms to date. They all have their pros and cons. If you are using a Windows machine that only you are using, then Docker is likely the least complex tool to install. On multi-user systems like a server, Apptainer is the best tool for the job. For this tutorial and the rest of the course, we will use Apptainer commands. There are small syntax changes between bash and powershell commands, but they are very similar.</p>
+</section>
+<section id="downloading-container-images" class="level3">
+<h3 class="anchored" data-anchor-id="downloading-container-images">Downloading Container Images</h3>
+<p>There are several repositories for people to publish container images that they have specified. <a href="https://hub.docker.com">Dockerhub</a> and <a href="https://seqera.io/containers/">Seqera</a> are two commonly used platforms for downloading container images. You are able to use container images from dockerhub on Apptainer without any problems.</p>
+<section id="dockerhub-tutorial" class="level4">
+<h4 class="anchored" data-anchor-id="dockerhub-tutorial">dockerhub Tutorial</h4>
+<p>On the dockerhub landing page, you have a search bar, and some login options. You do not need to create an account to access the containers on dockerhub.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figures/linux/linux-filesystem-hierarchy.png" class="img-fluid figure-img"></p>
-<figcaption>Filesystem</figcaption>
+<p><img src="figures/containers/docker1.png" class="img-fluid figure-img"></p>
+<figcaption>dockerhub landing page</figcaption>
 </figure>
 </div>
-<p>We can see here that the <code>root</code> or <code>/</code> folder is at the top of the hierarchy, with all other folders, like <code>home/</code> and <code>var/</code> inside of it.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<p>For these tutorials, we’ll search VCFtools, a commonly used software for VCF manipulation and querying. The results of the search give us several different containers with the same name.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/containers/docker2.png" class="img-fluid figure-img"></p>
+<figcaption>Registry search</figcaption>
+</figure>
 </div>
-<div class="callout-title-container flex-fill">
-Note
+<p>You can see who made the container image, how many times it has been downloaded (or pulled), when it was updated (here updated means different versions of the image being uploaded), and how many people have starred it. It is usually a good rule of thumb to use the most popular images from users that have uploaded a lot of container images. The <a href="https://hub.docker.com/u/biocontainers">biocontainers</a> and <a href="https://hub.docker.com/u/pegi3s">pegi3s</a> profiles have builds for a lot of tools, and they are built really well!</p>
+<p>If we click on the vcftools from <a href="https://hub.docker.com/r/biocontainers/vcftools">biocontainers</a> we get to a typical dockerhub image landing page:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/containers/docker3.png" class="img-fluid figure-img"></p>
+<figcaption>VCFtools page</figcaption>
+</figure>
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>We use <code>/</code> at the end of a folder name to show that it is a folder.</p>
-</div>
-</div>
-</div>
-<p>There are two different ways for us to know where our file is within the operating system. The first is the <code>absolute path</code> and the second is the <code>relative path</code>. The <code>absolute path</code> gives us information that is true anywhere on your operating system. Whether your terminal is open in <code>/usr/bin/something/</code> or <code>/var/tmp/</code>, a file will always be located at <code>/usr/Documents/sequence.fasta</code> as it is the true or absolute location. The <code>relative path</code>, as the name suggests, is relative to where you currently are on the file tree. If your terminal is open in <code>/usr/Documents/paper/figures/linux/</code>, the file from before, <code>sequence.fasta</code> will be two folders up from where you are. If you were in <code>/var/bin/something/</code> it would three folder up, one to the side, and two folders down.</p>
+<p>There is information on the frequency of the container image being pulled, as well as a pull command to download the image. This command is for docker, so we need to modify it for Apptainer.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull vcftools_0.1.16-1.sif docker://biocontainers/vcftools:v0.1.16-1-deb_cv1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This command has several parts to it:</p>
+<ol type="1">
+<li><code>apptainer</code> calls on the Apptainer software to run</li>
+<li><code>pull</code> tells Apptainer which function to use. In this case, we want it to go fetch something from a repository</li>
+<li><code>vcftools_0.1.16-1.sif</code> is the name of the container image on our local machine. We could call it <code>I_Love_Dogs</code> but that is not very informative at all. Your collaborator won’t know what it means, and you certainly won’t know what it means in 6 months from now! It is also good practice to put the version number in your image name in case you want to have several versions at the same time, and you need to tell them apart.</li>
+<li><code>docker://</code> is the registry you are pulling from. There are several different registries, but we are only going to show 2 during this course. (You will see another one in the Seqera tutorial)</li>
+<li><code>biocontainers/vcftools</code> is the profile/repository and container you are pulling</li>
+</ol>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -385,37 +409,63 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>It is often good practice to use absolute paths when you set pipelines up to run- this way, your programs know where to go looking for the files they’re supposed to work on</p>
+<p>File format extensions like .txt and .sif are really only important for us. However, it is good practice to append your files with appropriate extensions to ensure that you follow good data management practices</p>
 </div>
 </div>
 </div>
+<p>If you are interested in a different version than the current version, there are other versions under the <code>tags</code> tab:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/containers/docker4.png" class="img-fluid figure-img"></p>
+<figcaption>Container versions</figcaption>
+</figure>
+</div>
+<p>If you wanted to download another version of the container, you simply copy the command shown on the right side, and alter the syntax, for example</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull vcftools0.1.14.sif docker://biocontainers/vcftools:v0.1.14_cv2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="connecting-to-a-server" class="level2">
-<h2 class="anchored" data-anchor-id="connecting-to-a-server">Connecting to a Server</h2>
-<p>There are many different ways you can connect to a server with SSH. At SLUBI, we have a strong preference towards <a href="https://code.visualstudio.com">Visual Studio Code</a> or its open-source alternative, <a href="https://vscodium.com">VSCodium</a>. It provides a graphical user interface where you can create, edit, and view files, and see the file system.</p>
-<p>To be able to connect to a server, you need to install an extension called <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh">Remote-SSH</a> from the extensions market place.</p>
+<section id="seqera-tutorial" class="level4">
+<h4 class="anchored" data-anchor-id="seqera-tutorial">Seqera Tutorial</h4>
+<p>The Seqera landing page is a bit different from the dockerhub landing page, and it works a bit differently from dockerhub. Dockerhub hosts container images that users have uploaded, while Seqera makes container images as you request them. They use <a href="https://bioconda.github.io">bioconda</a>, <a href="https://conda-forge.org">conda-forge</a>, and <a href="https://pypi.org">pypi</a> libraries to build their containers images with <a href="https://github.com/seqeralabs/wave">Wave</a>. The advantage is that you can include several different softwares in your container image at once. The disadvantage is that you are limited to software hosted on the aforementioned repositories. Usually this isn’t a problem, but sometimes you want to use something that isn’t hosted there.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figures/linux/markdown_view.png" class="img-fluid figure-img"></p>
-<figcaption>Extensions from <code>View</code></figcaption>
+<p><img src="figures/containers/seqera1.png" class="img-fluid figure-img"></p>
+<figcaption>Seqera containers landing page</figcaption>
 </figure>
 </div>
+<p>When you pull an image from Seqera and want to run it with Apptainer, you need to remember to change the container setting from Docker to Singularity, the older name of Apptainer.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figures/linux/markdown_ext_short.png" class="img-fluid figure-img"></p>
-<figcaption>Extensions from the shortcut</figcaption>
+<p><img src="figures/containers/seqera2.png" class="img-fluid figure-img"></p>
+<figcaption>Selecting Singularity</figcaption>
 </figure>
 </div>
-<p>Now we need to add a host to our list of known hosts. There are several ways of doing this, and all ways lead to establishing a connection.</p>
-<ol type="1">
-<li>Under the previously shown <code>View</code> option, navigate to the <code>Command Palette</code>. A dropdown menu at the top will start with a &gt;. Type <code>Remote-SSH</code> and select <code>add new host</code>. Here we will input our credentials. This will populate a file in a hidden folder, <code>.ssh</code> in your local home directories called <code>known_hosts</code>.</li>
-<li>You can also write all of these lines manually. This way, you can also specify SSH keys that may be needed to log on to particular servers. We won’t be covering that in this course, though.</li>
-</ol>
-<p>After a host has been added, you can connect to it. You can do this either through the <code>Command Palette</code>, or through the small blue backwards and forwards arrows in the bottom left corner of VSCode. You will receive a list of known hosts that you can connect to. If you need to connect with a password, a password prompt will be shown.</p>
-<p>Once connected, you can open the file manager on the left.</p>
-<p>For privacy concerns, we will share the exact commands locally in the room.</p>
+<p>Since Seqera builds containers on-demand, sometimes you have to wait for the container to finish compiling. You can see that it is still preparing the container image from the <code>fetching container</code> comment. Don’t try to pull it when it is still building!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/containers/seqera3.png" class="img-fluid figure-img"></p>
+<figcaption>Waiting to build</figcaption>
+</figure>
+</div>
+<p>When the container image is ready, you can copy the text and pull the image to your system:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/containers/seqera4.png" class="img-fluid figure-img"></p>
+<figcaption>Ready to download</figcaption>
+</figure>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull vcftools_0.1.17.sif oras://community.wave.seqera.io/library/vcftools:0.1.17--b541aa8d9f9213f9</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Here we use <code>oras://</code> instead of <code>docker://</code> as we are pulling from the <a href="https://oras.land">oras</a> registry. We are also pulling a different version from Seqera, so the name of the container is different.</p>
+</section>
+</section>
+<section id="running-containers-1" class="level3">
+<h3 class="anchored" data-anchor-id="running-containers-1">Running Containers</h3>
+<p>Once you have the container image on your local machine, you want to be able to use it. Apptainer can be used to build the container from the image. Then you can either enter the container and run as if you had the exact same operating system as the person who built it, or you can run the software inside the container from outside of the container.</p>
+<p>There are 2 different ways to use a container: <code>run</code> and <code>exec</code>. The <code>apptainer run</code> command launches the container and first runs the <code>%runscript</code> for the container if one is defined, and then runs your command (we will cover <code>%runscript</code> in the <code>Building Containers</code> section). The <code>apptainer exec</code> command will not run the <code>%runscript</code> even if one is defined. It is a small, fiddly detail that might be applicable if you use other people’s containers. After calling Apptainer and the <code>run</code> or <code>exec</code> commands, you can use your software as you usually would</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec vcftools_0.1.17.sif vcftools <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This command runs your <code>vcftools_0.1.17.sif</code> container from the image, calls on the program <code>vcftools</code> that is within the container, and shows you the version. If you had installed VCFtools locally, you would have just used</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -426,81 +476,95 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Remeber to only open either your home directories or the folder for your projects with the file manager. If you try to open folders that are too large, you will cause VSCode to crash (and you may cause significant problems for your system administrator!)</p>
+<p>Please remember that VCFtools is just an example. If you want to run any other tool everything after <code>apptainer run</code> or <code>apptainer exec</code> has to be substituted by the name of the specific container image and the run commands for that particular tool!</p>
 </div>
 </div>
 </section>
-<section id="navigating-with-the-terminal" class="level2">
-<h2 class="anchored" data-anchor-id="navigating-with-the-terminal">Navigating with the terminal</h2>
-<p>For this part of the session, we will do some hands-on practice! For this, we will open a terminal. You can do this through the <code>Command Palette</code> by using the <code>View: Toggle Terminal</code> function, or clicking the box with a dark bottom half and an empty top half in the top right corner of VSCode.</p>
+<section id="building-containers" class="level3">
+<h3 class="anchored" data-anchor-id="building-containers">Building Containers</h3>
+<p>If the software you would like to use is not packaged into a container by anyone else, you might want to build it yourself. For this, we are just going to show a very simple example. Building containers from scratch is a computationally intensive task. You build containers from a <code>definition</code> file with the extension <code>.def</code></p>
+<p>Here we are going to build a container with a cow telling us the date. Save this in a file called <code>lolcow.def</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Bootstrap:</span> docker</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">From:</span> ubuntu:20.04</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">%post</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">apt-get</span> <span class="at">-y</span> update</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">apt-get</span> <span class="at">-y</span> install cowsay lolcat fortune</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="ex">%environment</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">export</span> <span class="va">LC_ALL</span><span class="op">=</span>C</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span>/usr/games:<span class="va">$PATH</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="ex">%runscript</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">date</span> <span class="kw">|</span> <span class="ex">cowsay</span> <span class="kw">|</span> <span class="ex">lolcat</span>    </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>There are several components to this definition file.</p>
+<ol type="1">
+<li>You can set the operating system you want in the container, in this case Ubuntu 20.04.</li>
+<li><code>%post</code> section is where you update the OS from its base state, install dependencies and so on.</li>
+<li><code>%environment</code> is where you export paths and modify the environment.</li>
+<li><code>%runscript</code> is the script that will run when you use <code>apptainer run container.sif</code>. If you don’t include a runscript, then nothing will happen when you try to run it without any commands. You could build this container without anything in the <code>%runscript</code> section, and use <code>apptainer run container.sif date | cowsay | lolcat</code> to get the same output.</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> build lolcow.sif lolcow.def</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You’ll get a lot of output on the status of the build, ending in</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>    Adding environment to container</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>    Adding runscript</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>    Creating SIF file...</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="ex">INFO:</span>    Build complete: lolcow.sif</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We can now run our new container with</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> run lolcow.sif</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/containers/lolcow1.png" class="img-fluid figure-img"></p>
+<figcaption>Boring cow</figcaption>
+</figure>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Note
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>For Windows Users</strong> If you are using a Windows operating system, you can install the free Home edition of <a href="https://mobaxterm.mobatek.net/download.html">MobaXterm</a> when your access to this server is removed if you want to continue practicing your Linux skills.</p>
-<p>To use MobaXterm as a Linux shell, click on <code>New Session</code> and select a bash shell. There will probably be a prompt that you have to installl an extension. Click on the link it will provide, or copy the extension it needs and search it on Google (or your preferred search engine) and install it. Then try starting a new session again.</p>
+<p>Try removing the %runscript, build it again, and see what happens.</p>
 </div>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Bootstrap:</span> docker</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">From:</span> ubuntu:20.04</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="ex">%post</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">apt-get</span> <span class="at">-y</span> update</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">apt-get</span> <span class="at">-y</span> install cowsay lolcat fortune</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="ex">%environment</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">export</span> <span class="va">LC_ALL</span><span class="op">=</span>C</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span>/usr/games:<span class="va">$PATH</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="ex">%runscript</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="ex">fortune</span> <span class="kw">|</span> <span class="ex">cowsay</span> <span class="kw">|</span> <span class="ex">lolcat</span>    </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If we use the same definition file as before, but substitute <code>date</code> for <code>fortune</code> in the runscript and build the container, we now get a philosophical cow with a dark sense of humour:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/containers/lolcow2.png" class="img-fluid figure-img"></p>
+<figcaption>Fun cow</figcaption>
+</figure>
 </div>
-<p>To see where we currently are in the filesystem, we use the <code>present working directory</code> command. This will give us the absolute path of the directory that our terminal open in.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>To see the files that are currently in the directory we use the <code>list</code> command.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>To make a directory, we use the <code>make directory</code> command, followed by the name we would like our directory to have. Here we will make a directory called <code>sida_training</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> sida_training</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/containers/lolcow3.png" class="img-fluid figure-img"></p>
+<figcaption>Inspirational cow</figcaption>
+</figure>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>When we give files and folders names, we don’t use spaces or special characters. It makes it really difficult to access files. We can use different ways to name our files and folders 1. youcanbechaoticandusenothing 2. YouCanUseCapitalLetters 3. you_can_use_underscores 4. you-can-use-dashes The most important thing is to be consistent with what you use, and to use descriptive names that are not too long. Future you will thank past you!</p>
-</div>
-</div>
-</div>
-<p>To enter the <code>sida_training</code> directory, we will use the <code>change directory</code> command.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> sida_training</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>We can use the <code>pwd</code> command again just to make sure that we are indeed in the right folder.</p>
-<p>To go back to the folder we were in previously, we can use a shortcut rather than the absolute path.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>There are no limits to the amount of directories you can go back (provided they are in your filesystem). If you wanted to go up 3 directories, you’d use</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../../..</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</div>
-<p>To delete files and folder you use the <code>remove</code> command. If you want to remove a folder, you need a <code>recursive</code> flag.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> sida_training</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If we had a file to look at, we could use the <code>less</code> command. In the interface, we press <code>q</code> to quit.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> filename</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>With these Linux basics, you will certainly be able to follow our course. If you would like to learn more, <a href="https://datacarpentry.github.io/2015-11-04-ACUNS/shell-intro/">Data Carpentry</a> and <a href="https://swcarpentry.github.io/shell-novice/">Software Carpentry</a> have excellent tutorials on using the terminal in more detail, and we can only recommend them!</p>
+<p>To show the difference between the <code>run</code> and <code>exec</code> commands, we can use the same container with <code>fortune</code> in the runscript and run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> run lolcow.sif bash <span class="at">-c</span> <span class="st">"date|cowsay"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec lolcow.sif bash <span class="at">-c</span> <span class="st">"date|cowsay"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>run</code> command gives us a philosophical cow while <code>exec</code> gives us our boring cow again.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -577,7 +641,7 @@ Tip
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/lpotgieter\.github\.io\/fungal_popgen\/");
+        var filterRegex = new RegExp("https:\/\/mc-er\.github\.io\/fungal_popgen\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

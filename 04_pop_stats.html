@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Spoiler: Solutions – Fungal Population Genomics</title>
+<title>Session 4: Population Statistics – Fungal Population Genomics</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -81,7 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ce0f0d1e95892c391167071f7e5e54e4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fae47caf9e852e6e4b6ee8ceec8e0f71.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -150,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./course_sarek.html">Practicals</a></li><li class="breadcrumb-item"><a href="./course_solutions.html">Spoiler: Solutions</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./04_pop_stats.html">Session 4: Population Statistics</a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -184,49 +184,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_linux.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_linux.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A Brief Introduction to Linux</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_nextflow.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_nextflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Nextflow</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_nf-core.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_nf-core.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">nfcore introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pixi.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_pixi.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Environment managers: Pixi</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_containers.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_containers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Containers</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_ai.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_ai.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Caution: AI in Bioinformatics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_ai_literacy.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_ai_literacy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">AI Literacy and Implementation at VF</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_quarto.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_quarto.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Markdown and Quarto</span></a>
   </div>
 </li>
@@ -240,38 +240,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_sarek.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Sarek Setup</span></a>
+  <a href="./01_bash_hpc2n_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 1: Introduction to Bash and HPC2N</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pop_stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Population Statistics</span></a>
+  <a href="./02_nextflow_intro_setup_sarek.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 2: Nextflow Sarek setup</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pop_structure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Population Structure</span></a>
+  <a href="./03_qc_nextflow-output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 3: Quality Control and the VCF Format</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_genome_annotation.html" class="sidebar-item-text sidebar-link">
+  <a href="./04_pop_stats.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Session 4: Population Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_pop_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 5: Population Structure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extra_genome_annotation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Genome Annotation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_solutions.html" class="sidebar-item-text sidebar-link active">
+  <a href="./extra_solutions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Spoiler: Solutions</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./course_genome_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Genome Annotation</span></a>
   </div>
 </li>
       </ul>
@@ -284,7 +290,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_exercises.html" class="sidebar-item-text sidebar-link">
+  <a href="./discussion_exercises.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Discussion Guiding Questions</span></a>
   </div>
 </li>
@@ -300,17 +306,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#plotting-in-r" id="toc-plotting-in-r" class="nav-link active" data-scroll-target="#plotting-in-r">Plotting in R</a></li>
-  <li><a href="#plotting-tajimas-d-all-vs-specific-populations" id="toc-plotting-tajimas-d-all-vs-specific-populations" class="nav-link" data-scroll-target="#plotting-tajimas-d-all-vs-specific-populations">Plotting Tajima’s D all vs specific populations</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#data-we-will-be-using" id="toc-data-we-will-be-using" class="nav-link" data-scroll-target="#data-we-will-be-using">Data we will be using</a></li>
+  <li><a href="#tools-available" id="toc-tools-available" class="nav-link" data-scroll-target="#tools-available">Tools available</a></li>
+  <li><a href="#r-scripts" id="toc-r-scripts" class="nav-link" data-scroll-target="#r-scripts">R scripts</a></li>
+  <li><a href="#assessing-quality-of-the-vcf" id="toc-assessing-quality-of-the-vcf" class="nav-link" data-scroll-target="#assessing-quality-of-the-vcf">Assessing quality of the VCF</a></li>
+  <li><a href="#statistics-per-chromosome" id="toc-statistics-per-chromosome" class="nav-link" data-scroll-target="#statistics-per-chromosome">Statistics per Chromosome</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./course_sarek.html">Practicals</a></li><li class="breadcrumb-item"><a href="./course_solutions.html">Spoiler: Solutions</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./04_pop_stats.html">Session 4: Population Statistics</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Spoiler: Solutions</h1>
+<h1 class="title">Session 4: Population Statistics</h1>
 </div>
 
 
@@ -327,121 +337,125 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Extract scaffold 1</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> Phenig_final_0619.recode.vcf <span class="at">--chr</span> scaffold_1 <span class="at">--recode</span> <span class="at">--recode-INFO-all</span> <span class="at">--out</span> scaffold1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Remove indels</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1.recode.vcf <span class="at">--remove-indels</span> <span class="at">--recode</span> <span class="at">--out</span> scaffold_1_noindels</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Keep biallelic sites only</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels.recode.vcf <span class="at">--min-alleles</span> 2 <span class="at">--max-alleles</span> 2 <span class="at">--recode</span> <span class="at">--out</span> scaffold_1_noindels_biallelic </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Depth</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--depth</span> <span class="at">--out</span> scaffold_1_noindels_biallelic</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Site depth</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--site-depth</span> <span class="at">--out</span> scaffold_1_noindels_biallelic </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Site mean depth</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--site-mean-depth</span> <span class="at">--out</span> scaffold_1_noindels_biallelic </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Tajima’s D</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--TajimaD</span> 5000 <span class="at">--out</span> scaffold_1_noindels_biallelic.tajd5000</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Pi per site</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--site-pi</span> <span class="at">--out</span> scaffold_1_noindels_biallelic</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Pi in windows</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--window-pi</span> 5000 <span class="at">--out</span> scaffold_1_noindels_biallelic.pi5000</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Keeping only certain individuals from populations</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--keep</span> pop_to_keep <span class="at">--recode</span> <span class="at">--out</span> scaffold_1_pop</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Rerun Tajima’s D on these VCFs/populations you have chosen. Of course, you can use the keep flag on the complete VCF without writing to a new VCF, saving some space.</p>
-<p>FST</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools-haploid</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--weir-fst-pop</span> pop1 <span class="at">--weir-fst-pop</span> pop2 <span class="at">--fst-window-size</span> <span class="at">--out</span> fst_pop1_vs_pop2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<section id="plotting-in-r" class="level2">
-<h2 class="anchored" data-anchor-id="plotting-in-r">Plotting in R</h2>
-<p>Here I just show you an example from the idepth file. You can remove lines not relevant for your populations. I just plotted across the entire dataset</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting .idepth file </span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>idepth <span class="ot">=</span> <span class="fu">read.delim</span>(<span class="st">"wherever_your_file_is"</span>, <span class="at">header =</span> T)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(idepth)[<span class="fu">names</span>(idepth) <span class="sc">==</span> <span class="st">'INDV'</span>] <span class="ot">&lt;-</span> <span class="st">'ID'</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>idepth <span class="ot">=</span> idepth <span class="sc">%&gt;%</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Population =</span> <span class="fu">case_when</span>(</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BIL"</span>) <span class="sc">~</span> <span class="st">"bil"</span>,</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BNP"</span>) <span class="sc">~</span> <span class="st">"bnp"</span>,</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"her"</span>,</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"iss"</span>,</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"kai"</span>,</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"koi"</span>,</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"kot"</span>,</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"luu"</span>,</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"met"</span>,</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"mor"</span>,</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"mus"</span>,</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"myl"</span>,</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"pam"</span>,</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"pat"</span>,</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"pet"</span>,</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"puk"</span>,</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"rus"</span>,</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"sig"</span>,</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"spk"</span>,</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"sus"</span>,</span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"ulv"</span>,</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"van"</span>,</span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"ves"</span>))</span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>idepth <span class="ot">=</span> idepth <span class="sc">%&gt;%</span></span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">Location =</span> <span class="fu">case_when</span>(</span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"BIL"</span>) <span class="sc">~</span> <span class="st">"Sweden"</span>,</span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"BNP"</span>) <span class="sc">~</span> <span class="st">"Poland"</span>,</span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
-<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"Russia"</span>,</span>
-<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
-<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
-<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
-<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
-<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"SWF"</span></span>
-<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>      ))</span>
-<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a><span class="co">#try with and without face_wrap</span></span>
-<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(idepth, <span class="fu">aes</span>(<span class="at">x=</span>ID, <span class="at">y =</span>MEAN_DEPTH, <span class="at">fill=</span>Population)) <span class="sc">+</span></span>
-<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Location, <span class="at">scales =</span> <span class="st">"free_x"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>A variant call format (VCF) is a type of file that stores all the information regarding variant and non-variant sites of individuals mapped to a reference assembly. This assembly can be a single chromosome, or a collection of scaffolds- there really is no limit!</p>
 </section>
-<section id="plotting-tajimas-d-all-vs-specific-populations" class="level2">
-<h2 class="anchored" data-anchor-id="plotting-tajimas-d-all-vs-specific-populations">Plotting Tajima’s D all vs specific populations</h2>
-<p>You can change the type of plots you make. Change headers, xlab, and ylab</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting Tajima's D</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>taj.combined <span class="ot">=</span> <span class="fu">read.delim</span>(<span class="st">"teaching/forest_popgen/all.tajd5000.Tajima.D"</span>, <span class="at">header =</span> T)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>taj.bil <span class="ot">=</span> <span class="fu">read.delim</span>(<span class="st">"teaching/forest_popgen/bil.tajd5000.Tajima.D"</span>, <span class="at">header =</span> T)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Mutating the add a column for population</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>taj.combined <span class="ot">=</span> <span class="fu">mutate</span>(taj.combined, <span class="at">Population =</span> <span class="st">"All"</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>taj.bil <span class="ot">=</span> <span class="fu">mutate</span>(taj.bil, <span class="at">Population =</span> <span class="st">"BIL"</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#combining the dataframes</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>combining.tajd <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'taj.combined'</span>, <span class="st">'taj.bil'</span>)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>x.list <span class="ot">=</span> <span class="fu">lapply</span>(combining.tajd, get)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>combined.tajd <span class="ot">=</span> <span class="fu">do.call</span>(rbind, x.list)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting combined Tajima's D</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined.tajd, <span class="fu">aes</span>(<span class="at">x=</span> BIN_START, <span class="at">y =</span> TajimaD, <span class="at">col=</span>Population)) <span class="sc">+</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="data-we-will-be-using" class="level2">
+<h2 class="anchored" data-anchor-id="data-we-will-be-using">Data we will be using</h2>
+<p>To get familiar with the kind of tools and data one typically uses in bioinformatics analyses, I have selected a case from literature. 1. Paper: https://onlinelibrary.wiley.com/doi/full/10.1111/mec.16369 2. Data availability: https://datadryad.org/stash/dataset/doi:10.5061/dryad.7d7wm37wr 3. Reference genome: https://mycocosm.jgi.doe.gov/Pheni1/Pheni1.home.html</p>
+<p>To get around storage and computational time restrictions, you will divide into groups of two and I will assign a scaffold to your group. You’ll try to redo some of the analyses and statistics that are presented in the supplementary material, discover if there are any regions under selection in your scaffold</p>
+</section>
+<section id="tools-available" class="level2">
+<h2 class="anchored" data-anchor-id="tools-available">Tools available</h2>
+<p>There are a multitude of tools available for the analysis of VCFs. It is almost entirely up to the researcher as to how they wish to interact with these files. Some bioinformaticians prefer to analyse files in the CLI and only plot the final data in R or python, while others prefer to do everything with R packages. For this part of the workshop, I will show you bits of both aspects.</p>
+<p>One popular R package for VCF analyses is vcfR (https://cran.r-project.org/web/packages/vcfR/vignettes/intro_to_vcfR.html#:~:text=vcfR%20is%20a%20package%20intended,at%20the%20vcfR%20documentation%20website)</p>
+<p>To plot data, we will be using ggplot2, and some functions of the dplyr package.</p>
+</section>
+<section id="r-scripts" class="level2">
+<h2 class="anchored" data-anchor-id="r-scripts">R scripts</h2>
+<p>To ensure that your plots are easy to understand, it is important to have some metadata stored in the data you wish to plot. This can be sampling location, identity to ancestral genetic population, sampling year, and so on.</p>
+<p>The data we will be using has really neat identifiers as the individual names start with the population. This should act as an example for you to assign good names to your own data to ensure that as much as possible can be automated to reduce the chance of human error (as careful as you are, mistakes can happen very easily with large amounts of data and automation ensures that mistakes can easily be caught and corrected!) Have a look in the online data to see if you can see where this comes from.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> input_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Population =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Bil"</span>) <span class="sc">~</span> <span class="st">"bil"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Bnp"</span>) <span class="sc">~</span> <span class="st">"bnp"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"her"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"iss"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"kai"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"koi"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"kot"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"luu"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"met"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"mor"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"mus"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"myl"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"pam"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"pat"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"pet"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"puk"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"rus"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"sig"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"spk"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"sus"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"ulv"</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"van"</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"ves"</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a> input_data <span class="sc">%&gt;%</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Location =</span> <span class="fu">case_when</span>(</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Bil"</span>) <span class="sc">~</span> <span class="st">"Sweden"</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Bnp"</span>) <span class="sc">~</span> <span class="st">"Poland"</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"Russia"</span>,</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"SWF"</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In the supplementary data, the authors forgot to add the location of the kai population, so I just assigned it to NEF. Let us see if that was the correct designation.</p>
+<p>Key: * SWF: South Western Finland * NEF: North Eastern Finland</p>
+<p>To change the header of a column in R</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">names</span>(df)[<span class="fu">names</span>(df) <span class="sc">==</span> <span class="st">'old.var.name'</span>] <span class="ot">&lt;-</span> <span class="st">'new.var.name'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A basic barplot in ggplot. We can talk about facet wrap,</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(input_file, <span class="fu">aes</span>(<span class="at">x=</span>Individual, <span class="at">y =</span>Mean.Depth, <span class="at">fill=</span>Population)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">facet_wrap</span>(<span class="sc">~</span>Location, <span class="at">scales =</span> <span class="st">"free_x"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="assessing-quality-of-the-vcf" class="level2">
+<h2 class="anchored" data-anchor-id="assessing-quality-of-the-vcf">Assessing quality of the VCF</h2>
+<p>We have a special version of VCFtools that supports haploid data (https://github.com/jydu/vcftools). Everything remains the same as the original version of VCFtools, with added support for haploid datasets that becomes important for some of the summary statistics. Have a look at the VCFtools manual to see the range of possible functions within this software (https://vcftools.sourceforge.net/man_latest.html).</p>
+<p>In VCFtools, it is important to remember to use the –recode option if you would like to output a new VCF that is filtered or contains a subset of positions or individuals. –out only sets the name of the output file. Use concise names so that it is easy for you to see what’s in the output.</p>
+<p>Let us start by having a look at the sequencing depth of various aspects of the VCF. From the manual, figure out what each function means. Use less to see what’s in each of these output files.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools-haploid</span> <span class="at">--vcf</span> <span class="at">--depth</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--site-depth</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span>  <span class="at">--site-mean-depth</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Next, we want to see what the quality per site is</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--site-quality</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>I prefer analysing these outputs in R. From there, decide on upper and lower boundaries to filter the variants on your scaffold. Justify why you think these filtering criteria are suitable.</p>
+</section>
+<section id="statistics-per-chromosome" class="level2">
+<h2 class="anchored" data-anchor-id="statistics-per-chromosome">Statistics per Chromosome</h2>
+<p>Keep only the scaffold your group is working on in your folder</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--chr</span> <span class="at">--recode</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For downstream analyses, we need to remove all indels from the VCF</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--remove-indels</span> <span class="at">--recode</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For most analyses, we only consider bi-allelic sites</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--min-alleles</span> 2 <span class="at">--max-alleles</span> 2 <span class="at">--recode</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Look at allele frequency</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--freq</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Tajima’s D in bins</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--TajimaD</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Pi per site</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--site-pi</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Pi per window</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--window-pi</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Fst. Here, create a file of individuals from 6 populations (2 SWF, 2 NEF, Sweden, Poland) that you will use as pop1 and pop2 to do a pairwise Fst analysis to determine what the fixation index is. I have made a list of the individuals per population that you can find in the course repo on Github.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--weir-fst-pop</span> pop1 <span class="at">--weir-fst-pop</span> pop2 <span class="at">-fst-window-size</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>PCA that will also be plotted in R. For the PCA, you will plot the eigenvalues to illustrate what each component explains in your data, as well as PC1 and PC2, Pc2 and PC3, and PC3 and PC4.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--vcf</span> <span class="at">--pca</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If there is a region that is under selection within your data, have a look at the gff3 file to see the genes that are present within the region.</p>
+<p>With these kinds of analyses, you are very well on the way to finding regions that are under selection by combining Tajima’s D and Fst. You can show which regions have higher SNP density.</p>
 
 
 </section>
@@ -520,7 +534,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/lpotgieter\.github\.io\/fungal_popgen\/");
+        var filterRegex = new RegExp("https:\/\/mc-er\.github\.io\/fungal_popgen\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

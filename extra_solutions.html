@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Caution: AI in Bioinformatics – Fungal Population Genomics</title>
+<title>Spoiler: Solutions – Fungal Population Genomics</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -81,7 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ce0f0d1e95892c391167071f7e5e54e4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fae47caf9e852e6e4b6ee8ceec8e0f71.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -150,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./course_linux.html">Background knowledge</a></li><li class="breadcrumb-item"><a href="./course_ai.html">Caution: AI in Bioinformatics</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./extra_solutions.html">Spoiler: Solutions</a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -184,49 +184,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_linux.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_linux.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A Brief Introduction to Linux</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_nextflow.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_nextflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Nextflow</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_nf-core.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_nf-core.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">nfcore introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pixi.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_pixi.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Environment managers: Pixi</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_containers.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_containers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Containers</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_ai.html" class="sidebar-item-text sidebar-link active">
+  <a href="./background_ai.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Caution: AI in Bioinformatics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_ai_literacy.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_ai_literacy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">AI Literacy and Implementation at VF</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_quarto.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_quarto.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Markdown and Quarto</span></a>
   </div>
 </li>
@@ -240,38 +240,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_sarek.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Sarek Setup</span></a>
+  <a href="./01_bash_hpc2n_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 1: Introduction to Bash and HPC2N</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pop_stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Population Statistics</span></a>
+  <a href="./02_nextflow_intro_setup_sarek.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 2: Nextflow Sarek setup</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pop_structure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Population Structure</span></a>
+  <a href="./03_qc_nextflow-output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 3: Quality Control and the VCF Format</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_genome_annotation.html" class="sidebar-item-text sidebar-link">
+  <a href="./04_pop_stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 4: Population Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_pop_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 5: Population Structure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extra_genome_annotation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Genome Annotation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_solutions.html" class="sidebar-item-text sidebar-link">
+  <a href="./extra_solutions.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Spoiler: Solutions</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./course_genome_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Genome Annotation</span></a>
   </div>
 </li>
       </ul>
@@ -284,7 +290,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_exercises.html" class="sidebar-item-text sidebar-link">
+  <a href="./discussion_exercises.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Discussion Guiding Questions</span></a>
   </div>
 </li>
@@ -300,29 +306,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#machine-learning-in-bioinformatics" id="toc-machine-learning-in-bioinformatics" class="nav-link" data-scroll-target="#machine-learning-in-bioinformatics">Machine Learning in Bioinformatics</a></li>
-  <li><a href="#incorporation-of-ai-in-our-lives" id="toc-incorporation-of-ai-in-our-lives" class="nav-link" data-scroll-target="#incorporation-of-ai-in-our-lives">Incorporation of AI in Our Lives</a></li>
-  <li><a href="#some-words-of-caution" id="toc-some-words-of-caution" class="nav-link" data-scroll-target="#some-words-of-caution">Some Words of Caution</a>
-  <ul class="collapse">
-  <li><a href="#learning-with-ai" id="toc-learning-with-ai" class="nav-link" data-scroll-target="#learning-with-ai">Learning with AI</a></li>
-  <li><a href="#productivity-with-ai" id="toc-productivity-with-ai" class="nav-link" data-scroll-target="#productivity-with-ai">Productivity with AI</a></li>
-  <li><a href="#data-privacy-and-legal-concerns" id="toc-data-privacy-and-legal-concerns" class="nav-link" data-scroll-target="#data-privacy-and-legal-concerns">Data Privacy and Legal Concerns</a></li>
-  <li><a href="#personal-responsibility" id="toc-personal-responsibility" class="nav-link" data-scroll-target="#personal-responsibility">Personal Responsibility</a></li>
-  <li><a href="#global-linguistic-changes" id="toc-global-linguistic-changes" class="nav-link" data-scroll-target="#global-linguistic-changes">Global Linguistic Changes</a></li>
-  <li><a href="#ai-on-the-internet" id="toc-ai-on-the-internet" class="nav-link" data-scroll-target="#ai-on-the-internet">AI on the Internet</a></li>
-  <li><a href="#environmnetal-impact" id="toc-environmnetal-impact" class="nav-link" data-scroll-target="#environmnetal-impact">Environmnetal Impact</a></li>
-  </ul></li>
-  <li><a href="#how-to-decide-when-to-use-ai" id="toc-how-to-decide-when-to-use-ai" class="nav-link" data-scroll-target="#how-to-decide-when-to-use-ai">How To Decide When To Use AI</a></li>
+  <li><a href="#plotting-in-r" id="toc-plotting-in-r" class="nav-link active" data-scroll-target="#plotting-in-r">Plotting in R</a></li>
+  <li><a href="#plotting-tajimas-d-all-vs-specific-populations" id="toc-plotting-tajimas-d-all-vs-specific-populations" class="nav-link" data-scroll-target="#plotting-tajimas-d-all-vs-specific-populations">Plotting Tajima’s D all vs specific populations</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./course_linux.html">Background knowledge</a></li><li class="breadcrumb-item"><a href="./course_ai.html">Caution: AI in Bioinformatics</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./extra_solutions.html">Spoiler: Solutions</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Caution: AI in Bioinformatics</h1>
+<h1 class="title">Spoiler: Solutions</h1>
 </div>
 
 
@@ -339,174 +333,121 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>While the lure of AI is becoming more present in our daily lives, remember that you do not <strong>need</strong> it. You were perfectly able to design a packing list for your upcoming trip. You were able to look at a paper to find answers to your scientific questions. You knew how to query a vignette in R to determine how a function could be implemented.</p>
-<p>Life was a bit slower, but you used your mind and your agency. You made decisions. Please do not confuse convenience with need!</p>
-</div>
-</div>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In the past 3 years, AI has become more mainstream. The primary kind of AI people think of, is a Large Language Model (LLM). At this point, you cannot really avoid contact with these models anymore as they have infiltrated every aspect of the internet.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/ai/llm1.png" class="img-fluid figure-img"></p>
-<figcaption>Searching LLM with Google to be answered with an LLM response</figcaption>
-</figure>
-</div>
-<p>These algorithms are language models trained on incredibly large datasets. They are trained to recognise and generate natural language. The chatbots we are all familiar with are generative pretrained transformers (GPTs). These can be trained for specific tasks, or guided by prompt generation.</p>
-<p>This is not an AI theory course, and we really do not have enough knowledge to explain the underlying theory beyond a rudimentary level. We would like to discuss the impact of AI on you as a user, and advocate for responsible use of AI in your current and future work.</p>
+<p>Extract scaffold 1</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> Phenig_final_0619.recode.vcf <span class="at">--chr</span> scaffold_1 <span class="at">--recode</span> <span class="at">--recode-INFO-all</span> <span class="at">--out</span> scaffold1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Remove indels</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1.recode.vcf <span class="at">--remove-indels</span> <span class="at">--recode</span> <span class="at">--out</span> scaffold_1_noindels</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Keep biallelic sites only</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels.recode.vcf <span class="at">--min-alleles</span> 2 <span class="at">--max-alleles</span> 2 <span class="at">--recode</span> <span class="at">--out</span> scaffold_1_noindels_biallelic </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Depth</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--depth</span> <span class="at">--out</span> scaffold_1_noindels_biallelic</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Site depth</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--site-depth</span> <span class="at">--out</span> scaffold_1_noindels_biallelic </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Site mean depth</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--site-mean-depth</span> <span class="at">--out</span> scaffold_1_noindels_biallelic </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Tajima’s D</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--TajimaD</span> 5000 <span class="at">--out</span> scaffold_1_noindels_biallelic.tajd5000</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Pi per site</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--site-pi</span> <span class="at">--out</span> scaffold_1_noindels_biallelic</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Pi in windows</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--window-pi</span> 5000 <span class="at">--out</span> scaffold_1_noindels_biallelic.pi5000</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Keeping only certain individuals from populations</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--keep</span> pop_to_keep <span class="at">--recode</span> <span class="at">--out</span> scaffold_1_pop</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Rerun Tajima’s D on these VCFs/populations you have chosen. Of course, you can use the keep flag on the complete VCF without writing to a new VCF, saving some space.</p>
+<p>FST</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools-haploid</span> <span class="at">--vcf</span> scaffold_1_noindels_biallelic.recode.vcf <span class="at">--weir-fst-pop</span> pop1 <span class="at">--weir-fst-pop</span> pop2 <span class="at">--fst-window-size</span> <span class="at">--out</span> fst_pop1_vs_pop2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="plotting-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-in-r">Plotting in R</h2>
+<p>Here I just show you an example from the idepth file. You can remove lines not relevant for your populations. I just plotted across the entire dataset</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting .idepth file </span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>idepth <span class="ot">=</span> <span class="fu">read.delim</span>(<span class="st">"wherever_your_file_is"</span>, <span class="at">header =</span> T)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(idepth)[<span class="fu">names</span>(idepth) <span class="sc">==</span> <span class="st">'INDV'</span>] <span class="ot">&lt;-</span> <span class="st">'ID'</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>idepth <span class="ot">=</span> idepth <span class="sc">%&gt;%</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Population =</span> <span class="fu">case_when</span>(</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BIL"</span>) <span class="sc">~</span> <span class="st">"bil"</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BNP"</span>) <span class="sc">~</span> <span class="st">"bnp"</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"her"</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"iss"</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"kai"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"koi"</span>,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"kot"</span>,</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"luu"</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"met"</span>,</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"mor"</span>,</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"mus"</span>,</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"myl"</span>,</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"pam"</span>,</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"pat"</span>,</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"pet"</span>,</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"puk"</span>,</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"rus"</span>,</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"sig"</span>,</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"spk"</span>,</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"sus"</span>,</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"ulv"</span>,</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"van"</span>,</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"ves"</span>))</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>idepth <span class="ot">=</span> idepth <span class="sc">%&gt;%</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">Location =</span> <span class="fu">case_when</span>(</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"BIL"</span>) <span class="sc">~</span> <span class="st">"Sweden"</span>,</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"BNP"</span>) <span class="sc">~</span> <span class="st">"Poland"</span>,</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"Russia"</span>,</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>        <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"SWF"</span></span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>      ))</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a><span class="co">#try with and without face_wrap</span></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(idepth, <span class="fu">aes</span>(<span class="at">x=</span>ID, <span class="at">y =</span>MEAN_DEPTH, <span class="at">fill=</span>Population)) <span class="sc">+</span></span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Location, <span class="at">scales =</span> <span class="st">"free_x"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="machine-learning-in-bioinformatics" class="level2">
-<h2 class="anchored" data-anchor-id="machine-learning-in-bioinformatics">Machine Learning in Bioinformatics</h2>
-<p>Machine learning (ML) has been used in bioinformatics and other fields of data science for many decades on every level. Before ML, algorithms had to be programmed by hand rather than having the algorithms learn features of a dataset. With ML, features of a dataset can be annotated based on previously annotated datasets. These algorithms were a mix of supervised (learning on annotated data) and unsupervised (learning on unannotated data) learning, depending on the function of the algorithm.</p>
-<p>Supervised algorithms are used for classification and regression analyses. Unsupervised algorithms are used to discover hidden patterns in data without needing a human’s input. Unsupervised algorithms are used in clustering, association, and dimensionality reduction</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Classification</strong>: Output is a discrete variable. Linear classifiers, support vector machines, decision trees, random forests. E.g. annotating a new genome based on genome annotations from existing species.</p>
-<p><strong>Regression</strong>: Focus on understanding dependent and indepedent variables</p>
-</div>
-</div>
-</div>
-<p>For more info, see <a href="https://www.ibm.com/think/topics/supervised-vs-unsupervised-learning">here</a>, and <a href="https://www.sciencedirect.com/science/article/pii/S0079610719301981">here</a>.</p>
-<p>There is no arguing that these algorithms have led to great progress within the field of bioinformatics. Generative AI is one of the next steps in the evolution of applying machine learning in our lives.</p>
-</section>
-<section id="incorporation-of-ai-in-our-lives" class="level2">
-<h2 class="anchored" data-anchor-id="incorporation-of-ai-in-our-lives">Incorporation of AI in Our Lives</h2>
-<p>ChatGPT gained 100 million users in the 2 months after its release in 2022, making it the fastest-growing consumr application in <a href="https://www.reuters.com/technology/chatgpt-sets-record-fastest-growing-user-base-analyst-note-2023-02-01/">history</a>. Generative AI (GenAI) models now come in many different flavours, depending on the developer.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/ai/genai_marketshare.png" class="img-fluid figure-img"></p>
-<figcaption>GenAI chatbots by market share in August 2025 from <a href="https://firstpagesage.com/reports/top-generative-ai-chatbots/">FirstPageSage</a></figcaption>
-</figure>
-</div>
-<p>As with earlier iterations of supervised and unsupervised algorithms, these self-supervised algorithms also need data to be trained.</p>
-<section id="training-data" class="level4">
-<h4 class="anchored" data-anchor-id="training-data">Training Data</h4>
-<p>GenAI has all been trained on existing data. There has always been a bias in whose information gets captured. In a historical context, history was recorded by the party that won the war and destroyed existing knowledge. This also changed as different empires and narratives rose and fell. With digitisation, this information has landed on the internet. In the more modern “Internet Age”, everyone with an internet connection can technically post anything they’d like on the internet. There are different biases at play- not everyone has equal access to the internet, some people may not have strong enough opinions to post about something online, some people prefer to read rather than contribute, while others take pleasure in “shit-posting”.</p>
-<p>The differences in how people use the internet have an effect on how useful the trained models become. In this example, you can clearly see what the effect of bad training data is.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/ai/ai_kill_yourself.png" class="img-fluid figure-img"></p>
-<figcaption>GenAI answer to a simple question</figcaption>
-</figure>
-</div>
-<p>GenAI’s are not programmed to say that they do not know something, and will happily hallucinate an answer. If you do not know better, or trust the computers, you may take this answer as true and post it elsewhere. As the use of AI’s increases, AI generated content is used to train new AI’s. Gary Illyes from Google has spoken about <a href="https://www.searchenginejournal.com/google-says-ai-generated-content-should-be-human-reviewed/553486/">“human curated” vs “human created”</a> data being used as training data.</p>
-<p>In a perfect world, GenAI would be trained on perfectly curated data, but even with all of the data that we have on the internet at the moment, we do not have nearly enough data for this. We have to make do with what we have.</p>
-</section>
-</section>
-<section id="some-words-of-caution" class="level2">
-<h2 class="anchored" data-anchor-id="some-words-of-caution">Some Words of Caution</h2>
-<p>GenAI is becoming more integrated in every sector of our lives. It is important that we use the new technology responsibly. When Google first came out, there were classes on how to use the search engine, determine validity of sources and information, and how to stay safe on the internet. This section aims to raise awareness about commonly overlooked aspects of GPT use.</p>
-<section id="learning-with-ai" class="level3">
-<h3 class="anchored" data-anchor-id="learning-with-ai">Learning with AI</h3>
-<p>AI has great potential in the field of education. ChatGPT has been shown to be highly beneficial in an educational <a href="https://www.nature.com/articles/s41599-025-04787-y">environment</a> when integrated properly. However, the use of AI in this setting must be balanced and carefully curated. A 2025 <a href="https://arxiv.org/pdf/2506.08872v1">pre-print</a> by Kosmyna et al showed that adults that used ChatGPT to write SAT type essays were outperformed consistently by adults that wrote the same essay without the support of an AI, and had significantly lower brain engagement.</p>
-</section>
-<section id="productivity-with-ai" class="level3">
-<h3 class="anchored" data-anchor-id="productivity-with-ai">Productivity with AI</h3>
-<p>A recent <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">study</a> by a non-profit group, Model Evaluation and Threat Research [(METR)https://metr.org/] aimed to quantify the difference in productivity when using <a href="https://www.theregister.com/2025/07/11/ai_code_tools_slow_down/">AI</a>. Participants in this study were not new to their field, with at least 5 years of experience prior to this study being conducted.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/ai/metr_ai.png" class="img-fluid figure-img"></p>
-<figcaption>AI reducing productivity</figcaption>
-</figure>
-</div>
-<p>The study also found that when AI is allowed, the participants spent less time coding and seeking solutions to the problems. Rather, they spent time prompting the AI, reading and reviewing responses, and being idle. Intel produced similar <a href="https://www.theregister.com/2024/11/22/ai_pcs_productivity/">findings</a>.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/ai/metr_reasons.png" class="img-fluid figure-img"></p>
-<figcaption>Reasons for loss of productivity with AI</figcaption>
-</figure>
-</div>
-<p>If one combines the effect of passively learning with AI and the loss of productivity with, it becomes clear that AI must be used very carefully.</p>
-</section>
-<section id="data-privacy-and-legal-concerns" class="level3">
-<h3 class="anchored" data-anchor-id="data-privacy-and-legal-concerns">Data Privacy and Legal Concerns</h3>
-<p>Data privacy has been vital in the development and use of AI. The use of copyrighted material in training AI is being discussed and debated in several courts. The questions around using <code>text and data mining</code> are divisive with <a href="https://informationlabs.org/the-ai-training-debate-why-focusing-on-copyright-is-missing-the-point/">some parties</a> arguing that finding patterns, trends, and insights in existing data being how new research is done by humans and should be extended to AI, while <a href="https://www.lawpub.se/artikel/4802">others</a>, particularly in the European context, disagree to some extent. Understanding the legality of the service you use in different countries falls on you as a user.</p>
-<p>The Terms of Service (ToS) of different GPTs are important when deciding whether to use a GPT at all. For example, <a href="https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html">Deepseek’s ToS</a> (collected on 15.08.2025) states</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Account</span> Personal Data. We collect Personal Data that you provide when you set up an account, such as your date of birth <span class="er">(</span><span class="ex">where</span> applicable<span class="kw">)</span><span class="ex">,</span> username <span class="er">(</span><span class="ex">where</span> applicable<span class="kw">)</span><span class="ex">,</span> email address and/or telephone number, and password.</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">User</span> Input. When you use our Services, we may collect your text input, prompt, uploaded files, feedback, chat history, or other content that you provide to our model and Services <span class="er">(</span><span class="ex">“Prompts”</span> or <span class="st">"Inputs"</span><span class="kw">)</span><span class="bu">.</span> We generate responses <span class="er">(</span><span class="ex">“Outputs”</span><span class="kw">)</span> <span class="ex">based</span> on your Inputs.</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Personal</span> Data When You Contact Us. When you contact us, we collect the Personal Data you send us, such as proof of identity or age, contact details, feedback or inquiries about your use of the Services or Personal Data about possible violations of our Terms of Service <span class="er">(</span><span class="ex">our</span> “Terms”<span class="kw">)</span> <span class="ex">or</span> other policies.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Biological data enjoys a high level of protection, and is often considered as highly sensitive. Too often, users will input sequences, tables, or other data into a GPT to find ways to plot data, perform sequence annotations, or similar tasks. Be wary of doing this. Check the ToS explicitly, and frequently. Try to use GDPR compliant GPT’s if you must use a GPT.</p>
-<p>AI as browser extensions steal deeply personal information when enabled in a users’ <a href="https://arxiv.org/pdf/2503.16586">browser</a> including financial, education, and medical information, whether an extension is being actively used or not. The authors have also <a href="https://www.euronews.com/next/2025/08/13/ai-browsers-share-sensitive-personal-data-new-study-finds">commented</a> on how these practices interfere with the company’s own ToS as well as privacy legislation.</p>
-</section>
-<section id="personal-responsibility" class="level3">
-<h3 class="anchored" data-anchor-id="personal-responsibility">Personal Responsibility</h3>
-<p>You as a user are responsible for the AI generated content you choose to use. If you, for instance, ask AI to generate a brand logo for you that is too close to something that exists already, the original owner is free to sue you as an <a href="https://www.theregister.com/2025/08/12/genai_lawsuit/">individual</a> for copyright infringement.</p>
-<p>As scientists, we know that we should use peer-reviewed resources whenever possible. It is why we cannot cite Wikipedia in a scientific article. GPT’s have been widely shown to <a href="https://medium.com/@nomannayeem/the-fabrication-problem-how-ai-models-generate-fake-citations-urls-and-references-55c052299936">fabricate</a> <a href="https://www.nature.com/articles/s41598-023-41032-5">citations</a> based on how it has learnt a citation should look. It is up to you as a user to check every single citation that AI generates since you are responsible for what you write.</p>
-</section>
-<section id="global-linguistic-changes" class="level3">
-<h3 class="anchored" data-anchor-id="global-linguistic-changes">Global Linguistic Changes</h3>
-<p>Even though ChatGPT has only been widely used for 3 years, it has already started leaving its traces in how we speak. Words like <code>delve</code> and <code>meticulous</code> are being used more frequently in academic YouTube talks.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/ai/chatgpt_delve.png" class="img-fluid figure-img"></p>
-<figcaption>GPT words in YouTube videos from <a href="https://arxiv.org/pdf/2409.01754">Yakura <em>et al</em> 2025</a></figcaption>
-</figure>
-</div>
-<p>It has also been shown that different GPT’s have different writing styles, also known as idiolects.</p>
-<p>Some projects like <a href="https://aclanthology.org/2024.inlg-main.34.pdf">this one</a> are trying to match GPT ideolects match that of unique users. This will make detecting AI use more difficult in future.</p>
-<div class="callout callout-style-simple callout-none no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>This course was written by two people, and each person wrote their own sections without the use of any AI. Can you tell who wrote which sections based on idiolects?</p>
-</div>
-</div>
-</div>
-<p>We know that subtle linguistic shifts can change <a href="https://journals.sagepub.com/doi/10.1177/0963721419861411">emotional regulation</a> within an individual. We also know that <a href="https://en.wikipedia.org/wiki/Sociolinguistics">sociolinguistics</a>, even the slightest linguistic features, serve to bind or divide us.</p>
-</section>
-<section id="ai-on-the-internet" class="level3">
-<h3 class="anchored" data-anchor-id="ai-on-the-internet">AI on the Internet</h3>
-<p>Social media platforms are an important aspect in the development, improvement, and implementation of GenAI models. OpenAI, the creators of ChatGPT, have used a subreddit on the social media platform, Reddit, to train their <a href="https://techcrunch.com/2025/01/31/openai-used-this-subreddit-to-test-ai-persuasion/">new algorithm</a>. <a href="https://www.reuters.com/technology/reddit-ai-content-licensing-deal-with-google-sources-say-2024-02-22/">Google</a> and <a href="https://techcrunch.com/2024/05/16/openai-inks-deal-to-train-ai-on-reddit-data/">OpenAI</a> have contractual agreements with Reddit to license data from the users on the platform. Earlier in 2025, researchers from the University of Zurich were implicated in an experiment on the same subreddit OpenAI used to train a model. They wanted to test whether an interaction with a bot was more likely to make people change their minds than an interaction with a <a href="https://www.science.org/content/article/unethical-ai-research-reddit-under-fire">real person</a>. This was heavily frowned upon, and posts were all removed as users had no ability to consent to participating in a study. It has also been suggested that interactions observed by the researchers were just bots arguing with each other.</p>
-<p>A preprint released in February 2025 by <a href="https://arxiv.org/pdf/2502.09747">Liang <em>et al</em></a> found that the amount of content generated by AI rose from 2-3% in November 2022 to 24% by the end of 2023.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/ai/ai_slop.png" class="img-fluid figure-img"></p>
-<figcaption>AI slop trough by <a href="https://uk.news.yahoo.com/entire-internet-being-polluted-ai-140705958.html">Yahoo! News!</a></figcaption>
-</figure>
-</div>
-</section>
-<section id="environmnetal-impact" class="level3">
-<h3 class="anchored" data-anchor-id="environmnetal-impact">Environmnetal Impact</h3>
-<p>The facilities to run GenAI require a significant amount of <a href="https://news.mit.edu/2025/explained-generative-ai-environmental-impact-0117">resources</a>. These facilities need a huge amount of electricity to power the facility (this places extreme strain on exising infrastructure and increases the grid’s carbon footprint) as well as water to cool the hardware. Currently, data centers use more electricity than many independent countries.</p>
-<p>Some data centers are being built near poor communities, drain resources from, and add pollution to the community (see <a href="https://www.grokmountain.com/p/origin-of-grok-3-the-colossus-data">Colossus</a> that has been built in <a href="https://tennesseelookout.com/2025/07/07/a-billionaire-an-ai-supercomputer-toxic-emissions-and-a-memphis-community-that-did-nothing-wrong/">Memphis</a> to power the X bot, <a href="https://www.theguardian.com/technology/2025/apr/24/elon-musk-xai-memphis">Grok</a> for an example. Musk is not the only offender.)</p>
-<p>While we cannot do anything about where data centers are built, we can make informed decisions about which platforms (if any), we use. We can also be careful with the number of queries we send, and how we use our queries. In April 2025, the CEO of OpenAI <a href="https://www.vice.com/en/article/telling-chatgpt-please-and-thank-you-costs-openai-millions-ceo-claims/">said</a> that polite requests like “please” and “thank you” have cost tens of millions of dollars due to the cost of electricity.</p>
-</section>
-</section>
-<section id="how-to-decide-when-to-use-ai" class="level2">
-<h2 class="anchored" data-anchor-id="how-to-decide-when-to-use-ai">How To Decide When To Use AI</h2>
-<p>If we know the risks and the true cost of what we are doing, we can make informed decisions about how we chose to incorporate new technologies into our day-to-day and working lives.</p>
-<p>Here are some questions that we find useful to ask ourselves before opening a GPT:</p>
-<ol type="1">
-<li>Am I phrasing my prompt in a good way? <a href="https://www.pointloma.edu/resources/business-leadership/how-optimize-your-chatgpt-experience-prompt-engineering">Here</a> is a guide to prompt engineering that might be useful</li>
-<li>Can I find this information any other way?</li>
-<li>How much time am I saving by looking this question up here vs on BioStars, for example?</li>
-<li>Do I know enough about the topic to know whether the GPT is lying to me?</li>
-<li>What are the consequences of testing the validity of the GPT solution? Can I potentially corrupt my data or my system? Is there a potential for me to lie to someone who trusts me enough to ask my opinion?</li>
-</ol>
-<p>If a GPT is used to learn a new skill, remember how important active learning is. Seek explanations for everything the GPT tells you. Find independent sources that were produced by experts to validate your learning.</p>
-<p>Hold on to the ability to learn and the desire to be curious.</p>
+<section id="plotting-tajimas-d-all-vs-specific-populations" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-tajimas-d-all-vs-specific-populations">Plotting Tajima’s D all vs specific populations</h2>
+<p>You can change the type of plots you make. Change headers, xlab, and ylab</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting Tajima's D</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>taj.combined <span class="ot">=</span> <span class="fu">read.delim</span>(<span class="st">"teaching/forest_popgen/all.tajd5000.Tajima.D"</span>, <span class="at">header =</span> T)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>taj.bil <span class="ot">=</span> <span class="fu">read.delim</span>(<span class="st">"teaching/forest_popgen/bil.tajd5000.Tajima.D"</span>, <span class="at">header =</span> T)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Mutating the add a column for population</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>taj.combined <span class="ot">=</span> <span class="fu">mutate</span>(taj.combined, <span class="at">Population =</span> <span class="st">"All"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>taj.bil <span class="ot">=</span> <span class="fu">mutate</span>(taj.bil, <span class="at">Population =</span> <span class="st">"BIL"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co">#combining the dataframes</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>combining.tajd <span class="ot">=</span> <span class="fu">c</span>(<span class="st">'taj.combined'</span>, <span class="st">'taj.bil'</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>x.list <span class="ot">=</span> <span class="fu">lapply</span>(combining.tajd, get)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>combined.tajd <span class="ot">=</span> <span class="fu">do.call</span>(rbind, x.list)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting combined Tajima's D</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined.tajd, <span class="fu">aes</span>(<span class="at">x=</span> BIN_START, <span class="at">y =</span> TajimaD, <span class="at">col=</span>Population)) <span class="sc">+</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
@@ -585,7 +526,7 @@ Note
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/lpotgieter\.github\.io\/fungal_popgen\/");
+        var filterRegex = new RegExp("https:\/\/mc-er\.github\.io\/fungal_popgen\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

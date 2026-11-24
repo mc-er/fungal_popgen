@@ -1,1 +1,1 @@
-Sitemap: https://lpotgieter.github.io/fungal_popgen/sitemap.xml
+Sitemap: https://mc-er.github.io/fungal_popgen/sitemap.xml

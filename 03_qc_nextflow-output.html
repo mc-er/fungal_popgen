@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Session 3: Quality Control and the VCF Format – Fungal Population Genomics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-fae47caf9e852e6e4b6ee8ceec8e0f71.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Fungal Population Genomics</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./03_qc_nextflow-output.html">Session 3: Quality Control and the VCF Format</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto" aria-label="Section">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Background knowledge</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_linux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A Brief Introduction to Linux</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_nextflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Nextflow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_nf-core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nfcore introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_pixi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environment managers: Pixi</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_containers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Containers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_ai.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Caution: AI in Bioinformatics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_ai_literacy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">AI Literacy and Implementation at VF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Markdown and Quarto</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Practicals</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_bash_hpc2n_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 1: Introduction to Bash and HPC2N</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_nextflow_intro_setup_sarek.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 2: Nextflow Sarek setup</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_qc_nextflow-output.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Session 3: Quality Control and the VCF Format</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_pop_stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 4: Population Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_pop_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 5: Population Structure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extra_genome_annotation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genome Annotation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extra_solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spoiler: Solutions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Discussion</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./discussion_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discussion Guiding Questions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#finding-the-output" id="toc-finding-the-output" class="nav-link" data-scroll-target="#finding-the-output">Finding the output</a>
+  <ul class="collapse">
+  <li><a href="#opening-html-reports" id="toc-opening-html-reports" class="nav-link" data-scroll-target="#opening-html-reports">Opening HTML reports</a></li>
+  </ul></li>
+  <li><a href="#part-1-fastqc" id="toc-part-1-fastqc" class="nav-link" data-scroll-target="#part-1-fastqc">Part 1: FastQC</a>
+  <ul class="collapse">
+  <li><a href="#the-modules-and-what-they-mean-for-us" id="toc-the-modules-and-what-they-mean-for-us" class="nav-link" data-scroll-target="#the-modules-and-what-they-mean-for-us">The modules, and what they mean for us</a></li>
+  <li><a href="#the-four-worth-your-attention" id="toc-the-four-worth-your-attention" class="nav-link" data-scroll-target="#the-four-worth-your-attention">The four worth your attention</a></li>
+  </ul></li>
+  <li><a href="#part-2-multiqc" id="toc-part-2-multiqc" class="nav-link" data-scroll-target="#part-2-multiqc">Part 2: MultiQC</a>
+  <ul class="collapse">
+  <li><a href="#how-to-work-through-the-report" id="toc-how-to-work-through-the-report" class="nav-link" data-scroll-target="#how-to-work-through-the-report">How to work through the report</a></li>
+  </ul></li>
+  <li><a href="#part-3-alignment-and-coverage" id="toc-part-3-alignment-and-coverage" class="nav-link" data-scroll-target="#part-3-alignment-and-coverage">Part 3: Alignment and coverage</a>
+  <ul class="collapse">
+  <li><a href="#mapping-rate-and-reference-bias" id="toc-mapping-rate-and-reference-bias" class="nav-link" data-scroll-target="#mapping-rate-and-reference-bias">Mapping rate and reference bias</a></li>
+  <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage">Coverage</a></li>
+  </ul></li>
+  <li><a href="#part-4-the-vcf" id="toc-part-4-the-vcf" class="nav-link" data-scroll-target="#part-4-the-vcf">Part 4: The VCF</a>
+  <ul class="collapse">
+  <li><a href="#looking-at-a-vcf-without-regretting-it" id="toc-looking-at-a-vcf-without-regretting-it" class="nav-link" data-scroll-target="#looking-at-a-vcf-without-regretting-it">Looking at a VCF without regretting it</a></li>
+  <li><a href="#anatomy-of-a-vcf" id="toc-anatomy-of-a-vcf" class="nav-link" data-scroll-target="#anatomy-of-a-vcf">Anatomy of a VCF</a></li>
+  <li><a href="#the-columns" id="toc-the-columns" class="nav-link" data-scroll-target="#the-columns">The columns</a></li>
+  <li><a href="#info-fields-that-describe-the-site" id="toc-info-fields-that-describe-the-site" class="nav-link" data-scroll-target="#info-fields-that-describe-the-site">INFO: fields that describe the site</a></li>
+  <li><a href="#format-fields-that-describe-each-individual" id="toc-format-fields-that-describe-each-individual" class="nav-link" data-scroll-target="#format-fields-that-describe-each-individual">FORMAT: fields that describe each individual</a></li>
+  <li><a href="#hands-on" id="toc-hands-on" class="nav-link" data-scroll-target="#hands-on">Hands-on</a></li>
+  </ul></li>
+  <li><a href="#part-5-deciding-what-to-do-about-it" id="toc-part-5-deciding-what-to-do-about-it" class="nav-link" data-scroll-target="#part-5-deciding-what-to-do-about-it">Part 5: Deciding what to do about it</a></li>
+  <li><a href="#before-lunch" id="toc-before-lunch" class="nav-link" data-scroll-target="#before-lunch">Before lunch</a></li>
+  <li><a href="#where-to-look-things-up" id="toc-where-to-look-things-up" class="nav-link" data-scroll-target="#where-to-look-things-up">Where to look things up</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./03_qc_nextflow-output.html">Session 3: Quality Control and the VCF Format</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Session 3: Quality Control and the VCF Format</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Yesterday afternoon we launched a pipeline and left it running. This morning we find out what it did.</p>
+<p>This session is different from the others. There are commands to run, but the point of the morning is not the commands — it is judgement. You will be asked to look at a set of quality metrics and decide whether the data behind them can carry the conclusions we want to draw this afternoon. That decision is yours to make and yours to defend, and there is no green tick anywhere that makes it for you.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Plan for the morning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Find the output and confirm the pipeline actually finished</li>
+<li>Read the FastQC reports: what the modules mean, and what they mean <em>for our data</em></li>
+<li>Use MultiQC to compare all samples at once and find the ones that are not like the others</li>
+<li>Look at alignment and coverage, where working on a non-model organism starts to show</li>
+<li>Open the VCF and learn to read it</li>
+<li>Decide, as a group, what we are going to filter on this afternoon</li>
+</ol>
+<p>Expect to spend roughly half the morning on QC and half on the VCF, with discussion throughout.</p>
+</div>
+</div>
+</section>
+<section id="finding-the-output" class="level2">
+<h2 class="anchored" data-anchor-id="finding-the-output">Finding the output</h2>
+<p>Sarek writes its results into the directory you gave it with <code>--outdir</code>:</p>
+<pre class="text"><code>results
+├── csv                 # samplesheets describing the output files
+├── multiqc             # the aggregated report - start here
+├── pipeline_info       # Nextflow's own execution reports
+├── preprocessing       # BAM/CRAM files
+├── reference           # indexes built from our reference
+├── reports             # per-tool QC output
+│   ├── fastqc
+│   ├── mosdepth
+│   ├── samtools
+│   ├── bcftools
+│   └── vcftools
+└── variant_calling     # the VCFs</code></pre>
+<p>First, did it finish? Nextflow prints a summary at the end of a run, and writes the same information to the execution report:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/pipeline_info/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Open the execution report in a browser. It tells you how many tasks succeeded, how many failed, how long the run took, and how much memory each process actually used.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A pipeline that ends without an error message is not the same as a pipeline that did what you wanted. Check that the number of samples in the output matches the number of samples in your samplesheet. Missing samples fail quietly more often than you would like.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/reports/fastqc/ <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> samplesheet.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<section id="opening-html-reports" class="level3">
+<h3 class="anchored" data-anchor-id="opening-html-reports">Opening HTML reports</h3>
+<p>The QC reports are HTML files on the cluster, and you need a browser to read them. Three ways, in order of convenience:</p>
+<ol type="1">
+<li>Start a session through <a href="./course_bash_hpc2n.html">Open OnDemand</a> and open the file from the Files pane — this is what we set up on Tuesday</li>
+<li>Open the file in VS Code with a preview extension</li>
+<li>Copy it to your laptop with <code>scp</code> and open it locally</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># from your laptop</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="at">-r</span> <span class="op">&lt;</span>username<span class="op">&gt;</span>@kebnekaise.hpc2n.umu.se:/proj/.../results/multiqc .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>MultiQC reports are self-contained single HTML files, so copying one to your laptop gives you a report that still works offline. FastQC reports are the same. This is a good format to send to a collaborator, or to attach to a thesis appendix.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="part-1-fastqc" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-fastqc">Part 1: FastQC</h2>
+<p>FastQC runs on the raw reads, before any trimming, and produces one report per FASTQ file — so two per sample per lane, one for R1 and one for R2.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/reports/fastqc/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Open one and look at it before reading any further. Then come back.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The single most important thing about FastQC
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The green ticks, amber exclamation marks and red crosses are <strong>not</strong> verdicts on your data.</p>
+<p>FastQC compares your file against what it expects from a random, diverse, unbiased library sequenced on a well-behaved instrument. It knows nothing about your experiment, your organism, or your library preparation. A red cross means “this is unusual for an idealised library” — which for many perfectly good datasets is simply true.</p>
+<p>Two consequences. A red cross is an instruction to investigate, not to discard. And a column of green ticks is not evidence that your data is fit for purpose.</p>
+</div>
+</div>
+<section id="the-modules-and-what-they-mean-for-us" class="level3">
+<h3 class="anchored" data-anchor-id="the-modules-and-what-they-mean-for-us">The modules, and what they mean for us</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Module</th>
+<th>What it shows</th>
+<th>What to expect in our data</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Basic Statistics</td>
+<td>Read count, read length, %GC</td>
+<td>Sanity check. Wildly different read counts between samples matter later</td>
+</tr>
+<tr class="even">
+<td>Per base sequence quality</td>
+<td>Quality score by position along the read</td>
+<td>Gradual decline toward the 3’ end is normal. A cliff is not</td>
+</tr>
+<tr class="odd">
+<td>Per tile sequence quality</td>
+<td>Quality by physical position on the flowcell</td>
+<td>Localised problems — a bubble, a smudge. Usually nothing you can act on</td>
+</tr>
+<tr class="even">
+<td>Per sequence quality scores</td>
+<td>Distribution of mean read quality</td>
+<td>A second peak at low quality means a subpopulation of bad reads</td>
+</tr>
+<tr class="odd">
+<td>Per base sequence content</td>
+<td>%A/%C/%G/%T by position</td>
+<td>Bias in the first ~10 bases is normal and expected (see below)</td>
+</tr>
+<tr class="even">
+<td>Per sequence GC content</td>
+<td>GC distribution across reads</td>
+<td><strong>Watch this one.</strong> A second peak suggests another organism</td>
+</tr>
+<tr class="odd">
+<td>Per base N content</td>
+<td>Uncalled bases by position</td>
+<td>Should be flat and near zero</td>
+</tr>
+<tr class="even">
+<td>Sequence Length Distribution</td>
+<td>Read lengths</td>
+<td>Uniform before trimming</td>
+</tr>
+<tr class="odd">
+<td>Sequence Duplication Levels</td>
+<td>How often reads are seen more than once</td>
+<td>High duplication means low library complexity</td>
+</tr>
+<tr class="even">
+<td>Overrepresented sequences</td>
+<td>Individual sequences seen often</td>
+<td>Adapters, rRNA, or contamination. The table names what it recognises</td>
+</tr>
+<tr class="odd">
+<td>Adapter Content</td>
+<td>Adapter sequence by position</td>
+<td>Rises toward the 3’ end when inserts are short. Trimming deals with it</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-four-worth-your-attention" class="level3">
+<h3 class="anchored" data-anchor-id="the-four-worth-your-attention">The four worth your attention</h3>
+<p><strong>Per base sequence quality.</strong> Quality is reported on the Phred scale, which is logarithmic:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Phred score</th>
+<th>Probability the base is wrong</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Q10</td>
+<td>1 in 10</td>
+<td>90%</td>
+</tr>
+<tr class="even">
+<td>Q20</td>
+<td>1 in 100</td>
+<td>99%</td>
+</tr>
+<tr class="odd">
+<td>Q30</td>
+<td>1 in 1000</td>
+<td>99.9%</td>
+</tr>
+<tr class="even">
+<td>Q40</td>
+<td>1 in 10 000</td>
+<td>99.99%</td>
+</tr>
+</tbody>
+</table>
+<p>Modern Illumina data sits around Q30–Q36 for most of the read and falls off at the end. That tail is why we trim. What should worry you is a sudden collapse, a read that starts badly, or one sample that looks quite different from the rest.</p>
+<p><strong>Per base sequence content.</strong> The first several bases almost always show a strong, repeatable bias. This is a well-known artefact of the random priming used in library preparation, not a problem with your sample, and FastQC flags it on nearly every genomic library ever made. What is <em>not</em> normal is bias continuing along the whole read, which suggests a composition problem or heavy contamination.</p>
+<p><strong>Per sequence GC content.</strong> This is the module to look at hardest, and the reason is biological. Our isolates were cultured from forest material. If something else came along — a bacterium, a plant, another fungus — its DNA was sequenced too, and because different organisms have different GC content, it shows up as a second peak or a conspicuous shoulder next to the expected unimodal distribution.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Contamination is not a hypothetical concern for environmental isolates; it is routine. It also does not announce itself later in the pipeline: contaminant reads either fail to map, which looks like a low mapping rate, or map to repetitive and conserved regions, which looks like variants. A bimodal GC distribution now is much easier to deal with than a strange population structure plot on Thursday.</p>
+</div>
+</div>
+<p><strong>Sequence Duplication Levels.</strong> Duplicates arise when the same original DNA fragment is sequenced more than once, usually because PCR amplified it during library preparation. They matter for us because they inflate apparent read depth without adding information: ten reads that are all copies of one fragment look like tenfold coverage but carry one fragment’s worth of evidence. This is exactly why the pipeline marks duplicates before calling variants.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Exercise: read one report properly
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Pick one sample and work through its FastQC report with a neighbour. Write down:</p>
+<ol type="1">
+<li>How many reads, and how long are they?</li>
+<li>At which position does the mean quality drop below Q30, if it does?</li>
+<li>Is the GC distribution unimodal? What is the modal GC content?</li>
+<li>What fraction of reads is flagged as duplicates?</li>
+<li>Is there adapter signal, and from which position?</li>
+<li>Which modules got a red cross, and for each one: is it a problem, or is it FastQC being FastQC?</li>
+</ol>
+<p>Question 6 is the one we will discuss as a group.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="part-2-multiqc" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-multiqc">Part 2: MultiQC</h2>
+<p>With twenty-odd isolates and two files each, nobody opens forty FastQC reports. MultiQC collects the output of every tool in the pipeline, for every sample, into one interactive report.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/multiqc/</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># multiqc_report.html   multiqc_data/   multiqc_plots/</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The single most important thing about MultiQC
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your samples are each other’s controls.</p>
+<p>With one sample, you can only compare against a general expectation, and general expectations are weak when you work on a non-model organism. With twenty samples prepared and sequenced the same way, you have something much stronger: anything that happened to all of them is probably biology or protocol, and anything that happened to one of them is probably a problem with that one.</p>
+<p>So do not read the report sample by sample. Read it column by column, looking for the ones that are not like the others.</p>
+</div>
+</div>
+<section id="how-to-work-through-the-report" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-work-through-the-report">How to work through the report</h3>
+<ol type="1">
+<li><strong>General Statistics</strong>, at the top, is a table with one row per sample. Click a column header to sort by it. Sort by % duplication, then % GC, then median coverage, then % mapped, and each time look at the top and bottom of the list. The same sample appearing at the bad end of several columns is your outlier.</li>
+<li><strong>FastQC section.</strong> The status heatmap gives you all samples by all modules at a glance. The curve plots overlay every sample, so an odd one is visible as a line that does not follow the bundle.</li>
+<li><strong>Alignment</strong>, from samtools stats and mosdepth: mapping rate, error rate, insert size distribution, coverage.</li>
+<li><strong>Variants</strong>, from bcftools stats and VCFtools: variant counts, depth distribution, transition/transversion ratio.</li>
+<li>The <strong>toolbox</strong> on the right lets you highlight a sample in a colour across every plot in the report. Highlight your suspected outlier and scroll through — it is the fastest way to see whether one sample is consistently odd or just unlucky in one metric.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Exercise: find the outliers
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Working in your pair, use the General Statistics table to identify the three samples you are least happy with. For each one, write a single sentence of the form:</p>
+<blockquote class="blockquote">
+<p><em>Sample X is unusual because [metric] is [value] compared with [typical value across samples], which could be caused by [hypothesis].</em></p>
+</blockquote>
+<p>Then decide, for each: keep it, keep it with a note, or drop it. Be ready to defend the decision — in particular, be ready to say what would change your mind.</p>
+<p>This is not a trick question with a right answer. It is the actual decision that gets made in every sequencing project, usually with less discussion than it deserves.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="part-3-alignment-and-coverage" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-alignment-and-coverage">Part 3: Alignment and coverage</h2>
+<p>Here is where working on a non-model organism becomes visible in the numbers.</p>
+<section id="mapping-rate-and-reference-bias" class="level3">
+<h3 class="anchored" data-anchor-id="mapping-rate-and-reference-bias">Mapping rate and reference bias</h3>
+<p>Our reference genome was assembled from one isolate. Every other isolate differs from it, and the more an individual differs, the harder its reads are to map. For human data a mapping rate above 95% is routine, because the reference is a well-polished consensus of the species. Do not expect that here, and do not treat a lower number as failure.</p>
+<p>What matters is the comparison across samples. A sample with a markedly lower mapping rate than the rest is telling you something: it may be more divergent, it may be contaminated, or it may not be the species you think it is.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Reference bias
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reads carrying the reference allele map slightly more easily than reads carrying an alternative allele, because they match the reference better. The effect is small per read and systematic across the dataset, and it pushes estimated allele frequencies toward the reference.</p>
+<p>That matters for us specifically, because almost everything we do this week is built on allele frequencies: Tajima’s D, Fst, the site frequency spectrum, the PCA. A bias of this kind does not produce an error or an obviously wrong plot. It produces a slightly wrong answer that looks entirely reasonable.</p>
+<p>It also does not fall equally on all samples. Isolates closely related to whichever individual the reference came from are affected less than distant ones — so a bias in mapping can masquerade as a signal of population structure. Hold on to this one; it is worth raising again on Thursday when the structure plots appear.</p>
+</div>
+</div>
+</section>
+<section id="coverage" class="level3">
+<h3 class="anchored" data-anchor-id="coverage">Coverage</h3>
+<p>Mosdepth reports how deeply each part of the genome was sequenced:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/reports/mosdepth/</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> results/reports/mosdepth/<span class="op">&lt;</span>sample<span class="op">&gt;</span>/<span class="pp">*</span>.mosdepth.summary.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Three things to look at:</p>
+<ul>
+<li><strong>Mean and median depth per sample.</strong> These should be broadly similar across samples. If one isolate has half the depth of the others, its genotypes are less certain, and it will have more missing data after filtering.</li>
+<li><strong>The cumulative coverage distribution</strong>, in MultiQC. It answers the question you actually care about: what fraction of the genome is covered at at least <em>N</em>× in this sample?</li>
+<li><strong>Coverage per contig.</strong> This one is interesting in a fungus. Expect the mitochondrial contig to be covered far more deeply than the nuclear genome — there are many copies per cell. Expect collapsed repeats to show up as unusually deep. And watch for whole scaffolds with conspicuously high or low coverage across some isolates but not others: many fungi carry accessory chromosomes that are present in some individuals and absent in others, and that is a real biological result rather than a QC problem.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>How much coverage is enough?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>There is no single number, because it depends on what you are asking.</p>
+<p>Calling a genotype confidently at one site in one individual needs enough reads to rule out sampling error. At 5× coverage of a haploid genome, seeing five identical bases is reasonable evidence; at 2× it is not much evidence at all, and a single sequencing error is indistinguishable from a real variant.</p>
+<p>But many population-genetic statistics are computed across thousands of sites and many individuals, and they tolerate uncertainty at any single site better than you might expect. This is why low-coverage sequencing of many individuals is often a better use of a budget than high-coverage sequencing of a few — you learn more about a population from 50 individuals at 5× than from 5 individuals at 50×.</p>
+<p>What is <em>not</em> acceptable is coverage that varies systematically with something you intend to compare. If the Finnish isolates were sequenced more deeply than the Swedish ones, then any difference you find between Finland and Sweden has an alternative explanation that has nothing to do with biology. Check this now, before you do the comparison.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="part-4-the-vcf" class="level2">
+<h2 class="anchored" data-anchor-id="part-4-the-vcf">Part 4: The VCF</h2>
+<p>Everything above was about whether to trust the data. Now we look at the data itself.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/variant_calling/haplotypecaller/joint_variant_calling/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You may find two VCFs here: <code>joint_germline.vcf.gz</code> and <code>joint_germline_recalibrated.vcf.gz</code>. The second has had GATK’s variant quality score recalibration (VQSR) applied, which is a machine-learning filter trained on curated sets of known true variants.</p>
+<p>Those training sets exist for humans. They do not exist for our fungus. Use the unrecalibrated <code>joint_germline.vcf.gz</code>, and filter it ourselves on explicit, defensible thresholds this afternoon — which is what we would have to do anyway for any non-model organism.</p>
+</div>
+</div>
+<section id="looking-at-a-vcf-without-regretting-it" class="level3">
+<h3 class="anchored" data-anchor-id="looking-at-a-vcf-without-regretting-it">Looking at a VCF without regretting it</h3>
+<p>A VCF is a plain text file, usually compressed with bgzip. It is also potentially enormous. Do not open one in a text editor, and never in Excel.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">VCF</span><span class="op">=</span>results/variant_calling/haplotypecaller/joint_variant_calling/joint_germline.vcf.gz</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-h</span> <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span>     <span class="co"># the header only</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-3</span>     <span class="co"># the first few records, no header</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-l</span> <span class="va">$VCF</span>              <span class="co"># the sample names</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>       <span class="co"># how many records</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>less -S</code> stops lines from wrapping, which makes a wide file readable: use the arrow keys to scroll sideways, and <code>q</code> to quit. Piping to <code>head</code> is safe even on a huge file — the pipe closes and <code>bcftools</code> stops.</p>
+</div>
+</div>
+</section>
+<section id="anatomy-of-a-vcf" class="level3">
+<h3 class="anchored" data-anchor-id="anatomy-of-a-vcf">Anatomy of a VCF</h3>
+<p>Every VCF has two parts: header lines beginning with <code>##</code>, then one line per variant site. Here is a small, complete example:</p>
+<pre class="text"><code>##fileformat=VCFv4.2
+##FILTER=&lt;ID=PASS,Description="All filters passed"&gt;
+##contig=&lt;ID=scaffold_1,length=250000&gt;
+##INFO=&lt;ID=DP,Number=1,Type=Integer,Description="Approximate read depth"&gt;
+##INFO=&lt;ID=AF,Number=A,Type=Float,Description="Allele Frequency"&gt;
+##INFO=&lt;ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes"&gt;
+##INFO=&lt;ID=AN,Number=1,Type=Integer,Description="Total number of alleles"&gt;
+##INFO=&lt;ID=MQ,Number=1,Type=Float,Description="RMS Mapping Quality"&gt;
+##FORMAT=&lt;ID=GT,Number=1,Type=String,Description="Genotype"&gt;
+##FORMAT=&lt;ID=AD,Number=R,Type=Integer,Description="Allelic depths"&gt;
+##FORMAT=&lt;ID=DP,Number=1,Type=Integer,Description="Read depth"&gt;
+##FORMAT=&lt;ID=GQ,Number=1,Type=Integer,Description="Genotype Quality"&gt;
+##FORMAT=&lt;ID=PL,Number=G,Type=Integer,Description="Phred-scaled likelihoods"&gt;
+#CHROM  POS ID  REF ALT QUAL    FILTER  INFO    FORMAT  Bil_01  Bil_02  Her_03
+scaffold_1  1420    .   A   G   982.4   PASS    DP=71;AF=0.333;AC=2;AN=6;MQ=60.00   GT:AD:DP:GQ:PL  0/0:24,0:24:72:0,72,1080    1/1:0,19:19:57:855,57,0 0/0:28,0:28:84:0,84,1260
+scaffold_1  1655    .   C   T   45.2    PASS    DP=19;AF=0.167;AC=1;AN=6;MQ=41.00   GT:AD:DP:GQ:PL  0/1:5,4:9:38:38,0,112   0/0:6,0:6:18:0,18,270   ./.:0,0:0:.:.
+scaffold_1  2310    .   G   GAT 721.9   PASS    DP=66;AF=0.500;AC=3;AN=6;MQ=59.00   GT:AD:DP:GQ:PL  1/1:0,22:22:66:990,66,0 0/0:21,0:21:63:0,63,945 1/1:0,23:23:69:1035,69,0</code></pre>
+<p>The header is not decoration. It is the file’s own documentation: every <code>INFO</code> and <code>FORMAT</code> field used in the records below is defined there, with its type and a description. When you meet an unfamiliar field — and you will — the definition is in the header of the file in front of you.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-h</span> <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"^##INFO"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The last header line, the one with a single <code>#</code>, is the column header for everything that follows.</p>
+</section>
+<section id="the-columns" class="level3">
+<h3 class="anchored" data-anchor-id="the-columns">The columns</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Column</th>
+<th>What it holds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>CHROM</code></td>
+<td>Chromosome or scaffold name</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>POS</code></td>
+<td>Position, 1-based, of the first base of <code>REF</code></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>ID</code></td>
+<td>Variant identifier, e.g.&nbsp;an rs number. <code>.</code> when there is none, which for us is always</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>REF</code></td>
+<td>The reference allele</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>ALT</code></td>
+<td>The alternative allele(s), comma-separated if more than one</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><code>QUAL</code></td>
+<td>Phred-scaled confidence that there is a variant here at all</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><code>FILTER</code></td>
+<td><code>PASS</code>, or the names of the filters this site failed</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td><code>INFO</code></td>
+<td>Semicolon-separated annotations describing the <strong>site</strong></td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td><code>FORMAT</code></td>
+<td>Which per-sample fields follow, and in what order</td>
+</tr>
+<tr class="even">
+<td>10+</td>
+<td>one per sample</td>
+<td>The per-sample values, colon-separated, in <code>FORMAT</code> order</td>
+</tr>
+</tbody>
+</table>
+<p>Columns 1–8 describe the site. Column 9 onwards describe the individuals. That division is the whole structure of the format, and it is worth saying out loud: everything from column 10 to the end is one individual’s data.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>SNPs, indels and positions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Look at the third record in the example. <code>REF</code> is <code>G</code> and <code>ALT</code> is <code>GAT</code>, which is an insertion of two bases after position 2310 — not a substitution.</p>
+<p>This is why <code>POS</code> alone does not tell you how long a variant is, and why <code>--remove-indels</code> is one of the first things we do this afternoon. Most population-genetic statistics are defined for single nucleotide polymorphisms, and indels in a short-read alignment are considerably less reliable than substitutions.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="info-fields-that-describe-the-site" class="level3">
+<h3 class="anchored" data-anchor-id="info-fields-that-describe-the-site">INFO: fields that describe the site</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Meaning</th>
+<th>Why you care</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>DP</code></td>
+<td>Total read depth at the site, summed over samples</td>
+<td>Very low depth means little evidence; very high depth often means a collapsed repeat</td>
+</tr>
+<tr class="even">
+<td><code>AF</code></td>
+<td>Allele frequency of the alternative allele</td>
+<td>The quantity most of this week is built on</td>
+</tr>
+<tr class="odd">
+<td><code>AC</code> / <code>AN</code></td>
+<td>Allele count and total alleles called</td>
+<td><code>AC/AN</code> is the frequency computed from actual calls</td>
+</tr>
+<tr class="even">
+<td><code>MQ</code></td>
+<td>Root-mean-square mapping quality of the reads</td>
+<td>Low <code>MQ</code> means the reads here could have come from somewhere else</td>
+</tr>
+<tr class="odd">
+<td><code>QD</code></td>
+<td>Quality normalised by depth</td>
+<td>Depth-independent confidence, better for filtering than raw <code>QUAL</code></td>
+</tr>
+<tr class="even">
+<td><code>FS</code>, <code>SOR</code></td>
+<td>Strand bias measures</td>
+<td>A real variant should appear on both strands</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Extremely high <code>DP</code> is as suspicious as low <code>DP</code>. A site with five times the average depth is usually a region where two or more similar copies of a sequence have collapsed into one in the assembly, so reads from several places pile onto one location. These sites produce beautiful, confident, false variants, and they are a particular hazard in fungal genomes, which are full of repeat families and duplicated gene clusters.</p>
+<p>This is why we will set an upper depth bound this afternoon, not just a lower one.</p>
+</div>
+</div>
+</section>
+<section id="format-fields-that-describe-each-individual" class="level3">
+<h3 class="anchored" data-anchor-id="format-fields-that-describe-each-individual">FORMAT: fields that describe each individual</h3>
+<p><code>FORMAT</code> says <code>GT:AD:DP:GQ:PL</code>, so in each sample column the colon-separated values are in that order.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>GT</code></td>
+<td>Genotype</td>
+</tr>
+<tr class="even">
+<td><code>AD</code></td>
+<td>Reads supporting each allele, reference first</td>
+</tr>
+<tr class="odd">
+<td><code>DP</code></td>
+<td>Read depth for this individual at this site</td>
+</tr>
+<tr class="even">
+<td><code>GQ</code></td>
+<td>Phred-scaled confidence in this genotype call</td>
+</tr>
+<tr class="odd">
+<td><code>PL</code></td>
+<td>Phred-scaled likelihoods of each possible genotype, smallest is the call</td>
+</tr>
+</tbody>
+</table>
+<p>The genotype encoding uses indices into <code>REF</code> and <code>ALT</code>: <code>0</code> is the reference allele, <code>1</code> is the first alternative, <code>2</code> the second, and so on.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><code>GT</code></th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>0/0</code></td>
+<td>Homozygous reference</td>
+</tr>
+<tr class="even">
+<td><code>0/1</code></td>
+<td>Heterozygous</td>
+</tr>
+<tr class="odd">
+<td><code>1/1</code></td>
+<td>Homozygous alternative</td>
+</tr>
+<tr class="even">
+<td><code>./.</code></td>
+<td>Missing — no call could be made</td>
+</tr>
+<tr class="odd">
+<td><code>0</code> or <code>1</code></td>
+<td>A haploid call, with a single allele</td>
+</tr>
+<tr class="even">
+<td><code>0\|1</code></td>
+<td>Phased, with a known parental origin. We will not see these</td>
+</tr>
+</tbody>
+</table>
+<p>Take the second record and read <code>0/1:5,4:9:38:38,0,112</code> out loud: heterozygous, 5 reads supporting the reference and 4 the alternative, 9 reads in total, genotype quality 38, and the likelihoods say the heterozygous call is best — but only modestly better than homozygous reference. Compare it with the first record’s <code>0/0:24,0:24:72:0,72,1080</code>, where 24 of 24 reads agree. Both are calls. They are not equally trustworthy, and nothing but the numbers tells you so.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Heterozygous calls in a haploid organism
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Our fungus is haploid for most of its life cycle, so in principle <code>0/1</code> should not exist in this dataset. The caller used a diploid model because that is its default, so it will happily report heterozygotes anyway.</p>
+<p>When you see one, it is evidence of something, and the candidates are worth thinking through:</p>
+<ul>
+<li><strong>Collapsed repeats or paralogues</strong> — reads from two similar regions of the genome piled onto one location, so you are seeing a difference between two loci, not two alleles</li>
+<li><strong>Contamination</strong> — reads from a second organism, or a second isolate</li>
+<li><strong>Sequencing error</strong>, particularly at low depth</li>
+<li><strong>Genuine biology</strong> — a heterokaryon, or a sample that is not clonal</li>
+</ul>
+<p>The first is by far the most common, which is one more reason to be suspicious of sites with unusually high depth. The practical point: the fraction of heterozygous calls per sample is a useful QC metric in a haploid organism, and a sample with far more than its neighbours deserves a hard look.</p>
+</div>
+</div>
+</section>
+<section id="hands-on" class="level3">
+<h3 class="anchored" data-anchor-id="hands-on">Hands-on</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">VCF</span><span class="op">=</span>results/variant_calling/haplotypecaller/joint_variant_calling/joint_germline.vcf.gz</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># How many samples, and what are they called?</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-l</span> <span class="va">$VCF</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># How many variant records in total?</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># How many are SNPs, as opposed to indels?</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="at">-v</span> snps <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Pull out selected fields as a table</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">'%CHROM\t%POS\t%REF\t%ALT\t%QUAL\t%INFO/DP\n'</span> <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">head</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co"># The same, with each sample's genotype and depth</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">'%POS[\t%SAMPLE=%GT:%DP]\n'</span> <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">head</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Everything in one region</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="va">$VCF</span> scaffold_1:1-50000 <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f1,2,4,5,6</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co"># A summary of the whole file</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> stats <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Exercise: interrogate the VCF
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>How many variants are in the file, and how many samples?</li>
+<li>What fraction are indels rather than SNPs?</li>
+<li>What is the median <code>QUAL</code>? (Hint: <code>bcftools query</code>, then <code>sort -n</code>.)</li>
+<li>Find a site where at least one sample is <code>./.</code>. Why might the call be missing there?</li>
+<li>Find the site with the highest <code>INFO/DP</code> in the first 100 000 bases. Would you trust it?</li>
+<li>For one sample, count how many genotypes are heterozygous. Does that number look reasonable for a haploid organism?</li>
+<li>What does <code>bcftools stats</code> report for the transition/transversion ratio?</li>
+</ol>
+<p>Question 7 deserves a comment. Ts/Tv is a standard sanity check: transitions are chemically easier than transversions, so real variation shows an excess of transitions, while random sequencing errors do not. In humans the expected value is well established, around 2 for whole genomes. For our fungus nobody has told us what to expect — so use it as a <em>relative</em> measure. Compute it before and after filtering, and if filtering raises it, you removed proportionally more noise than signal.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="part-5-deciding-what-to-do-about-it" class="level2">
+<h2 class="anchored" data-anchor-id="part-5-deciding-what-to-do-about-it">Part 5: Deciding what to do about it</h2>
+<p>The point of the morning is the handover to this afternoon. Before we break, we decide together on the filtering thresholds everyone will apply.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Discussion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Which samples, if any, are we dropping, and on what grounds? What is our rule, stated so that someone else could apply it to the same data and reach the same decision?</li>
+<li>What minimum depth will we require for a genotype call? What maximum, and why is there a maximum at all?</li>
+<li>What minimum quality? Raw <code>QUAL</code>, or <code>QD</code>?</li>
+<li>How much missing data will we tolerate at a site before we discard the site? How much for an individual?</li>
+<li>We are about to use a haploid-aware VCFtools on a VCF whose genotypes were called under a diploid model. What exactly does that fix, and what does it not fix?</li>
+<li>Every filter removes real variants as well as artefacts. Which direction does each of our filters push the statistics we are about to calculate? A filter on minimum allele frequency, for instance, removes rare variants — and Tajima’s D is a statement about exactly those.</li>
+<li>If this were your project, what would the methods paragraph say? Write three sentences.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Write the agreed thresholds down before lunch, with the reason for each next to it. You will use them this afternoon, you will want them for your report, and in a real project you will want them in six months when a reviewer asks why the numbers are what they are.</p>
+</div>
+</div>
+</section>
+<section id="before-lunch" class="level2">
+<h2 class="anchored" data-anchor-id="before-lunch">Before lunch</h2>
+<ul class="task-list">
+<li><label><input type="checkbox">I have confirmed the pipeline finished and produced output for every sample</label></li>
+<li><label><input type="checkbox">I have read one FastQC report in full and can explain each red cross in it</label></li>
+<li><label><input type="checkbox">I can name the samples I would drop, and say why</label></li>
+<li><label><input type="checkbox">I know roughly what depth our samples were sequenced to</label></li>
+<li><label><input type="checkbox">I can point at a VCF record and read out the position, the alleles and one sample’s genotype</label></li>
+<li><label><input type="checkbox">My group has written down the filtering thresholds we will use</label></li>
+</ul>
+<p>This afternoon we apply those thresholds and start calculating: allele frequencies, Tajima’s D, Fst. Continue to <a href="./course_pop_stats.html">Population Statistics</a>.</p>
+</section>
+<section id="where-to-look-things-up" class="level2">
+<h2 class="anchored" data-anchor-id="where-to-look-things-up">Where to look things up</h2>
+<ul>
+<li><a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/">FastQC module documentation</a> — what each module measures, and why it flags what it flags</li>
+<li><a href="https://docs.seqera.io/multiqc">MultiQC documentation</a> — including how to use the toolbox</li>
+<li><a href="https://samtools.github.io/hts-specs/VCFv4.2.pdf">The VCF specification</a> — the authoritative definition. Terse, but short, and worth reading once</li>
+<li><a href="https://samtools.github.io/bcftools/bcftools.html">bcftools manual</a> — especially <code>view</code>, <code>query</code> and <code>stats</code></li>
+<li><a href="https://nf-co.re/sarek/3.11.0/output/">nf-core/sarek output documentation</a> — what every directory in <code>results/</code> contains</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/mc-er\.github\.io\/fungal_popgen\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

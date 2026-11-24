@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Session 2: Nextflow Sarek setup – Fungal Population Genomics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-fae47caf9e852e6e4b6ee8ceec8e0f71.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Fungal Population Genomics</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./02_nextflow_intro_setup_sarek.html">Session 2: Nextflow Sarek setup</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto" aria-label="Section">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Background knowledge</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_linux.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A Brief Introduction to Linux</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_nextflow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Nextflow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_nf-core.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nfcore introduction</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_pixi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Environment managers: Pixi</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_containers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Containers</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_ai.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Caution: AI in Bioinformatics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_ai_literacy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">AI Literacy and Implementation at VF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./background_quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Markdown and Quarto</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Practicals</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_bash_hpc2n_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 1: Introduction to Bash and HPC2N</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_nextflow_intro_setup_sarek.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Session 2: Nextflow Sarek setup</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_qc_nextflow-output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 3: Quality Control and the VCF Format</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_pop_stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 4: Population Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_pop_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 5: Population Structure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extra_genome_annotation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Genome Annotation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extra_solutions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Spoiler: Solutions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Discussion</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./discussion_exercises.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Discussion Guiding Questions</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#what-sarek-does" id="toc-what-sarek-does" class="nav-link" data-scroll-target="#what-sarek-does">What Sarek does</a></li>
+  <li><a href="#a-human-pipeline-on-a-non-model-organism" id="toc-a-human-pipeline-on-a-non-model-organism" class="nav-link" data-scroll-target="#a-human-pipeline-on-a-non-model-organism">A human pipeline on a non-model organism</a></li>
+  <li><a href="#before-you-start" id="toc-before-you-start" class="nav-link" data-scroll-target="#before-you-start">Before you start</a></li>
+  <li><a href="#step-1-nextflow-and-containers" id="toc-step-1-nextflow-and-containers" class="nav-link" data-scroll-target="#step-1-nextflow-and-containers">Step 1: Nextflow and containers</a></li>
+  <li><a href="#step-2-the-smoke-test" id="toc-step-2-the-smoke-test" class="nav-link" data-scroll-target="#step-2-the-smoke-test">Step 2: the smoke test</a></li>
+  <li><a href="#step-3-what-nextflow-leaves-behind" id="toc-step-3-what-nextflow-leaves-behind" class="nav-link" data-scroll-target="#step-3-what-nextflow-leaves-behind">Step 3: what Nextflow leaves behind</a></li>
+  <li><a href="#step-4-making-it-use-the-cluster" id="toc-step-4-making-it-use-the-cluster" class="nav-link" data-scroll-target="#step-4-making-it-use-the-cluster">Step 4: making it use the cluster</a></li>
+  <li><a href="#step-5-our-own-data" id="toc-step-5-our-own-data" class="nav-link" data-scroll-target="#step-5-our-own-data">Step 5: our own data</a>
+  <ul class="collapse">
+  <li><a href="#the-samplesheet" id="toc-the-samplesheet" class="nav-link" data-scroll-target="#the-samplesheet">The samplesheet</a></li>
+  <li><a href="#the-reference-genome" id="toc-the-reference-genome" class="nav-link" data-scroll-target="#the-reference-genome">The reference genome</a></li>
+  <li><a href="#putting-it-together" id="toc-putting-it-together" class="nav-link" data-scroll-target="#putting-it-together">Putting it together</a></li>
+  </ul></li>
+  <li><a href="#before-we-stop" id="toc-before-we-stop" class="nav-link" data-scroll-target="#before-we-stop">Before we stop</a></li>
+  <li><a href="#where-to-look-things-up" id="toc-where-to-look-things-up" class="nav-link" data-scroll-target="#where-to-look-things-up">Where to look things up</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./02_nextflow_intro_setup_sarek.html">Session 2: Nextflow Sarek setup</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Session 2: Nextflow Sarek setup</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This afternoon we set up <a href="https://nf-co.re/sarek/3.11.0/">nf-core/sarek</a> and get it running.</p>
+<p>We are deliberately not analysing anything today. Getting a pipeline to start — correct software, correct samplesheet, correct reference, correct cluster settings — is a real part of bioinformatics work, and it is where most of the time goes the first time you meet a new pipeline. Tomorrow morning we look at what came out of it.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Plan for the afternoon
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Get Nextflow and a container runtime working on Kebnekaise</li>
+<li>Run Sarek’s own test profile, to prove the machinery works before any of our data is involved</li>
+<li>Look at what Nextflow left behind, so that you can debug a failure on your own</li>
+<li>Configure Sarek to submit jobs to SLURM instead of running them where you launched it</li>
+<li>Point it at our data and leave it running</li>
+</ol>
+<p>Steps 1–3 are the ones that matter. If you get that far and understand what you did, the afternoon was a success.</p>
+</div>
+</div>
+<p>If the words Nextflow, nf-core, container and environment manager are new, the background pages on <a href="./course_nextflow.html">Nextflow</a>, <a href="./course_nf-core.html">nf-core</a>, <a href="./course_containers.html">Containers</a> and <a href="./course_pixi.html">Pixi</a> cover the concepts. This page is only about making it run.</p>
+</section>
+<section id="what-sarek-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-sarek-does">What Sarek does</h2>
+<p>Sarek is an nf-core pipeline for germline and somatic variant calling from short reads. In the configuration we care about it takes FASTQ files and a reference genome, and gives back aligned, duplicate-marked BAM or CRAM files and a VCF.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Tools</th>
+<th>What you get</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Preprocessing</td>
+<td>FastQC, bwa-mem / bwa-mem2</td>
+<td>Aligned reads, read QC</td>
+</tr>
+<tr class="even">
+<td>Duplicate marking</td>
+<td>GATK MarkDuplicates</td>
+<td>Deduplicated BAM/CRAM</td>
+</tr>
+<tr class="odd">
+<td>Recalibration</td>
+<td>GATK BaseRecalibrator</td>
+<td>Recalibrated base qualities — <em>we will switch this off</em></td>
+</tr>
+<tr class="even">
+<td>Variant calling</td>
+<td>HaplotypeCaller, FreeBayes, Strelka, …</td>
+<td>VCF</td>
+</tr>
+<tr class="odd">
+<td>Reporting</td>
+<td>MultiQC</td>
+<td>One HTML report over everything</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="a-human-pipeline-on-a-non-model-organism" class="level2">
+<h2 class="anchored" data-anchor-id="a-human-pipeline-on-a-non-model-organism">A human pipeline on a non-model organism</h2>
+<p>This is the part of the afternoon worth paying attention to, and it is the reason we are running Sarek rather than something simpler.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There is another pipeline in development that looks like a promising replacement to Sarek for non model/non human data. It lives here for now: https://github.com/NBISweden/biovat</p>
+</div>
+</div>
+<p>Sarek is excellent software, but it was written for human clinical genomics and it assumes the world that comes with that: a finished reference genome, decades of curated variant databases, a diploid organism, and a patient. Our fungus has none of these. Nothing here stops the pipeline from running, but each assumption has to be recognised and dealt with deliberately — and if you work on wild organisms, you will do this with every pipeline you ever pick up.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>What Sarek assumes</th>
+<th>Why that fails for us</th>
+<th>What we do about it</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>The reference is one of the standard human builds, shipped via iGenomes</td>
+<td>There is no iGenomes entry our species.</td>
+<td><code>--genome null --igenomes_ignore --fasta &lt;our reference&gt;</code></td>
+</tr>
+<tr class="even">
+<td>A curated set of known variant sites exists (dbSNP, Mills) for base quality recalibration</td>
+<td>No such set exists for our species. Recalibration would be trained on our own candidate variants, which is circular</td>
+<td><code>--skip_tools baserecalibrator</code></td>
+</tr>
+<tr class="odd">
+<td>The assembly is chromosome-level, and a sensible WGS intervals file exists</td>
+<td>Our assembly is scaffolds. Without a BED file Sarek derives intervals from the reference index, so a fragmented assembly produces a great many small intervals</td>
+<td>Group them with <code>--nucleotides_per_second</code>, or switch the scatter off with <code>--no_intervals</code></td>
+</tr>
+<tr class="even">
+<td>The organism is diploid</td>
+<td>What if our species is haploid?</td>
+<td>No ploidy parameter exists — see the note below</td>
+</tr>
+<tr class="odd">
+<td>Variants can be annotated against a species cache (VEP, snpEff)</td>
+<td>No cache exists for our species</td>
+<td>Skip annotation; later in the week we intersect regions of interest with the GFF3 by hand</td>
+</tr>
+<tr class="even">
+<td>Samples belong to <em>patients</em>, who have a <em>sex</em> and a tumour/normal <em>status</em></td>
+<td>Our species have none of these</td>
+<td>Map each isolate onto <code>patient</code> and <code>sample</code>, set <code>sex</code> to <code>NA</code> and <code>status</code> to <code>0</code></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Notice what the pattern is. Every one of these is a case where a default encodes an assumption, and where accepting the default silently would produce output that looks perfectly normal — plausible file sizes, no error messages — but is not meaningful. Base quality recalibration against your own candidate variants does not crash. It just quietly makes your data worse.</p>
+<p>This is the central skill of the course: knowing what a tool assumes, and checking whether your organism satisfies it.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Ploidy, specifically
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The germline callers in Sarek assume a diploid genome, and Sarek does not expose a ploidy parameter for them. The VCF we get will therefore carry diploid genotype calls for a haploid organism — mostly homozygous, since there is only one allele present, with heterozygous calls appearing where reads disagree.</p>
+<p>This matters more than it looks. Several summary statistics we calculate on Wednesday are derived from genotype counts, and they are simply wrong if the genotypes claim two alleles where the organism has one. It is why the VCFtools build we use later in the week is a <a href="https://github.com/jydu/vcftools">haploid-aware version</a>.</p>
+<p>Keep this in mind when we look at the output tomorrow: it is a real limitation of using this pipeline for this organism, and it is a fair thing to raise in the discussion.</p>
+</div>
+</div>
+</section>
+<section id="before-you-start" class="level2">
+<h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
+<p>From this morning you should have:</p>
+<ul>
+<li>A working login to Kebnekaise</li>
+<li>Your project ID</li>
+<li>A directory of your own in the course project storage under <code>/proj/nobackup/fungal_popgen_course/</code></li>
+</ul>
+<p>Work in the project storage, not in your home directory. Nextflow writes an intermediate <code>work/</code> directory that grows quickly — tens of gigabytes is normal — and a home quota will stop the run dead.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /proj/nobackup/fungal_popgen_course/analysis/<span class="op">&lt;</span>group-name<span class="op">&gt;</span>/<span class="op">&lt;</span>your-name<span class="op">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> sarek_run <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> sarek_run</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Set two environment variables before you launch anything. The first keeps the Nextflow Java process from claiming too much memory on the login node; the second makes containers be downloaded once into a shared cache instead of once per run.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_OPTS</span><span class="op">=</span><span class="st">'-Xms1g -Xmx4g'</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_SINGULARITY_CACHEDIR</span><span class="op">=</span>/proj/nobackup/fungal_popgen_course/analysis/<span class="op">&lt;</span>group-name<span class="op">&gt;</span>/<span class="op">&lt;</span>your-name<span class="op">&gt;</span>/singularity_cache</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Put both lines in your <code>~/.bashrc</code> so you do not have to remember them. If you forget the cache variable, every run re-downloads several gigabytes of container images, which is slow for you and unkind to everybody else on the system.</p>
+</div>
+</div>
+</section>
+<section id="step-1-nextflow-and-containers" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-nextflow-and-containers">Step 1: Nextflow and containers</h2>
+<p>Find and load Nextflow:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> spider Nextflow</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load Nextflow/<span class="op">&lt;</span>version<span class="op">&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> <span class="at">-version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Sarek runs each tool inside a container, so you also need a container runtime. On an HPC system that is Singularity or Apptainer, never Docker — Docker needs root privileges, which no shared cluster will give you.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> spider Singularity</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If Singularity is available without loading a module, that is normal on many systems. The check is simply that <code>singularity --version</code> answers.</p>
+</div>
+</div>
+</section>
+<section id="step-2-the-smoke-test" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-the-smoke-test">Step 2: the smoke test</h2>
+<p>Before involving our data, run the test profile that ships with the pipeline. It downloads a tiny dataset and runs the whole workflow on it. If this works, Nextflow, the containers and the filesystem are all fine, and any later failure is about <em>our</em> configuration rather than the machinery.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.11.0 <span class="at">-profile</span> test,singularity <span class="at">--outdir</span> test_results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The first time, this also downloads the pipeline itself and its containers, so it will spend several minutes apparently doing nothing. Then you should see a process list that fills in as work completes:</p>
+<pre><code>[85/6b7739] NFCORE_SAREK:SAREK:PREPARE_GENOME:BWAMEM1_INDEX (genome.fasta) [100%] 1 of 1 ✔
+[22/cf54a8] NFCORE_SAREK:SAREK:PREPARE_GENOME:GATK4_CREATESEQUENCEDICTIONARY [100%] 1 of 1 ✔
+...</code></pre>
+<p>Read that line. <code>[85/6b7739]</code> is the start of the hash of the directory where the task ran — you will need it in a moment. The name tells you which workflow, subworkflow and process it belongs to. <code>1 of 1 ✔</code> is how many tasks of that process have finished.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With default parameters the test profile runs preprocessing and calls variants with Strelka. It is small, but it is not instant. While it runs, carry on with Step 3 in a second terminal rather than watching the progress bar.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>If the test fails
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Work through this in order — it is almost always one of these:</p>
+<ol type="1">
+<li><code>nextflow: command not found</code> — the module is not loaded in this shell.</li>
+<li>Java heap errors — <code>NXF_OPTS</code> is not set.</li>
+<li>Container pull errors or “no space left on device” — the cache variable is not set, or your quota is full. Check where you are with <code>pwd</code>; you should not be in <code>/home</code>.</li>
+<li>Jobs fail immediately with a permission error — you are probably trying to use Docker. Use <code>-profile test,singularity</code>.</li>
+</ol>
+<p>If none of these is it, read Step 3 and then ask us.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-what-nextflow-leaves-behind" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-what-nextflow-leaves-behind">Step 3: what Nextflow leaves behind</h2>
+<p>This is the part of the session with the longest shelf life. Every Nextflow pipeline you ever run will fail at some point, and the debugging procedure is always the same.</p>
+<p>Each task runs in its own directory under <code>work/</code>, named by that hash you saw in the console. Go into one:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> work/85/6b7739<span class="pp">*</span>     <span class="co"># tab-completion is your friend here</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-a</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You will find:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.command.sh</code></td>
+<td>The actual command that was run. Human-readable. Start here.</td>
+</tr>
+<tr class="even">
+<td><code>.command.log</code></td>
+<td>Everything the tool printed</td>
+</tr>
+<tr class="odd">
+<td><code>.command.err</code></td>
+<td>Standard error — the error message lives here</td>
+</tr>
+<tr class="even">
+<td><code>.command.run</code></td>
+<td>The wrapper Nextflow built, including the container and SLURM settings</td>
+</tr>
+<tr class="odd">
+<td><code>.exitcode</code></td>
+<td>The exit status. <code>0</code> means success.</td>
+</tr>
+</tbody>
+</table>
+<p>The method for any failed process: Nextflow prints the work directory of the failure, you <code>cd</code> into it, read <code>.command.err</code>, and if that is not enough, run <code>bash .command.sh</code> by hand and watch it break. There is no magic in a pipeline — it is a shell command in a directory.</p>
+<p>After the run, look at the reports Nextflow wrote:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> test_results/pipeline_info/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The execution report tells you how long each process took and how much memory it actually used, which is how you make sensible resource requests for the real run.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If a run stops and you fix the problem, relaunch with <code>-resume</code> (one hyphen):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.11.0 <span class="at">-profile</span> test,singularity <span class="at">--outdir</span> test_results <span class="at">-resume</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Nextflow then reuses every task whose inputs have not changed and continues from the failure. Without <code>-resume</code> you start from the beginning, which on real data can cost you a day. Note that it matches on file <em>content</em>, not just filenames, and that it only works if you relaunch from the same directory, with the same <code>work/</code>.</p>
+</div>
+</div>
+</section>
+<section id="step-4-making-it-use-the-cluster" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-making-it-use-the-cluster">Step 4: making it use the cluster</h2>
+<p>So far every task has run wherever you launched Nextflow. That is fine for a test dataset and completely wrong for real data — it would mean running an alignment on the login node.</p>
+<p>What we want is for Nextflow itself to be a small, patient process that submits each task to SLURM as its own job. That takes a config file. Create <code>hpc2n.config</code> next to your run directory:</p>
+<pre class="nextflow"><code>params {
+    project = 'hpc2nXXXX-YYY'
+}
+
+process {
+    executor       = 'slurm'
+    clusterOptions = "-A ${params.project}"
+    resourceLimits = [ cpus: 28, memory: 128.GB, time: 24.h ]
+}
+
+singularity {
+    enabled    = true
+    autoMounts = true
+}</code></pre>
+<p>and add it with <code>-c</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.11.0 <span class="dt">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-profile</span> singularity <span class="dt">\</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-c</span> hpc2n.config <span class="dt">\</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--input</span> samplesheet.csv <span class="dt">\</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--outdir</span> results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>-c</code> is for infrastructure only — executor, resources, container settings. Do not put pipeline parameters (<code>--input</code>, <code>--outdir</code>, <code>--tools</code>) in a <code>-c</code> config file; nf-core pipelines will either ignore them or fail in a confusing way. Parameters go on the command line or in a <code>-params-file</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why not an institutional profile?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>nf-core maintains ready-made configurations for many clusters, loaded with <code>-profile &lt;institution&gt;</code>. There is a <code>naiss</code> profile, but at the time of writing it only configures Arrhenius specifically, so we write our own small config for Kebnekaise instead.</p>
+<p>The <code>resourceLimits</code> values above are a starting point, not a measurement. Check them against the node sizes in HPC2N’s documentation, and against what the execution report says your processes actually used.</p>
+</div>
+</div>
+</div>
+<p>Nextflow has to keep running for as long as the pipeline does, which can be many hours. Two ways to survive losing your connection:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: a tmux session on the login node, detach with Ctrl-b d</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">tmux</span> new <span class="at">-s</span> sarek</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2: let Nextflow detach itself and write to a log</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek ... <span class="at">-bg</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Nextflow process itself uses very little CPU — it waits for SLURM — so running it on a login node inside <code>tmux</code> is accepted practice. It is the <em>tasks</em> that must go to compute nodes, and the config above is what sends them there.</p>
+</div>
+</div>
+</section>
+<section id="step-5-our-own-data" class="level2">
+<h2 class="anchored" data-anchor-id="step-5-our-own-data">Step 5: our own data</h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The raw data for the course is not finalised yet, so the paths below are placeholders. The structure is what you should learn; the exact files will be given to you in the room.</p>
+</div>
+</div>
+<section id="the-samplesheet" class="level3">
+<h3 class="anchored" data-anchor-id="the-samplesheet">The samplesheet</h3>
+<p>Sarek takes a CSV with one row per sample and lane:</p>
+<pre class="csv"><code>patient,sex,status,sample,lane,fastq_1,fastq_2
+Bil_01,NA,0,Bil_01,L001,/proj/.../Bil_01_R1.fastq.gz,/proj/.../Bil_01_R2.fastq.gz
+Bil_02,NA,0,Bil_02,L001,/proj/.../Bil_02_R1.fastq.gz,/proj/.../Bil_02_R2.fastq.gz
+Bnp_11,NA,0,Bnp_11,L001,/proj/.../Bnp_11_R1.fastq.gz,/proj/.../Bnp_11_R2.fastq.gz</code></pre>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>What we put in it</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>patient</code></td>
+<td>Our isolate name. Sarek groups samples by patient; for us each isolate is its own “patient”.</td>
+</tr>
+<tr class="even">
+<td><code>sex</code></td>
+<td><code>NA</code>. Only used for copy-number analysis in tumour/normal pairs.</td>
+</tr>
+<tr class="odd">
+<td><code>status</code></td>
+<td><code>0</code>, meaning normal. There are no tumours in a fungus.</td>
+</tr>
+<tr class="even">
+<td><code>sample</code></td>
+<td>The isolate name again</td>
+</tr>
+<tr class="odd">
+<td><code>lane</code></td>
+<td>A lane identifier. Rows for the same <code>sample</code> with different <code>lane</code> values are merged.</td>
+</tr>
+<tr class="even">
+<td><code>fastq_1</code>, <code>fastq_2</code></td>
+<td>Absolute paths to the gzipped read files</td>
+</tr>
+</tbody>
+</table>
+<p>Use absolute paths, and keep the isolate naming convention from the dataset — the population prefix in the name is what we will group on later in the week.</p>
+</section>
+<section id="the-reference-genome" class="level3">
+<h3 class="anchored" data-anchor-id="the-reference-genome">The reference genome</h3>
+<p>Sarek defaults to human reference bundles. For our organism we switch that off entirely and give it a FASTA:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--genome</span> null <span class="at">--igenomes_ignore</span> <span class="at">--fasta</span> /proj/.../reference.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The FASTA is the only reference file that is required; Sarek builds the index, the <code>.fai</code> and the sequence dictionary itself.</p>
+</section>
+<section id="putting-it-together" class="level3">
+<h3 class="anchored" data-anchor-id="putting-it-together">Putting it together</h3>
+<p>Rather than a very long command line, write a parameter file, <code>params.yaml</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">input</span><span class="kw">:</span><span class="at"> </span><span class="st">'/proj/nobackup/&lt;course-project&gt;/&lt;your-folder&gt;/samplesheet.csv'</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">outdir</span><span class="kw">:</span><span class="at"> </span><span class="st">'/proj/nobackup/&lt;course-project&gt;/&lt;your-folder&gt;/results'</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">genome</span><span class="kw">:</span><span class="at"> </span><span class="ch">null</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">igenomes_ignore</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">fasta</span><span class="kw">:</span><span class="at"> </span><span class="st">'/proj/nobackup/&lt;course-project&gt;/&lt;your-folder&gt;/reference/reference.fasta'</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tools</span><span class="kw">:</span><span class="at"> </span><span class="st">'haplotypecaller'</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">joint_germline</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">skip_tools</span><span class="kw">:</span><span class="at"> </span><span class="st">'baserecalibrator'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>and launch:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.11.0 <span class="dt">\</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-profile</span> singularity <span class="dt">\</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-c</span> hpc2n.config <span class="dt">\</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-params-file</span> params.yaml <span class="dt">\</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-resume</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why those last three parameters
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>tools: 'haplotypecaller'</code> — GATK HaplotypeCaller is the general-purpose germline caller. Strelka, the default in the test profile, is tuned for human data.</li>
+<li><code>joint_germline: true</code> — calls all samples together and gives one multi-sample VCF instead of one VCF per isolate. We need a multi-sample VCF for everything we do on Wednesday and Thursday: allele frequencies, Fst and population structure are all comparisons <em>between</em> individuals.</li>
+<li><code>skip_tools: 'baserecalibrator'</code> — base quality score recalibration needs a trusted set of known variants to tell real variation from sequencing error. For human data that is dbSNP. For our fungus no such set exists, so recalibration would be trained on our own candidate variants, which is circular. Switch it off.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each of these is one row of the table in <a href="#a-human-pipeline-on-a-non-model-organism">A human pipeline on a non-model organism</a>. When you write the parameter file, be able to say out loud why each line is there. A parameter you copied without understanding is a result you cannot defend.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="before-we-stop" class="level2">
+<h2 class="anchored" data-anchor-id="before-we-stop">Before we stop</h2>
+<ul class="task-list">
+<li><label><input type="checkbox">The test profile ran to completion</label></li>
+<li><label><input type="checkbox">I have looked inside a <code>work/</code> directory and can say what <code>.command.sh</code> and <code>.exitcode</code> are</label></li>
+<li><label><input type="checkbox">I have an <code>hpc2n.config</code> with my project ID in it</label></li>
+<li><label><input type="checkbox">I have a samplesheet with absolute paths</label></li>
+<li><label><input type="checkbox">My real run is launched, in <code>tmux</code> or with <code>-bg</code>, and <code>squeue --me</code> shows jobs appearing</label></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Write down what you ran
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before you leave, note the pipeline version (<code>-r 3.11.0</code>), the exact command, and the Nextflow run name — the two random words it prints at startup, like <code>focused_darwin</code>. You can get it back later with <code>nextflow log</code>.</p>
+<p>This is the minimum you need to be able to say, in a methods section, what you actually did. The course dataset was chosen partly because the original authors did this well.</p>
+</div>
+</div>
+<p>Tomorrow at 9.00 we look at the output: the MultiQC report, the QC metrics for the raw reads and the alignments, and what they tell us about whether the variant calls can be trusted. After that we move on to <a href="./course_pop_stats.html">Population Statistics</a>.</p>
+</section>
+<section id="where-to-look-things-up" class="level2">
+<h2 class="anchored" data-anchor-id="where-to-look-things-up">Where to look things up</h2>
+<ul>
+<li><a href="https://nf-co.re/sarek/3.11.0/">nf-core/sarek 3.11.0 documentation</a> — usage, parameters and output, for exactly this version</li>
+<li><a href="https://nf-co.re/sarek/3.11.0/parameters/">nf-core/sarek parameters</a> — the full list, generated from the pipeline schema</li>
+<li><a href="https://www.nextflow.io/docs/latest/">Nextflow documentation</a> — the language and the runtime</li>
+<li><a href="https://nf-co.re/docs/usage/getting_started/introduction">nf-core: running pipelines</a> — general guidance that applies to any nf-core pipeline</li>
+<li><a href="https://nf-co.re/join/slack">nf-core Slack</a> — including a channel for HPC users in Sweden</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Troubleshooting quick reference
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symptom</th>
+<th>Usual cause</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>command not found: nextflow</code></td>
+<td>Module not loaded in this shell</td>
+</tr>
+<tr class="even">
+<td>Java heap space / huge memory use</td>
+<td><code>NXF_OPTS</code> not set</td>
+</tr>
+<tr class="odd">
+<td>Container download fails or disk fills</td>
+<td><code>NXF_SINGULARITY_CACHEDIR</code> not set, or you are running from <code>/home</code></td>
+</tr>
+<tr class="even">
+<td><code>Not a valid path value</code></td>
+<td>A path in the samplesheet is wrong, or relative instead of absolute</td>
+</tr>
+<tr class="odd">
+<td>Process killed, exit code 137</td>
+<td>Out of memory — raise the request for that process</td>
+</tr>
+<tr class="even">
+<td>Job exceeds time limit</td>
+<td><code>resourceLimits</code> or the per-process time is too low</td>
+</tr>
+<tr class="odd">
+<td><code>-resume</code> re-runs everything</td>
+<td>You launched from a different directory, or an input file changed</td>
+</tr>
+<tr class="even">
+<td>Everything runs on the login node</td>
+<td><code>-c hpc2n.config</code> was forgotten, so the executor is still <code>local</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/mc-er\.github\.io\/fungal_popgen\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

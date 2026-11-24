@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>nfcore introduction – Fungal Population Genomics</title>
+<title>Introduction to Pixi – Fungal Population Genomics</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -25,6 +25,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -46,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ce0f0d1e95892c391167071f7e5e54e4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fae47caf9e852e6e4b6ee8ceec8e0f71.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,7 +150,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./course_linux.html">Background knowledge</a></li><li class="breadcrumb-item"><a href="./course_nf-core.html">nfcore introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./background_linux.html">Background knowledge</a></li><li class="breadcrumb-item"><a href="./background_pixi.html">Environment managers: Pixi</a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -149,49 +184,49 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_linux.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_linux.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A Brief Introduction to Linux</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_nextflow.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_nextflow.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Nextflow</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_nf-core.html" class="sidebar-item-text sidebar-link active">
+  <a href="./background_nf-core.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">nfcore introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pixi.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_pixi.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Environment managers: Pixi</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_containers.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_containers.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Containers</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_ai.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_ai.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Caution: AI in Bioinformatics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_ai_literacy.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_ai_literacy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">AI Literacy and Implementation at VF</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_quarto.html" class="sidebar-item-text sidebar-link">
+  <a href="./background_quarto.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Markdown and Quarto</span></a>
   </div>
 </li>
@@ -205,38 +240,44 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_sarek.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Sarek Setup</span></a>
+  <a href="./01_bash_hpc2n_intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 1: Introduction to Bash and HPC2N</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pop_stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Population Statistics</span></a>
+  <a href="./02_nextflow_intro_setup_sarek.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 2: Nextflow Sarek setup</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_pop_structure.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Population Structure</span></a>
+  <a href="./03_qc_nextflow-output.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 3: Quality Control and the VCF Format</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_genome_annotation.html" class="sidebar-item-text sidebar-link">
+  <a href="./04_pop_stats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 4: Population Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_pop_structure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 5: Population Structure</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./extra_genome_annotation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Genome Annotation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_solutions.html" class="sidebar-item-text sidebar-link">
+  <a href="./extra_solutions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Spoiler: Solutions</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./course_genome_annotation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Genome Annotation</span></a>
   </div>
 </li>
       </ul>
@@ -249,7 +290,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./course_exercises.html" class="sidebar-item-text sidebar-link">
+  <a href="./discussion_exercises.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Discussion Guiding Questions</span></a>
   </div>
 </li>
@@ -265,17 +306,26 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-makes-nf-core-pipelines-interesting-for-you" id="toc-what-makes-nf-core-pipelines-interesting-for-you" class="nav-link active" data-scroll-target="#what-makes-nf-core-pipelines-interesting-for-you">What makes nf-core pipelines interesting for you?</a></li>
-  <li><a href="#finding-and-evaluating-a-pipeline" id="toc-finding-and-evaluating-a-pipeline" class="nav-link" data-scroll-target="#finding-and-evaluating-a-pipeline">Finding and evaluating a pipeline</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  </ul></li>
+  <li><a href="#setting-up-an-environment" id="toc-setting-up-an-environment" class="nav-link" data-scroll-target="#setting-up-an-environment">Setting Up An Environment</a>
+  <ul class="collapse">
+  <li><a href="#pixi.toml" id="toc-pixi.toml" class="nav-link" data-scroll-target="#pixi.toml">pixi.toml</a></li>
+  <li><a href="#pixi.lock" id="toc-pixi.lock" class="nav-link" data-scroll-target="#pixi.lock">pixi.lock</a></li>
+  </ul></li>
+  <li><a href="#adding-dependencies" id="toc-adding-dependencies" class="nav-link" data-scroll-target="#adding-dependencies">Adding Dependencies</a></li>
+  <li><a href="#running-a-package" id="toc-running-a-package" class="nav-link" data-scroll-target="#running-a-package">Running a Package</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./course_linux.html">Background knowledge</a></li><li class="breadcrumb-item"><a href="./course_nf-core.html">nfcore introduction</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./background_linux.html">Background knowledge</a></li><li class="breadcrumb-item"><a href="./background_pixi.html">Environment managers: Pixi</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">nfcore introduction</h1>
+<h1 class="title">Introduction to Pixi</h1>
 </div>
 
 
@@ -292,22 +342,77 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This page has been provided by <a href="https://github.com/amrei-bp">Amrei Binzer-Panchal</a>.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Different operating systems bring different challenges to bioinformatics. Windows, for instance, doesn’t really support most bioinformatics tools, or your computer might run a different version of a specific tool than mine. One way to solve this, and make research more reproducible, is through the use of environments. Bioinformatics environments specify the tools neded for the task at hand, and environment managers install these tools with all their dependencies. There are many different kinds of environment managers, and for this course we are going to use <a href="https://pixi.sh/latest/">Pixi</a>.</p>
+<p>There are, of course, other ways to solve tool access and compatibility issues, such as running virtual machines. In our experience, however, environments are a bit easier to manage and are more portable across different systems and users.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="figures/nf-core/nf-core_logo.png" class="class img-fluid figure-img" style="width:70.0%"></p>
-<figcaption>source: <a href="https://nf-co.re/">nf-core</a></figcaption>
+<p><img src="figures/pixi/pixi_home.png" class="img-fluid figure-img"></p>
+<figcaption>Pixi landing page</figcaption>
 </figure>
 </div>
-<p>Nf-core is a very active community around nextflow. Volunteers develop nextflow pipelines around a variety of bioinformatic data.</p>
-<p>Here are some flagship pipelines that have been developed by the nf-core community (we will have a look at the entire list on the nf-core homepage in a bit):</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/nf-core/nf-core_popular_pipelines.png" class="class img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>source: <a href="https://nf-co.re/">nf-core</a></figcaption>
-</figure>
+<p>As you can see, you can run Pixi on all major operating systems, and you can include various platforms in your Pixi environment.</p>
+<section id="installation" class="level3">
+<h3 class="anchored" data-anchor-id="installation">Installation</h3>
+<p>Installing Pixi is really easy and described thoroughly <a href="https://pixi.sh/latest/installation/">here</a> with separate installation guides for Windows and Mac/Linux.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p>All nf-core pipelines are open source and the source code is available on github. The pipelines are developed by volunteers, who can have a very varied background.</p>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>To source your shell, you need to source the startup files, in Linux it’s the <code>~/.bashrc</code> file, in Mac it’s the <code>~/.zshrc</code> file.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="setting-up-an-environment" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-an-environment">Setting Up An Environment</h2>
+<p>You should create separate environments for each project you run, just to keep things tidy. To create an environment, you have to specify a name for your environment. You can include different platforms/operating systems in your environment, for example if you want to develop your code on a Windows system, and later use the same code on many samples on a large Linux cluster. You can also include different vetted sources for your tools, the so called channels.</p>
+<p>Here, we will create a project called <code>name_sida_training</code> (please use your own name to avoid creating multiple environments with the same name). We are adding the <a href="https://conda-forge.org">conda-forge</a> and <a href="https://bioconda.github.io">bioconda</a> channels with the <code>-c</code> flag.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> init name_sida_training <span class="at">-c</span> conda-forge <span class="at">-c</span> bioconda</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Pixi will create a folder named <code>name_sida_training</code> with a a file <code>pixi.toml</code>. Let’s have a look at that file!</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Here is the code for changing directories, listing files, and viewing the contents of a file:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> name_sida_training</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> pixi.toml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To exit the <code>less</code> view, press <code>q</code> for quit.</p>
+</div>
+</div>
+</div>
+<section id="pixi.toml" class="level3">
+<h3 class="anchored" data-anchor-id="pixi.toml">pixi.toml</h3>
+<p>The .toml file give your information about your project. Let’s have a look at one I made one my Mac before adding any dependencies to my environment. How is it different from the one you’ve made on HPC2N?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[workspace]</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">channels</span> = [<span class="st">"conda-forge"</span>, <span class="st">"bioconda"</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">name</span> = <span class="st">"sida_quarto"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">platforms</span> = <span class="pp">[</span><span class="st">"osx-arm64"</span><span class="pp">]</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">version</span> = <span class="st">"0.1.0"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="ex">[tasks]</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="ex">[dependencies]</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -318,49 +423,94 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>While nf-core is fantastic, please be aware that their pipelines are developed and maintained (or not maintained) by the community. <strong>You should not use the pipelines as a black box</strong>, but as a tool you need to understand. The <strong>responsibility for the end results is still yours</strong>, so you need to see if your data is suited for the analysis (good enough quality?), and if the analysis is suitable for your data!</p>
+<p>Your current platform will be automatically detected and added to the environment. If you want to add different platforms, you add them with the <code>-p linux-64</code> flag. In this example, you are adding Linux64. See the Pixi docs for the full list of supported platforms.</p>
+<p>If you are adding a platform that doesn’t natively run on your OS (e.g.&nbsp;adding Linux when running on Windows) be sure to add the OS you are running your system on as well!</p>
 </div>
 </div>
-<p>However, nf-core does not only develop pipelines.</p>
-<p>The community also develops:</p>
-<ul>
-<li>processes that they make available as <code>modules</code> (and optimizes them too).</li>
-<li>training material for all user classes.</li>
-<li>best practices for documentation.</li>
-<li>templates for development.</li>
-</ul>
-<p>There is a weekly online helpdesk, and even a podcast.</p>
-<section id="what-makes-nf-core-pipelines-interesting-for-you" class="level3">
-<h3 class="anchored" data-anchor-id="what-makes-nf-core-pipelines-interesting-for-you">What makes nf-core pipelines interesting for you?</h3>
-<p>Nf-core provides already developed pipelines for many different data sets. Likely, a pipelines exists that you can use on your data. The <strong>documentation of the pipelines follows nf-core guidelines</strong> and is extensive and informative - it is easy to understand what the pipeline does and how it works. All <strong>output is explained in detail</strong>, with links to more extensive documentation.</p>
-<p>Once you have understood how to run a nf-core pipeline their <strong>consistency and standardization</strong> means you will know most about running a different one.</p>
-<p>Using the nf-core launcher, will <strong>check your input</strong>, and automatically <strong>generate commands and configuration</strong> files.</p>
-<p>And this is on top of all nextflow functionality such as portability, reproducibility and the resume-at-fault option!</p>
+<p>Once you have used the environment, or added a dependency/tool to it, you will find yet another file, called <code>pixi.lock</code>.</p>
 </section>
-<section id="finding-and-evaluating-a-pipeline" class="level2">
-<h2 class="anchored" data-anchor-id="finding-and-evaluating-a-pipeline">Finding and evaluating a pipeline</h2>
-<p>From the nf-core homepage, we can search for pipelines. We are going to demo the <a href="https://nf-co.re/rnaseq/3.20.0">rnaseq</a> pipeline. You can see that there is a lot going on in this pipeline! We will chat more about these things in class rather than including screenshots of everything.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/nf-core/rnaseq_landing_page.png" class="img-fluid figure-img"></p>
-<figcaption>rnaseq landing page</figcaption>
-</figure>
-</div>
-<p>Under the <code>Usage</code>, you will find a lot of information that describes the pipeline, including input information, the <code>samplesheet.csv</code> (which we will have to set up with our data later).</p>
-<p>Under the <code>Parameters</code> tab you will find information on all of the things that we will set up in the next step.</p>
-<p>Under the <code>Output</code> tab, you will find information on the expected output generated from the pipeline. This is useful to help you interpret what the pipeline produces.</p>
+<section id="pixi.lock" class="level3">
+<h3 class="anchored" data-anchor-id="pixi.lock">pixi.lock</h3>
+<p>The .lock file give you information on the channels you have decided to add, as well as the information on where the packages were downloaded from, license information, md5 information, and more.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>To do for you
+Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Look through the available pipelines and see if there is one that is interesting for you and your project.</p>
-<p>In the next part we will set up a nf-core pipeline with the test profile, so then you can test the pipeline that is most interesting for you.</p>
+<p>Do not delete the .toml or .lock files, or you will break your environment!</p>
+</div>
+</div>
+</section>
+</section>
+<section id="adding-dependencies" class="level2">
+<h2 class="anchored" data-anchor-id="adding-dependencies">Adding Dependencies</h2>
+<p>Adding dependencies to the .toml file is telling Pixi to install the specified program for you. However, instead of installing it globally, it only gets installed in the environment.</p>
+<p>To do this, we use the <code>pixi add</code> function. Let’s try adding <code>Quarto</code> to our environments (we will use Quarto extensively in this course!)</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You must be in the folder of the project to add software!</p>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> add quarto</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If you are unsure of how a function works, you can always query it, usually with the <code>--help</code> or <code>-h</code> flags. Here’s how it would look for the <code>pixi add</code> function</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> add <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A general rule of thumb is that a single hyphen <code>-</code> is followed by a single letter flag, while double hyphens <code>--</code> are usually followed by multi-letter flags</p>
+</div>
+</div>
+</div>
+<p>Here is the pixi.toml we’ve seen earlier after I have added Quarto to my environment. You can see that the dependencies have been updated to include <code>Quarto</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[workspace]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">channels</span> = [<span class="st">"conda-forge"</span>, <span class="st">"bioconda"</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">name</span> = <span class="st">"sida_quarto"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ex">platforms</span> = <span class="pp">[</span><span class="st">"osx-arm64"</span><span class="pp">]</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="ex">version</span> = <span class="st">"0.1.0"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="ex">[tasks]</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="ex">[dependencies]</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> = <span class="st">"&gt;=1.7.32,&lt;2"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="running-a-package" class="level2">
+<h2 class="anchored" data-anchor-id="running-a-package">Running a Package</h2>
+<p>Now that we have an environment with a tool installed, we actually want to use it. For this we use the <code>pixi run</code> function.</p>
+<p>Let’s query the help function within Quarto:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pixi</span> run quarto <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To use other tools, simply substitute <code>quarto</code> with the package you’ve added, and the tool specific commands.</p>
 </div>
 </div>
 
@@ -441,7 +591,7 @@ Note
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/lpotgieter\.github\.io\/fungal_popgen\/");
+        var filterRegex = new RegExp("https:\/\/mc-er\.github\.io\/fungal_popgen\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
