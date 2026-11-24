@@ -190,13 +190,13 @@ We will give you the exact path to the course project directory at the start of 
 To copy a file from your laptop to the cluster, run this *from your laptop*:
 
 ```bash
-scp results.csv <your-username>@kebnekaise.hpc2n.umu.se:/proj/nobackup/<course-project>/<your-folder>/
+scp results.csv <your-username>@kebnekaise.hpc2n.umu.se:/proj/nobackup/fungal_popgen_course/analysis/<group-name>/<your-name>/
 ```
 
 For directories, or anything you might need to re-copy, `rsync` is better, because it only transfers what has changed:
 
 ```bash
-rsync -avh my_results/ <your-username>@kebnekaise.hpc2n.umu.se:/proj/nobackup/<course-project>/<your-folder>/my_results/
+rsync -avh my_results/ <your-username>@kebnekaise.hpc2n.umu.se:/proj/nobackup/fungal_popgen_course/analysis/<group-name>/<your-name>/
 ```
 
 ### Finding and loading software
@@ -246,10 +246,14 @@ Open an editor on the cluster (`nano first_job.sh` is fine if you have no prefer
 #SBATCH -A hpc2nXXXX-YYY
 # A name for the job, so you can recognise it in the queue
 #SBATCH -J first_job
-# Number of cores
+#The number of nodes (--nodes)
+#SBATCH -N 1
+# The number of tasks (--ntasks)
 #SBATCH -n 1
-# Maximum run time, hh:mm:ss
-#SBATCH --time=00:05:00
+# The number of cores for each task, used for threads (--cpus-per-task)
+#SBATCH -c 1
+# Maximum run time, d-hh:mm:ss
+#SBATCH --time=1-00:00:00
 # Where to write standard output and standard error
 #SBATCH --output=first_job.%J.out
 #SBATCH --error=first_job.%J.err
