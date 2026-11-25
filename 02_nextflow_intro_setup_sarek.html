@@ -270,6 +270,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./extra_simulation_tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Extra: Simulation tools</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./extra_genome_annotation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Genome Annotation</span></a>
   </div>
@@ -353,7 +359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This afternoon we will set up <a href="https://nf-co.re/sarek/3.12.0/">nf-core/sarek</a> and get it running. That is the whole goal: by the time we stop at for the discussion session, the pipeline should be running on Kebnekaise and producing output which we will look at tomorrow.</p>
+<p>This afternoon we will set up <a href="https://nf-co.re/sarek/3.12.0/">nf-core/sarek</a> and get it running. That is the whole goal: by the time we stop for the discussion session, the pipeline should be running on Kebnekaise and producing output which we will look at tomorrow.</p>
 <p>We are deliberately not analysing anything today. Getting a pipeline to start — correct software, correct samplesheet, correct reference, correct cluster settings — is a real part of bioinformatics work, and it is where most of the time goes the first time you meet a new pipeline. Tomorrow morning we look at what came out of it.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -376,7 +382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>And don’t forget to ask questions if something does not behave the way you expect.</p>
 </div>
 </div>
-<p>If the words Nextflow, nf-core, container and environment manager are new, the background pages on <a href="./background_nextflow.html">Nextflow</a>, <a href="./background_nf-core.html">nf-core</a>, <a href="./background_containers.html">Containers</a> and <a href="./background_pixi.html">Pixi</a> cover the concepts. This page is only about making it run.</p>
+<p>I hope the words Nextflow, nf-core, container and environment manager not new and that you have already gone thought the background pages on <a href="./background_nextflow.html">Nextflow</a>, <a href="./background_nf-core.html">nf-core</a>, <a href="./background_containers.html">Containers</a> and <a href="./background_pixi.html">Pixi</a> which cover the concepts. This page is only about making it run.</p>
 </section>
 <section id="the-data" class="level2">
 <h2 class="anchored" data-anchor-id="the-data">The data</h2>
@@ -491,26 +497,23 @@ Note
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 <span class="screen-reader-only">Note</span>Sample names: a real-world detail worth noticing
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Look at the “original name” column. It contains <code>Pöytä1</code> and <code>Elimäki1</code>, which have non-ASCII characters, and <code>21161</code>, <code>21271</code> and <code>2-VR-1-111</code>, which begin with a digit.</p>
-<p>Both will cause you trouble. Non-ASCII characters in sample names break tools unpredictably and are miserable to type in a shell; identifiers starting with a digit are mangled by R, and some tools reject them outright. This is exactly the naming problem the <a href="./course_linux.html">Linux page</a> warns about, met in the wild.</p>
+<p>Both will cause you trouble. Non-ASCII characters in sample names break tools unpredictably and are miserable to type in a shell; identifiers starting with a digit are mangled by R, and some tools reject them outright. This is exactly the naming problem the <a href="./background_linux.html">Linux page</a> warns about, met in the wild.</p>
 <p>So in the samplesheet we use the <strong>BioSample accession</strong> as the sample identifier. It is stable, unique, ASCII, starts with a letter, and points at a public record anyone can look up. Keep the human-readable names in a separate metadata file, and attach them for plot labels later:</p>
 <pre class="csv"><code>sample,name,run
 SAMEA104151691,2-VR-1-111,ERR2026087
 SAMEA104151857,21161,ERR2026104
 SAMEA104151879,Elimaki1,ERR2026254
 SAMEA104151890,Poyta1,ERR2026265</code></pre>
-</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -584,21 +587,6 @@ SAMEA104151890,Poyta1,ERR2026265</code></pre>
 <p>Two further details matter, and both are about what a reference genome actually <em>is</em>.</p>
 <p>First, <code>dhBetPend1</code> is one individual tree, <a href="https://www.ebi.ac.uk/ena/browser/view/SAMEA14449811">collected in Surrey in the United Kingdom in 2022</a>. Our eleven resequenced trees are Finnish. The reference is therefore not a neutral backdrop: it is one tree from a different part of the species’ range, roughly two thousand kilometres from the samples we are mapping onto it. We return to what that does to the results tomorrow morning.</p>
 <p>Second, this is <code>hap1</code> of a haplotype-resolved pair — birch is diploid, the assembly separates the two haplotypes of the reference individual, and we use one of them. <code>hap2</code> exists as a separate accession. So the reference represents a single haplotype of a single tree from a single meadow in Surrey.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The reference must be the same assembly the reads were subset against, and the sequence names in your FASTA must match the ones the reads were aligned to when the subset was made. Check before you start:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"^&gt;"</span> reference.fasta <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>A reference whose sequence names do not match produces an empty or nonsensical result rather than a helpful error. The exact file and the names of the two chromosomes will be given to you in the room.</p>
-</div>
-</div>
 </section>
 </section>
 <section id="what-sarek-does" class="level2">
@@ -649,6 +637,19 @@ Important
 <section id="a-human-pipeline-on-a-non-model-organism" class="level2">
 <h2 class="anchored" data-anchor-id="a-human-pipeline-on-a-non-model-organism">A human pipeline on a non-model organism</h2>
 <p>This is the part of the afternoon worth paying attention to, and it is the reason we are running Sarek rather than something simpler.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There is another pipeline under development that looks like a promising alternative to nf-core Sarek for non-human and non-model species. It lives here: https://github.com/NBISweden/biovat</p>
+</div>
+</div>
 <p>Sarek is excellent software, but it was written for human clinical genomics and it assumes the world that comes with that: a finished reference genome, decades of curated variant databases, and a patient. A wild birch tree is none of those things. Nothing here stops the pipeline from running, but each assumption has to be recognised and dealt with deliberately — and if you work on wild organisms, you will do this with every pipeline you ever pick up.</p>
 <table class="caption-top table">
 <colgroup>
@@ -732,14 +733,40 @@ Important
 <ul>
 <li>A working login to Kebnekaise</li>
 <li>Your project ID</li>
-<li>A directory of your own in the course project storage under <code>/proj/nobackup/</code></li>
+<li>A directory of your own in the course project storage under <code>/proj/nobackup/&lt;course-project&gt;/analysis/&lt;group-name&gt;</code></li>
 </ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You will run this in your groups. There is no need to run it both of you since it produces the same result.</p>
+</div>
+</div>
 <p>Work in the project storage, not in your home directory. Nextflow writes an intermediate <code>work/</code> directory that grows quickly — tens of gigabytes is normal — and a home quota will stop the run dead.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /proj/nobackup/<span class="op">&lt;</span>course-project<span class="op">&gt;</span>/<span class="op">&lt;</span>your-folder<span class="op">&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> sarek_run <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> sarek_run</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Tomorrow when we have the output it is a good idea to remove the <code>work/</code> directory we will not need it’s content anymore and it is good practice to free up space.</p>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> proj/nobackup/<span class="op">&lt;</span>course-project<span class="op">&gt;</span>/analysis/<span class="op">&lt;</span>group-name<span class="op">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> sarek_run <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> sarek_run</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Set two environment variables before you launch anything. The first keeps the Nextflow Java process from claiming too much memory on the login node; the second makes containers be downloaded once into a shared cache instead of once per run.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_OPTS</span><span class="op">=</span><span class="st">'-Xms1g -Xmx4g'</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_SINGULARITY_CACHEDIR</span><span class="op">=</span>/proj/nobackup/<span class="op">&lt;</span>course-project<span class="op">&gt;</span>/singularity_cache</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_OPTS</span><span class="op">=</span><span class="st">'-Xms1g -Xmx4g'</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_SINGULARITY_CACHEDIR</span><span class="op">=</span>/proj/nobackup/<span class="op">&lt;</span>course-project<span class="op">&gt;</span>/singularity_cache</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -757,12 +784,12 @@ Tip
 <section id="step-1-nextflow-and-containers" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-nextflow-and-containers">Step 1: Nextflow and containers</h2>
 <p>Find and load Nextflow:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> spider Nextflow</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load Nextflow/<span class="op">&lt;</span>version<span class="op">&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> <span class="at">-version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> spider Nextflow</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load Nextflow/<span class="op">&lt;</span>version<span class="op">&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> <span class="at">-version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Sarek runs each tool inside a container, so you also need a container runtime. On an HPC system that is Singularity or Apptainer, never Docker — Docker needs root privileges, which no shared cluster will give you.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> spider Singularity</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> spider Singularity</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">singularity</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -780,7 +807,7 @@ Note
 <section id="step-2-the-smoke-test" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-the-smoke-test">Step 2: the smoke test</h2>
 <p>Before involving our data, run the test profile that ships with the pipeline. It downloads a tiny dataset and runs the whole workflow on it. If this works, Nextflow, the containers and the filesystem are all fine, and any later failure is about <em>our</em> configuration rather than the machinery.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.12.0 <span class="at">-profile</span> test,singularity <span class="at">--outdir</span> test_results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.12.0 <span class="at">-profile</span> test,singularity <span class="at">--outdir</span> test_results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -813,7 +840,7 @@ Tip
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -822,7 +849,7 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Work through this in order — it is almost always one of these:</p>
 <ol type="1">
@@ -840,8 +867,8 @@ Tip
 <h2 class="anchored" data-anchor-id="step-3-what-nextflow-leaves-behind">Step 3: what Nextflow leaves behind</h2>
 <p>This is the part of the session with the longest shelf life. Every Nextflow pipeline you ever run will fail at some point, and the debugging procedure is always the same.</p>
 <p>Each task runs in its own directory under <code>work/</code>, named by that hash you saw in the console. Go into one:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> work/85/6b7739<span class="pp">*</span>     <span class="co"># tab-completion is your friend here</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-a</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> work/85/6b7739<span class="pp">*</span>     <span class="co"># tab-completion is your friend here</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-a</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You will find:</p>
 <table class="caption-top table">
 <colgroup>
@@ -879,7 +906,7 @@ Tip
 </table>
 <p>The method for any failed process: Nextflow prints the work directory of the failure, you <code>cd</code> into it, read <code>.command.err</code>, and if that is not enough, run <code>bash .command.sh</code> by hand and watch it break. There is no magic in a pipeline — it is a shell command in a directory.</p>
 <p>After the run, look at the reports Nextflow wrote:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> test_results/pipeline_info/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> test_results/pipeline_info/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The execution report tells you how long each process took and how much memory it actually used, which is how you make sensible resource requests for the real run.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -892,7 +919,7 @@ Important
 </div>
 <div class="callout-body-container callout-body">
 <p>If a run stops and you fix the problem, relaunch with <code>-resume</code> (one hyphen):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.12.0 <span class="at">-profile</span> test,singularity <span class="at">--outdir</span> test_results <span class="at">-resume</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.12.0 <span class="at">-profile</span> test,singularity <span class="at">--outdir</span> test_results <span class="at">-resume</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Nextflow then reuses every task whose inputs have not changed and continues from the failure. Without <code>-resume</code> you start from the beginning, which on real data can cost you a day. Note that it matches on file <em>content</em>, not just filenames, and that it only works if you relaunch from the same directory, with the same <code>work/</code>.</p>
 </div>
 </div>
@@ -916,11 +943,11 @@ singularity {
     autoMounts = true
 }</code></pre>
 <p>and add it with <code>-c</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.12.0 <span class="dt">\</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-profile</span> singularity <span class="dt">\</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-c</span> hpc2n.config <span class="dt">\</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--input</span> samplesheet.csv <span class="dt">\</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--outdir</span> results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.12.0 <span class="dt">\</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-profile</span> singularity <span class="dt">\</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-c</span> hpc2n.config <span class="dt">\</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">--input</span> samplesheet.csv <span class="dt">\</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">--outdir</span> results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -935,7 +962,7 @@ Warning
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -944,7 +971,7 @@ Warning
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>nf-core maintains ready-made configurations for many clusters, loaded with <code>-profile &lt;institution&gt;</code>. There is a <code>naiss</code> profile, but at the time of writing it only configures Arrhenius specifically, so we write our own small config for Kebnekaise instead.</p>
 <p>The <code>resourceLimits</code> values above are a starting point, not a measurement. Check them against the node sizes in HPC2N’s documentation, and against what the execution report says your processes actually used.</p>
@@ -952,11 +979,11 @@ Warning
 </div>
 </div>
 <p>Nextflow has to keep running for as long as the pipeline does, which can be many hours. Two ways to survive losing your connection:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: a tmux session on the login node, detach with Ctrl-b d</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">tmux</span> new <span class="at">-s</span> sarek</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2: let Nextflow detach itself and write to a log</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek ... <span class="at">-bg</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 1: a tmux session on the login node, detach with Ctrl-b d</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">tmux</span> new <span class="at">-s</span> sarek</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Option 2: let Nextflow detach itself and write to a log</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek ... <span class="at">-bg</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1044,11 +1071,11 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <p>Check your samplesheet before you launch, not after:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Does every file in the samplesheet actually exist?</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d,</span> <span class="at">-f6,7</span> samplesheet.csv <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> +2 <span class="kw">|</span> <span class="fu">tr</span> <span class="st">','</span> <span class="st">'\n'</span> <span class="kw">|</span> <span class="fu">xargs</span> <span class="at">-n1</span> ls <span class="at">-l</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Eleven samples, eleven rows plus a header?</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> samplesheet.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Does every file in the samplesheet actually exist?</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d,</span> <span class="at">-f6,7</span> samplesheet.csv <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> +2 <span class="kw">|</span> <span class="fu">tr</span> <span class="st">','</span> <span class="st">'\n'</span> <span class="kw">|</span> <span class="fu">xargs</span> <span class="at">-n1</span> ls <span class="at">-l</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Eleven samples, eleven rows plus a header?</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> samplesheet.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Nextflow will tell you about a missing file eventually, but it is more pleasant to find out in two seconds than twenty minutes into a run.</p>
 </div>
 </div>
@@ -1056,28 +1083,28 @@ Tip
 <section id="pointing-it-at-the-reference" class="level3">
 <h3 class="anchored" data-anchor-id="pointing-it-at-the-reference">Pointing it at the reference</h3>
 <p>Sarek defaults to human reference bundles. For birch we switch that off entirely and give it the FASTA described <a href="#the-reference-genome">above</a>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--genome</span> null <span class="at">--igenomes_ignore</span> <span class="at">--fasta</span> /proj/.../dhBetPend1_two_chromosomes.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">--genome</span> null <span class="at">--igenomes_ignore</span> <span class="at">--fasta</span> /proj/.../dhBetPend1_two_chromosomes.fasta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The FASTA is the only reference file that is required; Sarek builds the index, the <code>.fai</code> and the sequence dictionary itself. Be sure it is the assembly the reads were subset against — a reference whose sequence names do not match the reads produces an empty or nonsensical result rather than an error.</p>
 </section>
 <section id="putting-it-together" class="level3">
 <h3 class="anchored" data-anchor-id="putting-it-together">Putting it together</h3>
 <p>Rather than a very long command line, write a parameter file, <code>params.yaml</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">input</span><span class="kw">:</span><span class="at"> </span><span class="st">'/proj/nobackup/&lt;course-project&gt;/&lt;your-folder&gt;/samplesheet.csv'</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">outdir</span><span class="kw">:</span><span class="at"> </span><span class="st">'/proj/nobackup/&lt;course-project&gt;/&lt;your-folder&gt;/results'</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">genome</span><span class="kw">:</span><span class="at"> </span><span class="ch">null</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">igenomes_ignore</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">fasta</span><span class="kw">:</span><span class="at"> </span><span class="st">'/proj/nobackup/&lt;course-project&gt;/&lt;your-folder&gt;/reference/dhBetPend1_two_chromosomes.fasta'</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tools</span><span class="kw">:</span><span class="at"> </span><span class="st">'haplotypecaller'</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">joint_germline</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">skip_tools</span><span class="kw">:</span><span class="at"> </span><span class="st">'baserecalibrator'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">input</span><span class="kw">:</span><span class="at"> </span><span class="st">'/proj/nobackup/&lt;course-project&gt;/&lt;your-folder&gt;/samplesheet.csv'</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">outdir</span><span class="kw">:</span><span class="at"> </span><span class="st">'/proj/nobackup/&lt;course-project&gt;/&lt;your-folder&gt;/results'</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">genome</span><span class="kw">:</span><span class="at"> </span><span class="ch">null</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">igenomes_ignore</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">fasta</span><span class="kw">:</span><span class="at"> </span><span class="st">'/proj/nobackup/&lt;course-project&gt;/&lt;your-folder&gt;/reference/dhBetPend1_two_chromosomes.fasta'</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tools</span><span class="kw">:</span><span class="at"> </span><span class="st">'haplotypecaller'</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">joint_germline</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">skip_tools</span><span class="kw">:</span><span class="at"> </span><span class="st">'baserecalibrator'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>and launch:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.12.0 <span class="dt">\</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-profile</span> singularity <span class="dt">\</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-c</span> hpc2n.config <span class="dt">\</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-params-file</span> params.yaml <span class="dt">\</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-resume</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/sarek <span class="at">-r</span> 3.12.0 <span class="dt">\</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">-profile</span> singularity <span class="dt">\</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">-c</span> hpc2n.config <span class="dt">\</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-params-file</span> params.yaml <span class="dt">\</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-resume</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1086,7 +1113,7 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><code>tools: 'haplotypecaller'</code> — GATK HaplotypeCaller is the general-purpose germline caller. Strelka, the default in the test profile, is tuned for human data.</li>
@@ -1147,7 +1174,7 @@ Tip
 <li><a href="https://nf-co.re/join/slack">nf-core Slack</a> — including a channel for HPC users in Sweden</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1156,7 +1183,7 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div id="callout-25" class="callout-25-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <table class="caption-top table">
 <colgroup>
