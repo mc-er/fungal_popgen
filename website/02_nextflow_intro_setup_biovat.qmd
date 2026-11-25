@@ -4,7 +4,7 @@ title: "Session 2: BioVAT Setup"
 
 ## Introduction
 
-This afternoon we set up [BioVAT](https://github.com/NBISweden/biovat) and get it running. That is the whole goal: by the time we stop at 14.30, a pipeline should be running on Kebnekaise and producing output while we go home.
+This afternoon we  will set up [BioVAT](https://github.com/NBISweden/biovat) and get it running. That is the whole goal: by the time we stop at 14.30, a pipeline should be running on Kebnekaise and producing output while we go home.
 
 We are deliberately not analysing anything today. Getting a pipeline to start — correct software, correct samplesheet, correct reference, correct cluster settings — is a real part of bioinformatics work, and it is where most of the time goes the first time you meet a new pipeline. Tomorrow morning we look at what came out of it.
 
@@ -22,7 +22,7 @@ BioVAT, the BIOdiversity Variant Analysis Toolkit, is a Nextflow pipeline from [
 Steps 1–3 are the ones that matter. If you get that far and understand what you did, the afternoon was a success.
 :::
 
-If the words Nextflow, nf-core, container and environment manager are new, the background pages on [Nextflow](./course_nextflow.html), [nf-core](./course_nf-core.html), [Containers](./course_containers.html) and [Pixi](./course_pixi.html) cover the concepts. This page is only about making it run.
+If the words Nextflow, nf-core, container and environment manager are new, the background pages on [Nextflow](./background_nextflow.html), [nf-core](./background_nf-core.html), [Containers](./background_containers.html) and [Pixi](./background_pixi.html) cover the concepts. This page is only about making it run.
 
 ## What BioVAT does
 
@@ -411,7 +411,7 @@ Before you leave, note the commit hash you cloned, the exact command, and the Ne
 This is the minimum you need to be able to say, in a methods section, what you actually did. The course dataset was chosen partly because the original authors did this well.
 :::
 
-Tomorrow at 9.00 we look at the output: the MultiQC report, the QC metrics in `01_input_checks/` and `03_read_alignment/qc/`, and what they tell us about whether the variant calls in `07_variant_calls/` can be trusted. After that we move on to [Population Statistics](./course_pop_stats.html).
+Tomorrow at 9.00 we look at the output: the MultiQC report, the QC metrics in `01_input_checks/` and `03_read_alignment/qc/`, and what they tell us about whether the variant calls in `07_variant_calls/` can be trusted. After that we move on to [Population Statistics](./04_pop_stats.html).
 
 ## Where to look things up
 
