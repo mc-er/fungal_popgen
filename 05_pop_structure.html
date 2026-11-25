@@ -259,7 +259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04_pop_stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Session 4: Population Statistics</span></a>
+ <span class="menu-text">04_pop_stats.html</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -312,9 +312,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#pca" id="toc-pca" class="nav-link active" data-scroll-target="#pca">PCA</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#pca" id="toc-pca" class="nav-link" data-scroll-target="#pca">PCA</a></li>
   <li><a href="#ld-we-are-not-going-to-do-this-in-the-course-today" id="toc-ld-we-are-not-going-to-do-this-in-the-course-today" class="nav-link" data-scroll-target="#ld-we-are-not-going-to-do-this-in-the-course-today">LD (We are not going to do this in the course today)</a></li>
   <li><a href="#population-structure" id="toc-population-structure" class="nav-link" data-scroll-target="#population-structure">Population Structure</a></li>
+  <li><a href="#before-we-stop" id="toc-before-we-stop" class="nav-link" data-scroll-target="#before-we-stop">Before we stop</a></li>
+  <li><a href="#where-to-look-things-up" id="toc-where-to-look-things-up" class="nav-link" data-scroll-target="#where-to-look-things-up">Where to look things up</a></li>
   </ul>
 </nav>
     </div>
@@ -340,6 +343,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Yesterday afternoon you measured variation on your scaffold and compared two populations with it. Today we ask a different question, and we stop assuming we know who the populations are. Given only the genotypes, how do these individuals group together?</p>
+<p>Two complementary methods answer that. A PCA makes no assumptions about populations at all and simply asks which individuals resemble each other. sNMF fits an explicit model in which each individual draws its ancestry from some number of genetic clusters. When the two agree, you have something. When they disagree, you have something more interesting.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Plan for the session
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Finish plotting the statistics from yesterday — π, Tajima’s D and Fst along your scaffold</li>
+<li>Run a PCA on the genotypes and plot it</li>
+<li>Run sNMF, choose a value of K, and make an admixture plot</li>
+<li>Put the two side by side and decide what they are telling you, and what they are not</li>
+</ol>
+<p>The morning is for getting the analyses to run. The afternoon is for interpretation, and for the group discussion of what the whole room has found.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -353,12 +379,55 @@ Note
 <p>Differentiate which commands are bash commands, which commands call dependencies within your Pixi environment, and which ones call on containers</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Yesterday’s plots first
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before starting anything new, finish the plots from <a href="./04_pop_stats.html">Session 4</a>: nucleotide diversity, Tajima’s D and Fst along your scaffold, with the position on the x axis.</p>
+<p>Plot them one above the other on a shared axis. A region that stands out in all three is the thing you spent yesterday looking for, and it is much easier to see in aligned panels than in three separate figures. Remember to plot the number of variants per window as well, so you can tell a real feature from an empty window.</p>
+</div>
+</div>
+</section>
 <section id="pca" class="level2">
 <h2 class="anchored" data-anchor-id="pca">PCA</h2>
 <p>Replace underscores with nothing</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">"s/_//g"</span> <span class="va">$VCF</span> <span class="op">&gt;</span> <span class="va">$VCF_renamed</span>.vcf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">VCF</span><span class="op">=</span>your_scaffold_filtered.vcf</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">"s/_//g"</span> <span class="st">"</span><span class="va">$VCF</span><span class="st">"</span> <span class="op">&gt;</span> <span class="st">"</span><span class="va">${VCF</span><span class="op">%</span>.vcf<span class="va">}</span><span class="st">_renamed.vcf"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Run PCA generation through plink</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--vcf</span> <span class="va">$VCF_renamed</span>.vcf <span class="at">--allow-extra-chr</span> <span class="at">--pca</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--vcf</span> <span class="st">"</span><span class="va">${VCF</span><span class="op">%</span>.vcf<span class="va">}</span><span class="st">_renamed.vcf"</span> <span class="at">--allow-extra-chr</span> <span class="at">--pca</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why the underscores have to go, and a shell trap in the original
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>PLINK reads a VCF’s sample names into a <code>.fam</code> file with two identifier columns, a family ID and an individual ID, and it splits names containing an underscore between the two. Watch what it does to our naming convention:</p>
+<pre class="text"><code>sample in VCF      FID     IID
+Bil_01       -&gt;    Bil     01
+Her_03       -&gt;    Her     03</code></pre>
+<p>The sample is now called <code>01</code>, in a family called <code>Bil</code>. Every downstream step that matches on the individual name then fails or, worse, silently matches the wrong thing. Stripping the underscores first keeps each name whole, so <code>Bil01</code> appears as both the family and the individual ID — which is exactly what the R code below depends on when it reads column <code>V1</code> and calls it <code>ID</code>.</p>
+<p>There is a cleaner, more surgical alternative worth knowing:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--vcf</span> <span class="st">"</span><span class="va">$VCF</span><span class="st">"</span> <span class="at">--allow-extra-chr</span> <span class="at">--double-id</span> <span class="at">--pca</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>--double-id</code> tells PLINK to use the whole sample name for both ID columns and not split on the underscore at all, which leaves your VCF untouched.</p>
+<p><strong>The shell trap.</strong> The original form of the first command was:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">"s/_//g"</span> <span class="va">$VCF</span> <span class="op">&gt;</span> <span class="va">$VCF_renamed</span>.vcf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In bash, <code>$VCF_renamed</code> is not “the variable <code>VCF</code> followed by the text <code>_renamed</code>” — it is a <em>different variable</em>, named <code>VCF_renamed</code>, which does not exist. It expands to nothing, so the command writes to a file called <code>.vcf</code> and your real output never appears. Underscores are legal in variable names, which is precisely why this fails silently. If you want to append text to a variable, brace it: <code>${VCF}_renamed.vcf</code>.</p>
+<p>Also note what the <code>sed</code> affects: it removes every underscore in the whole file, including from chromosome and scaffold names. If your scaffold is called <code>scaffold_12</code> it is now <code>scaffold12</code>, which matters when you cross-reference positions against the GFF3.</p>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -372,193 +441,486 @@ Tip
 <p>plink v1.9 is a lot better and more reliable than plink v2. Always check which version of your software is best suited to your needs!</p>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PCA</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pca_eigenval <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"teaching/forest_popgen/plink.eigenval"</span>, <span class="at">header =</span> F, <span class="at">sep =</span> <span class="st">" "</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pca_eigenvec <span class="ot">=</span> <span class="fu">read.delim</span>(<span class="st">"teaching/forest_popgen/plink.eigenvec"</span>, <span class="at">header =</span> F, <span class="at">sep =</span> <span class="st">" "</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pca_eigenvec)[<span class="fu">names</span>(pca_eigenvec) <span class="sc">==</span> <span class="st">'V1'</span>] <span class="ot">&lt;-</span> <span class="st">'ID'</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>pca_eigenvec <span class="ot">=</span> pca_eigenvec <span class="sc">%&gt;%</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Population =</span> <span class="fu">case_when</span>(</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BIL"</span>) <span class="sc">~</span> <span class="st">"bil"</span>,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BNP"</span>) <span class="sc">~</span> <span class="st">"bnp"</span>,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"her"</span>,</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"iss"</span>,</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"kai"</span>,</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"koi"</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"kot"</span>,</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"luu"</span>,</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"met"</span>,</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"mor"</span>,</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"mus"</span>,</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"myl"</span>,</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"pam"</span>,</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"pat"</span>,</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"pet"</span>,</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"puk"</span>,</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"rus"</span>,</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"sig"</span>,</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"spk"</span>,</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"sus"</span>,</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"ulv"</span>,</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"van"</span>,</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"ves"</span>))</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>pca_eigenvec <span class="ot">=</span> pca_eigenvec <span class="sc">%&gt;%</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Location =</span> <span class="fu">case_when</span>(</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BIL"</span>) <span class="sc">~</span> <span class="st">"Sweden"</span>,</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BNP"</span>) <span class="sc">~</span> <span class="st">"Poland"</span>,</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"Russia"</span>,</span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"SWF"</span></span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>row_id <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(pca_eigenval))</span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>pca_eigenval<span class="sc">$</span>row_id <span class="ot">=</span> row_id</span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot eigenval </span></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pca_eigenval, <span class="fu">aes</span>(<span class="at">x =</span> row_id, <span class="at">y =</span> V1)) <span class="sc">+</span></span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>)</span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot eigenved</span></span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pca_eigenvec, <span class="fu">aes</span>(<span class="at">x=</span> V4, <span class="at">y=</span> V3, <span class="at">col =</span> Population)) <span class="sc">+</span></span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What <code>--allow-extra-chr</code> is for, and the warning you will see
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>PLINK was written for human data and expects chromosomes named 1–22, X, Y and MT. A scaffold name from a fungal assembly is none of those, and without <code>--allow-extra-chr</code> PLINK stops rather than guessing. This is the same human-centric assumption we met in the pipeline on Tuesday, in a different tool.</p>
+<p>You will also probably see a warning recommending a minor allele frequency filter. Take it seriously: a PCA is strongly influenced by rare variants, and singletons — variants seen in exactly one individual — can pull that individual away from everyone else and produce a component that describes nothing but sequencing noise. Try the PCA with and without <code>--maf</code>, and see whether your conclusions survive.</p>
+</div>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#PCA</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pca_eigenval <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"teaching/forest_popgen/plink.eigenval"</span>, <span class="at">header =</span> F, <span class="at">sep =</span> <span class="st">" "</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pca_eigenvec <span class="ot">=</span> <span class="fu">read.delim</span>(<span class="st">"teaching/forest_popgen/plink.eigenvec"</span>, <span class="at">header =</span> F, <span class="at">sep =</span> <span class="st">" "</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pca_eigenvec)[<span class="fu">names</span>(pca_eigenvec) <span class="sc">==</span> <span class="st">'V1'</span>] <span class="ot">&lt;-</span> <span class="st">'ID'</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>pca_eigenvec <span class="ot">=</span> pca_eigenvec <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Population =</span> <span class="fu">case_when</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BIL"</span>) <span class="sc">~</span> <span class="st">"bil"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BNP"</span>) <span class="sc">~</span> <span class="st">"bnp"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"her"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"iss"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"kai"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"koi"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"kot"</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"luu"</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"met"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"mor"</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"mus"</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"myl"</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"pam"</span>,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"pat"</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"pet"</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"puk"</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"rus"</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"sig"</span>,</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"spk"</span>,</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"sus"</span>,</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"ulv"</span>,</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"van"</span>,</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"ves"</span>))</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>pca_eigenvec <span class="ot">=</span> pca_eigenvec <span class="sc">%&gt;%</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Location =</span> <span class="fu">case_when</span>(</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BIL"</span>) <span class="sc">~</span> <span class="st">"Sweden"</span>,</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"BNP"</span>) <span class="sc">~</span> <span class="st">"Poland"</span>,</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"Russia"</span>,</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"SWF"</span></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>row_id <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(pca_eigenval))</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>pca_eigenval<span class="sc">$</span>row_id <span class="ot">=</span> row_id</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot eigenval </span></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pca_eigenval, <span class="fu">aes</span>(<span class="at">x =</span> row_id, <span class="at">y =</span> V1)) <span class="sc">+</span></span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>)</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot eigenved</span></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pca_eigenvec, <span class="fu">aes</span>(<span class="at">x=</span> V4, <span class="at">y=</span> V3, <span class="at">col =</span> Population)) <span class="sc">+</span></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Which column is which
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>--pca</code> writes two files, and knowing their layout saves a lot of confusion:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>plink.eigenval</code></td>
+<td>One row per component, holding its eigenvalue</td>
+</tr>
+<tr class="even">
+<td><code>plink.eigenvec</code></td>
+<td>One row per individual: family ID, individual ID, then one column per component</td>
+</tr>
+</tbody>
+</table>
+<p>So in <code>plink.eigenvec</code>, read as a headerless table:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>V1</code></td>
+<td>Family ID — the sample name, once the underscores are gone</td>
+</tr>
+<tr class="even">
+<td><code>V2</code></td>
+<td>Individual ID — the same name again</td>
+</tr>
+<tr class="odd">
+<td><code>V3</code></td>
+<td>PC1</td>
+</tr>
+<tr class="even">
+<td><code>V4</code></td>
+<td>PC2</td>
+</tr>
+<tr class="odd">
+<td><code>V5</code></td>
+<td>PC3</td>
+</tr>
+<tr class="even">
+<td><code>V6</code></td>
+<td>PC4</td>
+</tr>
+</tbody>
+</table>
+<p>The plot in the code above therefore puts PC2 on the x axis and PC1 on the y. For the other pairs you were asked for, PC2 against PC3 is <code>V4</code> and <code>V5</code>, and PC3 against PC4 is <code>V5</code> and <code>V6</code>.</p>
+<p>Two notes on the code as written. The file paths are from my machine, so change them to yours. And a PCA has no inherent orientation — the sign of a component is arbitrary, so your plot may be a mirror image of your neighbour’s even when the analysis is identical. That is not a mistake, and it is a good reason never to describe a result as “on the left”.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What a PCA of genotypes is actually doing
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Each individual is a long vector of genotypes. A PCA finds the directions in that high-dimensional space along which individuals differ most, and gives you each individual’s position along those directions. No population labels go in; any grouping you see in the output came out of the genotypes themselves.</p>
+<p>That is its strength and its limitation.</p>
+<p><strong>The eigenvalues matter.</strong> Each eigenvalue is the amount of variance its component explains, which is why you were asked to plot them. If PC1 explains a few per cent more than PC2 and the rest trail off evenly, no component is capturing a strong structure, and reading a story into the scatter plot is over-interpretation. Plotting the eigenvalues first is what stops you doing that.</p>
+<p><strong>Distance in a PCA is not a tree, and clusters are not populations.</strong> Individuals close together are genetically similar, which can mean shared ancestry, but can equally mean similar amounts of missing data, similar sequencing depth, or similar rates of relatedness. More subtly, a continuous gradient of ancestry across geography — isolation by distance — also produces smooth, structured PCA axes, and those can look convincingly like discrete clusters when you only have a sample of individuals.</p>
+<p>So before concluding anything: colour your PCA by sequencing depth and by missingness as well as by population. If PC1 correlates with depth rather than with geography, PC1 is a technical artefact and you have just saved yourself an embarrassing conclusion.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="ld-we-are-not-going-to-do-this-in-the-course-today" class="level2">
 <h2 class="anchored" data-anchor-id="ld-we-are-not-going-to-do-this-in-the-course-today">LD (We are not going to do this in the course today)</h2>
 <p>Use scaffolds where _ are removed. This step is usually very memory intensive, so splitting the dataset into scaffolds is usually necessary. Under normal assumptions you would not expect unique chromosomes to be linked</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--vcf</span> <span class="va">$VCF_renamed</span>.vcf <span class="at">--allow-extra-chr</span> <span class="at">--out</span> plink-test <span class="at">--r2</span> <span class="at">--ld-window-r2</span> 0 <span class="at">--ld-window</span> 0 <span class="at">--ld-window-kb</span> 8000 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#from https://www.biostars.org/p/300381/</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>dfr <span class="ot">&lt;-</span><span class="fu">read.delim</span>(<span class="st">"in_file"</span>,<span class="at">sep=</span><span class="st">""</span>,hea</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="at">der=</span>F,<span class="at">check.names=</span>F,<span class="at">stringsAsFactors=</span>F)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dfr) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"dist"</span>,<span class="st">"rsq"</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>dfr<span class="sc">$</span>distc <span class="ot">&lt;-</span> <span class="fu">cut</span>(dfr<span class="sc">$</span>dist,<span class="at">breaks=</span><span class="fu">seq</span>(<span class="at">from=</span><span class="fu">min</span>(dfr<span class="sc">$</span>dist)<span class="sc">-</span><span class="dv">1</span>,<span class="at">to=</span><span class="fu">max</span>(dfr<span class="sc">$</span>dist)<span class="sc">+</span><span class="dv">1</span>,<span class="at">by=</span><span class="dv">10000</span>))</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>dfr1 <span class="ot">&lt;-</span> dfr <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(distc) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean=</span><span class="fu">mean</span>(rsq),<span class="at">median=</span><span class="fu">median</span>(rsq))</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>dfr1 <span class="ot">&lt;-</span> dfr1 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">start=</span><span class="fu">as.integer</span>(<span class="fu">str_extract</span>(<span class="fu">str_replace_all</span>(distc,<span class="st">"[</span><span class="sc">\\</span><span class="st">(</span><span class="sc">\\</span><span class="st">)</span><span class="sc">\\</span><span class="st">[</span><span class="sc">\\</span><span class="st">]]"</span>,<span class="st">""</span>),<span class="st">"^[0-9-</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">e+.]+"</span>)),</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="at">end=</span><span class="fu">as.integer</span>(<span class="fu">str_extract</span>(<span class="fu">str_replace_all</span>(distc,<span class="st">"[</span><span class="sc">\\</span><span class="st">(</span><span class="sc">\\</span><span class="st">)</span><span class="sc">\\</span><span class="st">[</span><span class="sc">\\</span><span class="st">]]"</span>,<span class="st">""</span>),<span class="st">"[0-9-e+.]+$"</span>)),</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="at">mid=</span>start<span class="sc">+</span>((end<span class="sc">-</span>start)<span class="sc">/</span><span class="dv">2</span>))</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dfr1, <span class="fu">aes</span>(<span class="at">x=</span>start,<span class="at">y=</span>mean))<span class="sc">+</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--vcf</span> <span class="va">$VCF_renamed</span>.vcf <span class="at">--allow-extra-chr</span> <span class="at">--out</span> plink-test <span class="at">--r2</span> <span class="at">--ld-window-r2</span> 0 <span class="at">--ld-window</span> 0 <span class="at">--ld-window-kb</span> 8000 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#from https://www.biostars.org/p/300381/</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>dfr <span class="ot">&lt;-</span><span class="fu">read.delim</span>(<span class="st">"in_file"</span>,<span class="at">sep=</span><span class="st">""</span>,<span class="at">header=</span>F,<span class="at">check.names=</span>F,<span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dfr) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"dist"</span>,<span class="st">"rsq"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>dfr<span class="sc">$</span>distc <span class="ot">&lt;-</span> <span class="fu">cut</span>(dfr<span class="sc">$</span>dist,<span class="at">breaks=</span><span class="fu">seq</span>(<span class="at">from=</span><span class="fu">min</span>(dfr<span class="sc">$</span>dist)<span class="sc">-</span><span class="dv">1</span>,<span class="at">to=</span><span class="fu">max</span>(dfr<span class="sc">$</span>dist)<span class="sc">+</span><span class="dv">1</span>,<span class="at">by=</span><span class="dv">10000</span>))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>dfr1 <span class="ot">&lt;-</span> dfr <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(distc) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean=</span><span class="fu">mean</span>(rsq),<span class="at">median=</span><span class="fu">median</span>(rsq))</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>dfr1 <span class="ot">&lt;-</span> dfr1 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">start=</span><span class="fu">as.integer</span>(<span class="fu">str_extract</span>(<span class="fu">str_replace_all</span>(distc,<span class="st">"[</span><span class="sc">\\</span><span class="st">(</span><span class="sc">\\</span><span class="st">)</span><span class="sc">\\</span><span class="st">[</span><span class="sc">\\</span><span class="st">]]"</span>,<span class="st">""</span>),<span class="st">"^[0-9-e+.]+"</span>)),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="at">end=</span><span class="fu">as.integer</span>(<span class="fu">str_extract</span>(<span class="fu">str_replace_all</span>(distc,<span class="st">"[</span><span class="sc">\\</span><span class="st">(</span><span class="sc">\\</span><span class="st">)</span><span class="sc">\\</span><span class="st">[</span><span class="sc">\\</span><span class="st">]]"</span>,<span class="st">""</span>),<span class="st">"[0-9-e+.]+$"</span>)),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="at">mid=</span>start<span class="sc">+</span>((end<span class="sc">-</span>start)<span class="sc">/</span><span class="dv">2</span>))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dfr1, <span class="fu">aes</span>(<span class="at">x=</span>start,<span class="at">y=</span>mean))<span class="sc">+</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What this would tell you, if we had time
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Linkage disequilibrium is the association between alleles at different positions. Two variants that are inherited together more often than chance are in LD, and because recombination breaks those associations up over time, LD decays with physical distance along a chromosome. The code above bins pairs of variants by the distance between them and plots mean r² against that distance.</p>
+<p>The shape of that decay is informative in itself. LD that decays within a few kilobases indicates frequent recombination, which in a fungus means regular sexual reproduction and outcrossing. LD that stays high over long distances indicates the opposite: clonal or highly selfing reproduction, where whole haplotypes are passed on intact.</p>
+<p>That is the question yesterday’s Hardy–Weinberg test could not answer for a haploid organism. LD decay is one of the ways you <em>can</em> ask it. If you want something to do after the course, this is the analysis to come back to.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="population-structure" class="level2">
 <h2 class="anchored" data-anchor-id="population-structure">Population Structure</h2>
 <p>There are many ways to determine population structure. We will use sNMF.</p>
-<p>Convert the VCF to a .geno file with LEA in R. Here is some (example code)[https://rdrr.io/bioc/LEA/man/vcf2geno.html]</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LEA)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Creation of a file called "example.vcf"</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># with 4 SNPs for 3 individuals.</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"example_vcf"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(example_vcf,<span class="st">"example.vcf"</span>,<span class="at">col.names =</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"#CHROM"</span>, <span class="st">"POS"</span>, <span class="st">"ID"</span>, <span class="st">"REF"</span>, <span class="st">"ALT"</span>, <span class="st">"QUAL"</span>, <span class="st">"FILTER"</span>, <span class="st">"INFO"</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FORMAT"</span>, <span class="st">"SAMPLE0"</span>, <span class="st">"SAMPLE1"</span>, <span class="st">"SAMPLE2"</span>),</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Conversion    from the vcf format ("example.vcf") </span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#               to the geno format ("example.geno").</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co"># By default,   the name of the output file is the same name</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#               as the input file with a .geno extension.</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Create files: "example.geno",</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#               "example.vcfsnp" - SNP informations,</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#               "example.removed" - removed lines. </span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>output <span class="ot">=</span> <span class="fu">vcf2geno</span>(<span class="st">"example.vcf"</span>)</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Conversion    from the vcf format ("example.vcf")</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#               to the geno format with the output file called "plop.geno".</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Create files: "plop.geno",</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">#               "plop.vcfsnp" - SNP informations,</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">#               "plop.removed" - removed lines. </span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>output <span class="ot">=</span> <span class="fu">vcf2geno</span>(<span class="st">"example.vcf"</span>, <span class="st">"plop.geno"</span>)</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># As force = false and the file "example.geno" already exists,</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"># nothing happens.</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>output <span class="ot">=</span> <span class="fu">vcf2geno</span>(<span class="st">"example.vcf"</span>, <span class="at">force =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Convert the VCF to a .geno file with LEA in R. Here is some <a href="https://rdrr.io/bioc/LEA/man/vcf2geno.html">example code</a></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LEA)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Creation of a file called "example.vcf"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># with 4 SNPs for 3 individuals.</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"example_vcf"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(example_vcf,<span class="st">"example.vcf"</span>,<span class="at">col.names =</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">"#CHROM"</span>, <span class="st">"POS"</span>, <span class="st">"ID"</span>, <span class="st">"REF"</span>, <span class="st">"ALT"</span>, <span class="st">"QUAL"</span>, <span class="st">"FILTER"</span>, <span class="st">"INFO"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FORMAT"</span>, <span class="st">"SAMPLE0"</span>, <span class="st">"SAMPLE1"</span>, <span class="st">"SAMPLE2"</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Conversion    from the vcf format ("example.vcf") </span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#               to the geno format ("example.geno").</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># By default,   the name of the output file is the same name</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#               as the input file with a .geno extension.</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Create files: "example.geno",</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#               "example.vcfsnp" - SNP informations,</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#               "example.removed" - removed lines. </span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>output <span class="ot">=</span> <span class="fu">vcf2geno</span>(<span class="st">"example.vcf"</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Conversion    from the vcf format ("example.vcf")</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">#               to the geno format with the output file called "plop.geno".</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Create files: "plop.geno",</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co">#               "plop.vcfsnp" - SNP informations,</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">#               "plop.removed" - removed lines. </span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>output <span class="ot">=</span> <span class="fu">vcf2geno</span>(<span class="st">"example.vcf"</span>, <span class="st">"plop.geno"</span>)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co"># As force = false and the file "example.geno" already exists,</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co"># nothing happens.</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>output <span class="ot">=</span> <span class="fu">vcf2geno</span>(<span class="st">"example.vcf"</span>, <span class="at">force =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The converted file can be used by sNMF to create the admixture plots</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LEA)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">### Example of analysis using snmf </span><span class="al">###</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creation of the genotype file: genotypes.geno.</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The data contain 400 SNPs for 50 individuals.</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#data("tutorial")</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#write.geno(tutorial.R, "genotypes.geno")</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="do">################</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># running snmf #</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="do">################</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>project.snmf <span class="ot">=</span> <span class="fu">snmf</span>(<span class="st">"yourfiles.GT.FORMAT.geno"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="at">K =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="at">entropy =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="at">ploidy =</span> <span class="dv">1</span>,</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="at">repetitions =</span> <span class="dv">10</span>,</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="at">project =</span> <span class="st">"new"</span>)</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># plot cross-entropy criterion of all runs of the project</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(project.snmf, <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># get the cross-entropy of the 10 runs for K = 4</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>ce <span class="ot">=</span> <span class="fu">cross.entropy</span>(project.snmf, <span class="at">K =</span> <span class="dv">4</span>)</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># select the run with the lowest cross-entropy for K = 4</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>best <span class="ot">=</span> <span class="fu">which.min</span>(ce)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#add names</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>metadata <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"your .d file"</span>, <span class="at">header =</span>T)</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>indv_snmf <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">"your isolate name filet"</span>, <span class="at">col_names =</span> F)</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(indv_snmf) <span class="ot">=</span> <span class="st">"Sample"</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>datalist <span class="ot">=</span> <span class="fu">list</span>()</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>)){</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>best <span class="ot">=</span> <span class="fu">which.min</span>(<span class="fu">cross.entropy</span>(project.snmf, <span class="at">K =</span> i))</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fu">as.data.frame</span>(<span class="fu">Q</span>(project.snmf, i, best))</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>temp<span class="ot">=</span> <span class="fu">cbind</span>(indv_snmf, temp)</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> temp <span class="sc">%&gt;%</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="fu">gather</span>(<span class="st">"Cluster"</span>, <span class="st">"Admix_coef"</span>, <span class="sc">-</span><span class="st">"Sample"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">K=</span>i)</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>datalist[[i]] <span class="ot">=</span> <span class="fu">as.tibble</span>(temp)</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>snmf_results_per_K <span class="ot">=</span> <span class="fu">bind_rows</span>(datalist)<span class="sc">%&gt;%</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(., metadata, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Sample"</span> <span class="ot">=</span> <span class="st">"Isolate"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="fu">unite</span>(ID, Country, Location, Host, <span class="at">col =</span> <span class="st">"for_display"</span>, <span class="at">remove =</span> F)</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(snmf_results_per_K, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Sample, ID), <span class="at">y =</span> Admix_coef, <span class="at">fill =</span> Cluster,</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="at">text =</span> for_display)) <span class="sc">+</span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"stack"</span>, <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="fu">facet_grid</span>(K<span class="sc">~</span>.) <span class="sc">+</span></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="co"># display the Q-matrix</span></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="co">#my.colors &lt;- c("tomato", "lightblue",</span></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="st">"olivedrab"</span>, <span class="st">"gold"</span><span class="er">)</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="co">#barchart(project.snmf, K = 4, run = best,</span></span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>border <span class="ot">=</span> <span class="cn">NA</span>, space <span class="ot">=</span> <span class="dv">0</span>, col <span class="ot">=</span> my.colors,</span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>xlab <span class="ot">=</span> <span class="st">"Individuals"</span>, ylab <span class="ot">=</span> <span class="st">"Ancestry proportions"</span>,</span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="st">"Ancestry matrix"</span><span class="er">)</span> <span class="ot">-&gt;</span> bp</span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="co">#axis(1, at = 1:length(bp$order),</span></span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">=</span> bp<span class="sc">$</span>order, las <span class="ot">=</span> <span class="dv">3</span>, cex.axis <span class="ot">=</span> .<span class="dv">4</span><span class="er">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(LEA)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="do">### Example of analysis using snmf </span><span class="al">###</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creation of the genotype file: genotypes.geno.</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The data contain 400 SNPs for 50 individuals.</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#data("tutorial")</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#write.geno(tutorial.R, "genotypes.geno")</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">################</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># running snmf #</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">################</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>project.snmf <span class="ot">=</span> <span class="fu">snmf</span>(<span class="st">"yourfiles.GT.FORMAT.geno"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="at">K =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="at">entropy =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="at">ploidy =</span> <span class="dv">1</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="at">repetitions =</span> <span class="dv">10</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="at">project =</span> <span class="st">"new"</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="co"># plot cross-entropy criterion of all runs of the project</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(project.snmf, <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co"># get the cross-entropy of the 10 runs for K = 4</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>ce <span class="ot">=</span> <span class="fu">cross.entropy</span>(project.snmf, <span class="at">K =</span> <span class="dv">4</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="co"># select the run with the lowest cross-entropy for K = 4</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>best <span class="ot">=</span> <span class="fu">which.min</span>(ce)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co">#add names</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>metadata <span class="ot">=</span> <span class="fu">read.table</span>(<span class="st">"your .d file"</span>, <span class="at">header =</span>T)</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>indv_snmf <span class="ot">=</span> <span class="fu">read_tsv</span>(<span class="st">"your isolate name filet"</span>, <span class="at">col_names =</span> F)</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(indv_snmf) <span class="ot">=</span> <span class="st">"Sample"</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>datalist <span class="ot">=</span> <span class="fu">list</span>()</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>)){</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>best <span class="ot">=</span> <span class="fu">which.min</span>(<span class="fu">cross.entropy</span>(project.snmf, <span class="at">K =</span> i))</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> <span class="fu">as.data.frame</span>(<span class="fu">Q</span>(project.snmf, i, best))</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>temp<span class="ot">=</span> <span class="fu">cbind</span>(indv_snmf, temp)</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">=</span> temp <span class="sc">%&gt;%</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="fu">gather</span>(<span class="st">"Cluster"</span>, <span class="st">"Admix_coef"</span>, <span class="sc">-</span><span class="st">"Sample"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">K=</span>i)</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>datalist[[i]] <span class="ot">=</span> <span class="fu">as.tibble</span>(temp)</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>snmf_results_per_K <span class="ot">=</span> <span class="fu">bind_rows</span>(datalist)<span class="sc">%&gt;%</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(., metadata, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Sample"</span> <span class="ot">=</span> <span class="st">"Isolate"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a><span class="fu">unite</span>(ID, Country, Location, Host, <span class="at">col =</span> <span class="st">"for_display"</span>, <span class="at">remove =</span> F)</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(snmf_results_per_K, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Sample, ID), <span class="at">y =</span> Admix_coef, <span class="at">fill =</span> Cluster,</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="at">text =</span> for_display)) <span class="sc">+</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"stack"</span>, <span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a><span class="fu">facet_grid</span>(K<span class="sc">~</span>.) <span class="sc">+</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a><span class="at">legend.title =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a><span class="co"># display the Q-matrix</span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a><span class="co">#my.colors &lt;- c("tomato", "lightblue",</span></span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a><span class="co">#"olivedrab", "gold")</span></span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a><span class="co">#barchart(project.snmf, K = 4, run = best,</span></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a><span class="co">#border = NA, space = 0, col = my.colors,</span></span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a><span class="co">#xlab = "Individuals", ylab = "Ancestry proportions",</span></span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a><span class="co">#main = "Ancestry matrix") -&gt; bp</span></span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a><span class="co">#axis(1, at = 1:length(bp$order),</span></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a><span class="co">#labels = bp$order, las = 3, cex.axis = .4)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span><code>ploidy = 1</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that argument in the <code>snmf()</code> call. It is the most important line in the block, and the whole reason we have been careful about ploidy all week: sNMF has to know that each individual carries one allele per locus, not two. Leave it at the default and the model is wrong for this organism, and it will not tell you so — it will return ancestry coefficients that look entirely plausible.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Run this on the cluster
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>K = 1:20</code> with <code>repetitions = 10</code> is 200 separate runs of the algorithm. On a real dataset that is not a thing to run in an interactive R session while twenty other people are doing the same on the same login node.</p>
+<p>Put it in a batch script, as you learned on Tuesday, and submit it. While it runs, plot your PCA. If you want results sooner, narrow the range of K — there is rarely a reason to test twenty clusters for twenty-five populations’ worth of individuals, and you can always extend the range afterwards.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Choosing K, and what the admixture plot does and does not show
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>sNMF estimates, for each individual, the proportion of its genome attributable to each of K ancestral genetic clusters. You choose K. The cross-entropy criterion — the thing plotted by <code>plot(project.snmf, ...)</code> in the code above — helps, by measuring how well each K predicts genotypes that were masked during fitting. Lower is better, and the usual advice is to take the K at which the curve levels off.</p>
+<p>Be careful how much weight you put on that.</p>
+<p><strong>K is a parameter of the model, not a property of nature.</strong> There is no true number of populations waiting to be found. Different values of K are different resolutions at which to describe the same data, and several may be worth showing — which is exactly why the code loops over K = 6 to 9 and facets the plot, rather than reporting one number.</p>
+<p><strong>The clusters have no names and no history.</strong> sNMF gives you cluster 1, 2, 3. It does not tell you that cluster 1 is “the Finnish population” — you infer that by looking at which individuals carry it, using metadata that the model never saw. Keep the inference and the output separate in your writing.</p>
+<p><strong>Mixed ancestry is not proof of admixture.</strong> An individual shown as half one cluster and half another is consistent with recent mixing between two populations, but it is equally consistent with being from an unsampled population intermediate between the two, or from a continuous gradient that K clusters cannot represent. Structure plots are routinely over-read on exactly this point in the published literature.</p>
+<p><strong>Run it more than once.</strong> The algorithm starts from a random position and can settle in different places, which is why the code requests ten repetitions and selects the run with the lowest cross-entropy. If repeated runs at the same K give substantially different answers, that instability is itself a result, and reporting only the prettiest run is not honest.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>The <code>kai</code> question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Yesterday you were told that the authors did not report a location for the <code>kai</code> population, and that it had been assigned to north-eastern Finland. You now have two independent ways of checking that, neither of which uses the assignment itself:</p>
+<ul>
+<li>In the PCA, do the <code>kai</code> individuals sit among the other NEF populations, or somewhere else?</li>
+<li>In the sNMF output, do they carry the same ancestry proportions as the NEF populations?</li>
+</ul>
+<p>If both say NEF, the guess was good. If they disagree with each other, think about why two methods on the same genotypes might reach different answers — that is a more interesting outcome than either verdict.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Discussion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>How much variance do your first few principal components explain? Is there a strong structure in these data at all?</li>
+<li>Does your PCA correlate with anything technical — depth, missingness, the scaffold you were assigned?</li>
+<li>Which K does the cross-entropy curve favour? How different do the admixture plots look either side of it?</li>
+<li>Do the PCA and the sNMF plot tell the same story? Where exactly do they disagree?</li>
+<li>Yesterday’s Fst between your populations was presumably low. Is that consistent with what you see today?</li>
+<li>The paper reports high gene flow. Having now seen the structure yourself, what in your output supports that, and what would you want before you believed it?</li>
+<li>Each group analysed a different scaffold. Should structure estimated from one scaffold agree between groups? What would it mean if it did not?</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="before-we-stop" class="level2">
+<h2 class="anchored" data-anchor-id="before-we-stop">Before we stop</h2>
+<ul class="task-list">
+<li><label><input type="checkbox">Yesterday’s statistics are plotted along my scaffold, in aligned panels</label></li>
+<li><label><input type="checkbox">I have a PCA, with the eigenvalues plotted as well as the components</label></li>
+<li><label><input type="checkbox">My PCA is coloured by population and by at least one technical variable</label></li>
+<li><label><input type="checkbox">I have an sNMF run with <code>ploidy = 1</code>, and a cross-entropy plot</label></li>
+<li><label><input type="checkbox">I have an admixture plot for more than one value of K</label></li>
+<li><label><input type="checkbox">I can state one conclusion supported by both methods, and one claim I decided not to make</label></li>
+</ul>
+</section>
+<section id="where-to-look-things-up" class="level2">
+<h2 class="anchored" data-anchor-id="where-to-look-things-up">Where to look things up</h2>
+<ul>
+<li><a href="https://bioconductor.org/packages/release/bioc/html/LEA.html">LEA package documentation</a> — <code>vcf2geno</code>, <code>snmf</code>, <code>cross.entropy</code> and <code>Q</code></li>
+<li><a href="https://rdrr.io/bioc/LEA/man/vcf2geno.html">vcf2geno reference</a> — the example code above</li>
+<li><a href="https://www.cog-genomics.org/plink/1.9/">PLINK 1.9 documentation</a> — <code>--pca</code>, <code>--allow-extra-chr</code>, <code>--double-id</code>, <code>--r2</code></li>
+<li><a href="https://onlinelibrary.wiley.com/doi/full/10.1111/mec.16369">The paper</a> — compare your structure results with theirs</li>
+<li><a href="./04_pop_stats.html">Session 4</a> — the statistics these plots sit alongside</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Troubleshooting quick reference
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symptom</th>
+<th>Usual cause</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PLINK refuses to read the file, complaining about chromosome codes</td>
+<td><code>--allow-extra-chr</code> is missing</td>
+</tr>
+<tr class="even">
+<td>Sample names in <code>.eigenvec</code> have been cut in half</td>
+<td>Underscores in the names; strip them or use <code>--double-id</code></td>
+</tr>
+<tr class="odd">
+<td><code>sed</code> produced a file called <code>.vcf</code> and nothing else</td>
+<td><code>$VCF_renamed</code> instead of <code>${VCF}_renamed</code></td>
+</tr>
+<tr class="even">
+<td><code>vcf2geno</code> drops a large number of sites</td>
+<td>Non-biallelic or indel records — check the <code>.removed</code> file it writes</td>
+</tr>
+<tr class="odd">
+<td>sNMF gives different answers each time</td>
+<td>Too few repetitions, or genuinely unstable at that K</td>
+</tr>
+<tr class="even">
+<td>Ancestry proportions look plausible but odd</td>
+<td><code>ploidy = 1</code> was not set</td>
+</tr>
+<tr class="odd">
+<td>The cross-entropy curve never levels off</td>
+<td>Little real structure, or K not extended far enough</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 
 
 </section>
