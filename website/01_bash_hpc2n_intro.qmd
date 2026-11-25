@@ -171,7 +171,7 @@ Connect from a terminal with:
 ssh <your-username>@kebnekaise.hpc2n.umu.se
 ```
 
-You can also connect through VS Code with the Remote-SSH extension, exactly as described in [A Brief Introduction to Linux](./course_linux.html), which gives you a file browser and an editor alongside the terminal.
+You can also connect through VS Code with the Remote-SSH extension, exactly as described in [A Brief Introduction to Linux](./background_linux.html), which gives you a file browser and an editor alongside the terminal.
 
 
 ### Where to put your files
@@ -411,7 +411,7 @@ A short checklist. If any of these are not true, say so before we break, because
 - [ ] I have submitted a batch job and read its output file
 - [ ] I can start an RStudio session through Open OnDemand
 
-After lunch we set up Nextflow and get the pipeline running — see [Sarek Setup](./course_sarek.html).
+After lunch we set up Nextflow and get the pipeline running — see [Sarek Setup](./02_nextflow_intro_setup_sarek.html).
 
 ## Where to look things up
 
