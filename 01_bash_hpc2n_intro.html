@@ -379,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Feel free to ask questions if something does not behave the way you expect. Working through an error with someone is sometimes the fastest way to learn.</p>
 </div>
 </div>
-<p>If you have never used a terminal before, have a quick look at <a href="./background_linux.html">A Brief Introduction to Linux</a> first. It covers the filesystem, absolute and relative paths, and the handful of commands we use constantly.</p>
+<p>If you have never used a terminal before, I hope you have looked at <a href="./background_linux.html">A Brief Introduction to Linux</a> first. It covers the filesystem, absolute and relative paths, and the handful of commands we use constantly.</p>
 </section>
 <section id="part-1-the-shell" class="level2">
 <h2 class="anchored" data-anchor-id="part-1-the-shell">Part 1: The shell</h2>
@@ -514,8 +514,21 @@ Warning
 <section id="advanced-track-alternative-scripting-drills" class="level3">
 <h3 class="anchored" data-anchor-id="advanced-track-alternative-scripting-drills">Advanced track, alternative: scripting drills</h3>
 <p>If puzzles are not your thing but you want something harder than Carpentry, write a small script that does something you will actually need this week.</p>
-<p>Later in the week you will need to split the individuals in it into populations, because the Fst analysis takes one file of sample names per population. You can do that by hand, or you can let the sample names do the work for you: they start with a three-letter population code (<code>Bil</code>, <code>Bnp</code>, <code>Her</code>, <code>Iss</code>, …).</p>
+<p>Later in the week you will need to split the individuals in the fungal dataset into populations, because the Fst analysis takes one file of sample names per population. You can do that by hand, or you can let the sample names do the work for you: they start with a three-letter population code (<code>Bil</code>, <code>Bnp</code>, <code>Her</code>, <code>Iss</code>, …).</p>
 <p>The sample names live on the <code>#CHROM</code> header line of the VCF, from the tenth column onwards:</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Side note: Later in the week you will be given a chromosome to extract from the main vcf, which will be the basis for your population genomics analysis. For now we only have the main vcf to work with. You can find it in the hpc2n project directory and <code>data/phellopilus_nigrolimitatus/variation/Phenig_final_0619.recode.vcf</code></p>
+</div>
+</div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Pull the sample names out of a VCF header and write one file per population.</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -533,7 +546,7 @@ Warning
 <p>Run it and you get a count of individuals per population on screen, and a set of <code>pop_*.txt</code> files you can hand straight to <code>vcftools --weir-fst-pop</code> later in the week.</p>
 <p>Then extend it:</p>
 <ul>
-<li>Take the VCF as a command-line argument (<code>$1</code>) instead of hard-coding the filename, so it works on anybody’s chromosome</li>
+<li>Take the VCF as a command-line argument (<code>$1</code>) instead of hard-coding the filename, so it works on other vcf files too</li>
 <li>Make it handle a compressed VCF as well (<code>zgrep</code> instead of <code>grep</code>, when the name ends in <code>.gz</code>)</li>
 <li>Write the population files into a directory of their own instead of cluttering your working directory</li>
 <li>Skip populations with fewer than four individuals, since an Fst estimate from two samples is not worth much</li>
@@ -565,7 +578,7 @@ Tip
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -574,7 +587,7 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Once you have the loop above working, these are all one or two lines each, and all of them tell you something real about the file you will be analysing for the rest of the week:</p>
 <ol type="1">
@@ -626,9 +639,21 @@ Important
 <p>You have two places to work, and the difference matters:</p>
 <ul>
 <li><strong>Your home directory</strong> (<code>$HOME</code>). Small quota, backed up. Scripts, notes, configuration files.</li>
-<li><strong>Project storage</strong> (under <code>/proj/nobackup/fungal_popgen_course/</code>). Large, <em>not</em> backed up. Raw data, VCFs, Nextflow work directories, results.</li>
+<li><strong>Project storage</strong> (under <code>/proj/nobackup/</code>). Large, <em>not</em> backed up. Raw data, VCFs, Nextflow work directories, results.</li>
 </ul>
-<p>We will give you the exact path to the course project directory at the start of the session. Make yourself a folder there with your own name in it and keep all of your analysis inside it.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We will give you the exact path to the course project directory at the start of the session. In the course directory there is an <code>analysis</code> directory where I have made a directory for each group. If you want your own directory you can make yourself a directory with your own name in your groups directory. E.g. Say I am part of group 2 I would make this directory <code>analysis/group_02/mimmi</code>.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -643,9 +668,9 @@ Warning
 </div>
 </div>
 <p>To copy a file from your laptop to the cluster, run this <em>from your laptop</em>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> results.csv <span class="op">&lt;</span>your-username<span class="op">&gt;</span>@kebnekaise.hpc2n.umu.se:/proj/nobackup/fungal_popgen_course/analysis/<span class="op">&lt;</span>group-name<span class="op">&gt;</span>/<span class="op">&lt;</span>your-name<span class="op">&gt;</span>/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> results.csv <span class="op">&lt;</span>your-username<span class="op">&gt;</span>@kebnekaise.hpc2n.umu.se:/proj/nobackup/<span class="op">&lt;</span>project_dir<span class="op">&gt;</span>/analysis/<span class="op">&lt;</span>group-name<span class="op">&gt;</span>/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For directories, or anything you might need to re-copy, <code>rsync</code> is better, because it only transfers what has changed:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rsync</span> <span class="at">-avh</span> my_results/ <span class="op">&lt;</span>your-username<span class="op">&gt;</span>@kebnekaise.hpc2n.umu.se:/proj/nobackup/fungal_popgen_course/analysis/<span class="op">&lt;</span>group-name<span class="op">&gt;</span>/<span class="op">&lt;</span>your-name<span class="op">&gt;</span>/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rsync</span> <span class="at">-avh</span> my_results/ <span class="op">&lt;</span>your-username<span class="op">&gt;</span>@kebnekaise.hpc2n.umu.se:/proj/nobackup/<span class="op">&lt;</span>project_dir<span class="op">&gt;</span>/analysis/<span class="op">&lt;</span>group-name<span class="op">&gt;</span>/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="finding-and-loading-software" class="level3">
 <h3 class="anchored" data-anchor-id="finding-and-loading-software">Finding and loading software</h3>
@@ -689,31 +714,27 @@ Important
 <section id="your-first-batch-job" class="level3">
 <h3 class="anchored" data-anchor-id="your-first-batch-job">Your first batch job</h3>
 <p>A batch script is an ordinary shell script with a block of <code>#SBATCH</code> lines at the top. Those lines look like comments to bash, but SLURM reads them as your resource request.</p>
-<p>Open an editor on the cluster (<code>nano first_job.sh</code> is fine if you have no preference) and write:</p>
+<p>Open an editor on the cluster (<code>vim first_job.sh</code> is fine if you have no preference) and write:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Project to charge the job to - change to the course project ID</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -A hpc2nXXXX-YYY</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># A name for the job, so you can recognise it in the queue</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -J first_job</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#The number of nodes (--nodes)</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -N 1</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of tasks (--ntasks)</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -n 1</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># The number of cores for each task, used for threads (--cpus-per-task)</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -c 1</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Maximum run time, d-hh:mm:ss</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=1-00:00:00</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Where to write standard output and standard error</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=first_job.%J.out</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=first_job.%J.err</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Start from a clean module environment</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> purge <span class="op">&gt;</span> /dev/null <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"This job is running on: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"It started at: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="fu">sleep</span> 60</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"It finished at: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -N 1</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -n 1</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -c 1</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Where to write standard output and standard error</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=first_job.%J.out</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=first_job.%J.err</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Start from a clean module environment</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> purge <span class="op">&gt;</span> /dev/null <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"This job is running on: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"It started at: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">sleep</span> 60</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"It finished at: </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Submit it:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> first_job.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>SLURM replies with a job ID. Use it to follow the job:</p>
@@ -724,7 +745,7 @@ Important
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">less</span> first_job.<span class="pp">*</span>.out</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Note which machine it says it ran on. It is not the login node.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -733,7 +754,7 @@ Important
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <table class="caption-top table">
 <colgroup>
@@ -756,22 +777,26 @@ Important
 <td>A job name, shown in <code>squeue</code>. Use something you will recognise.</td>
 </tr>
 <tr class="odd">
+<td><code>-N 1</code></td>
+<td>The number of nodes the cores for the job can land on.</td>
+</tr>
+<tr class="even">
 <td><code>-n 1</code></td>
 <td>Number of tasks (think: cores) for a serial job.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>-c 8</code></td>
 <td>Cores per task — this is the one you want for multithreaded tools like <code>bwa -t 8</code>.</td>
 </tr>
-<tr class="odd">
-<td><code>--time=hh:mm:ss</code></td>
+<tr class="even">
+<td><code>--time=d-hh:mm:ss</code></td>
 <td>Wall-clock limit. The job is killed when it is reached.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>--output</code> / <code>--error</code></td>
 <td>Where stdout and stderr go. <code>%J</code> is replaced by the job ID.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>--mem</code></td>
 <td>Memory, if you need more than the default per core.</td>
 </tr>
@@ -800,7 +825,7 @@ Important
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> stats <span class="st">"</span><span class="va">$VCF</span><span class="st">"</span> <span class="op">&gt;</span> my_data.stats.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -809,7 +834,7 @@ Important
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li>Submit <code>first_job.sh</code> three times in a row and look at <code>squeue --me</code>. What are the jobs doing?</li>
@@ -837,7 +862,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you are running something long over an ssh connection, your job dies when your laptop sleeps or the network drops. <code>tmux</code> on the login node solves this: start a session with <code>tmux</code>, detach with <code>Ctrl-b d</code>, and reattach later with <code>tmux attach</code>. For actual analyses, the real answer is to use <code>sbatch</code> — a batch job does not care whether you stay logged in.</p>
+<p>If you are running something long over an ssh connection, your job dies when your laptop sleeps or the network drops. <code>tmux</code> (or <code>screen</code>) on the login node solves this: start a session with <code>tmux</code>, detach with <code>Ctrl-b d</code>, and reattach later with <code>tmux attach</code>. For actual analyses, the real answer is to use <code>sbatch</code> — a batch job does not care whether you stay logged in.</p>
 </div>
 </div>
 </section>
@@ -867,9 +892,8 @@ Important
 <ul>
 <li><strong>Project / account</strong>: the course project ID</li>
 <li><strong>Number of cores</strong>: 2 is plenty for what we do</li>
-<li><strong>Memory</strong>: start modest and increase it if R complains</li>
 <li><strong>Wall time</strong>: the length of the session — a few hours covers an afternoon</li>
-<li><strong>R version</strong>: pick a specific version and use the same one all week</li>
+<li><strong>Working Directory</strong>: This will be the project directory: <code>/proj/nobackup/&lt;project_dir&gt;</code></li>
 </ul>
 <p>Start the session, wait for it to be allocated, and click <strong>Connect</strong>. You now have RStudio running on a compute node, with your project storage visible in the Files pane.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -882,7 +906,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Packages you install go to your personal R library in your home directory and persist between sessions, so you only install them once. Install the ones we will need (<code>tidyverse</code>, <code>vcfR</code>, <code>LEA</code>) at the end of this session rather than on Wednesday morning — some of them take a while to compile, and it is more pleasant to have that happen while you are having coffee than while the rest of the group is waiting for you.</p>
+<p>For this course we have already installed all packages you need, some of them take a while to compile. If you get an error saying that something we tell you to use is not installed let us know and we’ll help you figure out wht is wrong.</p>
 </div>
 </div>
 </section>
@@ -891,7 +915,7 @@ Tip
 <p>The Code Server app gives you VS Code in the browser, again running on a compute node. It is the better choice when you are writing and running shell or Nextflow code rather than plotting, because you get the editor, the file tree and a terminal in one window.</p>
 <p>The form works the same way as for RStudio. One thing to be aware of: the terminal inside this VS Code session is already on a compute node, inside your allocation, so you do <strong>not</strong> submit jobs from it. Use it to write and test, and use the login node to <code>sbatch</code>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -900,7 +924,7 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <table class="caption-top table">
 <colgroup>
