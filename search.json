@@ -160,7 +160,7 @@
     "href": "discussion_exercises.html#end-of-course-evaluation",
     "title": "Discussion Guiding Questions",
     "section": "End of Course Evaluation",
-    "text": "End of Course Evaluation\n\nDuring the course, you have completed several exercises on a chromosome. As a final assignment, please compile your code and your results into a markdown document and render it. You are welcome to use Quarto or R Markdown.\nExplain what your code does and why you selected certain parameters. (E.g. why did you use a window size of 1000 instead of 100000). Select a region that is under selection on the chromosome you have worked with.\n\n\nExplain what you see in this region and what it tells you about what might be going on in the environment or within the population to result in this signature\nCreate a 3D structure of a protein of interest in this region. Why do you think this region may be experiencing the\n\n\nCompare your results with the findings of the paper. Did subsetting the data make a difference? Why did we do this? What are the impacts?\nWhat are the next steps? What haven’t we done?",
+    "text": "End of Course Evaluation\n\nDuring the course, you have completed several exercises on a chromosome. As a final assignment, please compile your code and your results into a markdown document and render it. You are welcome to use Quarto or R Markdown. There are some information about Quarto and R Markdown on the Introduction to Markdown and Quarto.\nExplain what your code does and why you selected certain parameters. (E.g. why did you use a window size of 1000 instead of 100000). Select a region that is under selection on the chromosome you have worked with.\n\n\nExplain what you see in this region and what it tells you about what might be going on in the environment or within the population to result in this signature\nCreate a 3D structure of a protein of interest in this region. Why do you think this region may be experiencing the\n\n\nCompare your results with the findings of the paper. Did subsetting the data make a difference? Why did we do this? What are the impacts?\nWhat are the next steps? What haven’t we done?",
     "crumbs": [
       "Home",
       "Discussion",
@@ -606,49 +606,49 @@
   {
     "objectID": "extra_genome_annotation.html",
     "href": "extra_genome_annotation.html",
-    "title": "Genome Annotation",
+    "title": "Extra: Genome Annotation",
     "section": "",
     "text": "It is all good and well to find signatures of selection across the genome, but if a genome is not annotated, you cannot say much more beyond “region xyz has a negative Tajima’s D”, for instance. In this course, you got a GFF3 with an annotation, but if you work with your own system, you might not have this.",
     "crumbs": [
       "Home",
       "Practicals",
-      "Genome Annotation"
+      "Extra: Genome Annotation"
     ]
   },
   {
     "objectID": "extra_genome_annotation.html#genome-annotation",
     "href": "extra_genome_annotation.html#genome-annotation",
-    "title": "Genome Annotation",
+    "title": "Extra: Genome Annotation",
     "section": "Genome Annotation",
     "text": "Genome Annotation\nThe first step is to determine where genes start and end. In this case, the reference genome has been annotated by the authors and can be found here.\nIf you had to perform your own annotations, you could perform an ab initio or de novo prediction using previously compiled gene prediction models from related species. There are many different tools available, and you should choose the best one for your organism. You can also create your own prediction model by sequencing the transcriptome of the organism whose genome you are sequencing. You would use a program like Augustus or GeneMark / GeneMark-ES. You will typically assemble the transcriptome (see the denovotranscript nf-core pipeline), and then use the assembly with the reference genome to train a prediction model to apply it to the assembly. You can use this hybrid appraoch through Augustus or through the Maker pipeline.\n\nGFF3 Format\nFrom this process, you obtain a GFF3 file. Here are is the first gene from that file\n##gff-version 3\n##sequence-region scaffold_1 1 2651010\nscaffold_1  prediction  gene    10804   11464   0   -   .   ID=gene_4;Name=jgi.p|Pheni1|273;portal_id=Pheni1;product_name=Nop10 family nucleolar RNA-binding protein;proteinId=273;transcriptId=615\nscaffold_1  prediction  mRNA    10804   11464   .   -   .   ID=mRNA_4;Name=jgi.p|Pheni1|273;Parent=gene_4;proteinId=273;track=FilteredModels1;transcriptId=615\nscaffold_1  prediction  exon    11166   11464   .   -   .   ID=exon_4_1;Parent=mRNA_4\nscaffold_1  prediction  five_prime_UTR  11220   11464   .   -   .   ID=UTR5_4;Parent=mRNA_4\nscaffold_1  prediction  CDS 11166   11219   .   -   0   ID=CDS_4;Parent=mRNA_4\nscaffold_1  prediction  exon    11061   11103   .   -   .   ID=exon_4_2;Parent=mRNA_4\nscaffold_1  prediction  CDS 11061   11103   .   -   0   ID=CDS_4;Parent=mRNA_4\nscaffold_1  prediction  exon    10804   11001   .   -   .   ID=exon_4_3;Parent=mRNA_4\nscaffold_1  prediction  CDS 10904   11001   .   -   2   ID=CDS_4;Parent=mRNA_4\nscaffold_1  prediction  three_prime_UTR 10804   10903   .   -   .   ID=UTR3_4;Parent=mRNA_4\n\n\n\n\n\n\n\n\nColumn\nContent\nExplanation\n\n\n\n\n1\nscaffold_1\nThe scaffold/contig name from the assembly the annotation is based on\n\n\n2\nprediction\nThe kind of data contained. Sometimes you will have the tool you used indicated here. Usually only important for the user\n\n\n3\ngene/exon/CDS/UTR\nThe feature contained within the following coordinates\n\n\n4\nint\nThe start position of the feature described in column3\n\n\n5\nint\nThe end position of the feature described in column3\n\n\n6\nscore\nThe quality of the gene prediction. A . is used when there is no quality predicted. It is unusual to have a score associated with predictions with modern software\n\n\n7\n+/-\nThe strand the prediction is made on\n\n\n8\nPhase\nThis refers to the reading frame phase, and only applies to CDS attributes\n\n\n9\nAttributes\nAnnotation information of the particular gene. In this case, there is information relating to other annotations associated to the assembly. This is usually appeneded by the annotation pipeline",
     "crumbs": [
       "Home",
       "Practicals",
-      "Genome Annotation"
+      "Extra: Genome Annotation"
     ]
   },
   {
     "objectID": "extra_genome_annotation.html#functional-annotation",
     "href": "extra_genome_annotation.html#functional-annotation",
-    "title": "Genome Annotation",
+    "title": "Extra: Genome Annotation",
     "section": "Functional Annotation",
     "text": "Functional Annotation\nOnce you know where the genes are, you need to know what genes do. A very comprehensive tool for this is eggNOG-mapper, and it uses orthology-based annotation rather than relying on best hits. See the prerecorded lectures on orthology.\nTo annotate localisation of predicted proteins, you can use DeepLoc. You might also be interested in annotating whether proteins are predicted to be effectors or not. You can annotate signal peptide regions with SignalP if you are not running DeepLoc on your predicted proteins. Proteins that have a signal peptide can be extracted and then annotated with EffectorP.",
     "crumbs": [
       "Home",
       "Practicals",
-      "Genome Annotation"
+      "Extra: Genome Annotation"
     ]
   },
   {
     "objectID": "extra_genome_annotation.html#extracting-regions-of-interest",
     "href": "extra_genome_annotation.html#extracting-regions-of-interest",
-    "title": "Genome Annotation",
+    "title": "Extra: Genome Annotation",
     "section": "Extracting Regions of Interest",
     "text": "Extracting Regions of Interest\nThe GFF format can be converted to BED format fairly easily by extracting columns 1, 4, and 5. By utilising this coordinate system, tools like bedtools getfasta from bedtools. If you would like to extract sequences by gene name from a multi-sequence fasta, you can use seqtk subseq from seqtk where you use a list of fasta identifiers, one per line.",
     "crumbs": [
       "Home",
       "Practicals",
-      "Genome Annotation"
+      "Extra: Genome Annotation"
     ]
   },
   {
