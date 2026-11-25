@@ -1,0 +1,431 @@
+---
+title: "Session 4: Population Statistics"
+---
+
+## Introduction
+
+A variant call format (VCF) is a type of file that stores all the information regarding variant and non-variant sites of individuals mapped to a reference assembly. This assembly can be a single chromosome, or a collection of scaffolds- there really is no limit!
+
+This morning we learned to [read a VCF and judge the data behind it](03_qc_nextflow-output.qmd). This afternoon we start asking questions of one: how variable is it, how is that variation distributed along a chromosome, and how is it partitioned between populations.
+
+::: {.callout-note}
+## Plan for the session
+
+1. Get your group's scaffold and set up the metadata you will need for every plot
+2. Assess the quality of the VCF and decide how to filter it
+3. Calculate allele frequencies, nucleotide diversity, Tajima's D and Fst
+4. Plot the results and work out what they are telling you
+
+The commands are the quick part. Deciding what the numbers mean is the session.
+:::
+
+::: {.callout-important}
+## We change dataset here
+
+This morning's data was silver birch — a diploid tree, assessed to learn how to read pipeline output. From here to the end of the course we work on a forest fungus instead: haploid, smaller, and supplied with the population metadata that these statistics require.
+
+The filtering reasoning you agreed on before lunch carries over. The thresholds themselves you will have to think about again, on a different organism.
+:::
+
+## Data we will be using
+
+To get familiar with the kind of tools and data one typically uses in bioinformatics analyses, I have selected a case from literature.
+
+1. Paper: [Population genomics of a forest fungus reveals high gene flow and climate adaptation signatures](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.16369)
+2. Data availability: [Dryad dataset doi:10.5061/dryad.7d7wm37wr](https://datadryad.org/stash/dataset/doi:10.5061/dryad.7d7wm37wr)
+3. Reference genome: [*Phellopilus nigrolimitatus* (Pheni1) at JGI MycoCosm](https://mycocosm.jgi.doe.gov/Pheni1/Pheni1.home.html)
+
+To get around storage and computational time restrictions, you will divide into groups of two and I will assign a scaffold to your group. You'll try to redo some of the analyses and statistics that are presented in the supplementary material, discover if there are any regions under selection in your scaffold
+
+::: {.callout-note}
+Each group gets a different scaffold, which means that by the end of the afternoon the room collectively holds a picture of the whole genome that no single group has. Compare your numbers with the group next to you — if your scaffold behaves differently from theirs, that difference is a result, not a mistake.
+:::
+
+## Tools available
+
+There are a multitude of tools available for the analysis of VCFs. It is almost entirely up to the researcher as to how they wish to interact with these files. Some bioinformaticians prefer to analyse files in the CLI and only plot the final data in R or python, while others prefer to do everything with R packages. For this part of the workshop, I will show you bits of both aspects.
+
+One popular R package for VCF analyses is [vcfR](https://cran.r-project.org/web/packages/vcfR/vignettes/intro_to_vcfR.html).
+
+To plot data, we will be using ggplot2, and some functions of the dplyr package.
+
+::: {.callout-important}
+## The commands on this page are deliberately incomplete
+
+You will notice that the commands below look like this:
+
+```{.bash}
+vcftools --vcf --site-depth
+```
+
+The input file name, the output name and in several cases a window or bin size are missing on purpose. Filling them in is the exercise: you are expected to read [the VCFtools manual](https://vcftools.sourceforge.net/man_latest.html), work out which arguments each option takes, and decide what to call the output.
+
+A useful habit while you do that: `--out` sets the output *prefix*, and VCFtools chooses the extension itself according to what you asked for. Knowing which extension to expect tells you whether the command did what you thought.
+:::
+
+## R scripts
+
+To ensure that your plots are easy to understand, it is important to have some metadata stored in the data you wish to plot. This can be sampling location, identity to ancestral genetic population, sampling year, and so on.
+
+The data we will be using has really neat identifiers as the individual names start with the population. This should act as an example for you to assign good names to your own data to ensure that as much as possible can be automated to reduce the chance of human error (as careful as you are, mistakes can happen very easily with large amounts of data and automation ensures that mistakes can easily be caught and corrected!)
+Have a look in the online data to see if you can see where this comes from.
+
+```{.r}
+ input_data %>%
+  mutate(Population = case_when(
+    startsWith(ID, "Bil") ~ "bil",
+    startsWith(ID, "Bnp") ~ "bnp",
+    startsWith(ID, "Her") ~ "her",
+    startsWith(ID, "Iss") ~ "iss",
+    startsWith(ID, "Kai") ~ "kai",
+    startsWith(ID, "Koi") ~ "koi",
+    startsWith(ID, "Kot") ~ "kot",
+    startsWith(ID, "Luu") ~ "luu",
+    startsWith(ID, "Met") ~ "met",
+    startsWith(ID, "Mor") ~ "mor",
+    startsWith(ID, "Mus") ~ "mus",
+    startsWith(ID, "Myl") ~ "myl",
+    startsWith(ID, "Pam") ~ "pam",
+    startsWith(ID, "Pat") ~ "pat",
+    startsWith(ID, "Pet") ~ "pet",
+    startsWith(ID, "Puk") ~ "puk",
+    startsWith(ID, "Rus") ~ "rus",
+    startsWith(ID, "Sig") ~ "sig",
+    startsWith(ID, "Skj") ~ "skj",
+    startsWith(ID, "eSK") ~ "skj",
+    startsWith(ID, "Spk") ~ "spk",
+    startsWith(ID, "Sus") ~ "sus",
+    startsWith(ID, "Ulv") ~ "ulv",
+    startsWith(ID, "Van") ~ "van",
+    startsWith(ID, "Ves") ~ "ves"
+  ))
+
+ input_data %>%
+  mutate(Location = case_when(
+    startsWith(ID, "Bil") ~ "Sweden",
+    startsWith(ID, "Bnp") ~ "Poland",
+    startsWith(ID, "Her") ~ "SWF",
+    startsWith(ID, "Iss") ~ "NEF",
+    startsWith(ID, "Kai") ~ "NEF",
+    startsWith(ID, "Koi") ~ "NEF",
+    startsWith(ID, "Kot") ~ "SWF",
+    startsWith(ID, "Luu") ~ "SWF",
+    startsWith(ID, "Met") ~ "SWF",
+    startsWith(ID, "Mor") ~ "Norway",
+    startsWith(ID, "Mus") ~ "SWF",
+    startsWith(ID, "Myl") ~ "SWF",
+    startsWith(ID, "Pam") ~ "NEF",
+    startsWith(ID, "Pat") ~ "NEF",
+    startsWith(ID, "Pet") ~ "SWF",
+    startsWith(ID, "Puk") ~ "SWF",
+    startsWith(ID, "Rus") ~ "Russia",
+    startsWith(ID, "Sig") ~ "Norway",
+    startsWith(ID, "Skj") ~ "Norway",
+    startsWith(ID, "eSK") ~ "Norway",
+    startsWith(ID, "Spk") ~ "Norway",
+    startsWith(ID, "Sus") ~ "SWF",
+    startsWith(ID, "Ulv") ~ "NEF",
+    startsWith(ID, "Van") ~ "NEF",
+    startsWith(ID, "Ves") ~ "SWF"
+))
+```
+
+In the supplementary data, the authors forgot to add the location of the kai population, so I just assigned it to NEF. Let us see if that was the correct designation.
+
+Key:
+
+* SWF: South Western Finland
+* NEF: North Eastern Finland
+
+::: {.callout-tip}
+Hold on to that `kai` question. It is a small, real, checkable claim about the dataset, and by the end of tomorrow you will have two independent ways of testing it: where `kai` individuals sit in a PCA, and which ancestry cluster they are assigned in the sNMF analysis. Few exercises in a course have an answer that is genuinely unknown to the person setting them.
+:::
+
+::: {.callout-note collapse="true"}
+## You have done this in bash already
+
+On Tuesday morning you wrote a loop that pulled the sample names out of a VCF header and split them into per-population files on the same three-letter prefix. The `case_when` blocks above are the R version of that idea, and the per-population files from the bash version are what the Fst analysis later on this page needs.
+
+Two languages, one principle: never type out a mapping you can derive from the data. A typo in a hand-made population assignment will not announce itself — it will just quietly move one individual into the wrong group and bias every comparison that uses it.
+:::
+
+To change the header of a column in R
+
+```{.r}
+ names(df)[names(df) == 'old.var.name'] <- 'new.var.name'
+```
+
+A basic barplot in ggplot. We can talk about facet wrap,
+
+```{.r}
+ggplot(input_file, aes(x=Individual, y =Mean.Depth, fill=Population)) +
+geom_bar(stat = "identity") +
+facet_wrap(~Location, scales = "free_x")
+```
+
+::: {.callout-note collapse="true"}
+## What `facet_wrap` buys you here
+
+`facet_wrap(~Location, scales = "free_x")` splits one crowded plot into one small panel per location, each with its own x axis. With twenty-five populations on a single axis the labels are unreadable and nothing is comparable; split by location, you can see at a glance whether, say, the Norwegian samples were sequenced more deeply than the Finnish ones.
+
+That is not a cosmetic question. Systematic differences in depth between the groups you intend to compare are a competing explanation for any difference you later find between them — the same point we made about the birch samples this morning, now with your own data.
+:::
+
+## Assessing quality of the VCF
+
+We have a special version of VCFtools that supports haploid data (<https://github.com/jydu/vcftools>). Everything remains the same as the original version of VCFtools, with added support for haploid datasets that becomes important for some of the summary statistics. Have a look at the VCFtools manual to see the range of possible functions within this software (<https://vcftools.sourceforge.net/man_latest.html>).
+
+::: {.callout-warning}
+## Which binary to run, and when it matters
+
+This is the point we flagged this morning, arriving in practice. Our fungus carries one copy of each chromosome, but a VCF records genotypes in a format designed for diploids, and statistics that are defined in terms of genotype counts therefore need to know which they are looking at.
+
+Depth and quality metrics do not care about ploidy — they count reads and read qualities. Anything derived from allele or genotype counts does: allele frequencies, nucleotide diversity, Tajima's D, Fst, and anything involving Hardy–Weinberg.
+
+Unless you are told otherwise, use the haploid-aware build for everything on this page, and be able to say which of your numbers would have changed if you had not.
+:::
+
+In VCFtools, it is important to remember to use the --recode option if you would like to output a new VCF that is filtered or contains a subset of positions or individuals. --out only sets the name of the output file. Use concise names so that it is easy for you to see what's in the output.
+
+Let us start by having a look at the sequencing depth of various aspects of the VCF. From the manual, figure out what each function means. Use less to see what's in each of these output files.
+
+```{.bash}
+vcftools-haploid --vcf --depth 
+```
+
+```{.bash}
+vcftools --vcf --site-depth 
+```
+
+```{.bash}
+vcftools --vcf  --site-mean-depth
+```
+
+Next, we want to see what the quality per site is
+
+```{.bash}
+vcftools --vcf --site-quality
+```
+
+I prefer analysing these outputs in R. From there, decide on upper and lower boundaries to filter the variants on your scaffold. Justify why you think these filtering criteria are suitable.
+
+::: {.callout-note collapse="true"}
+## Which file each option writes
+
+The extension tells you what you are looking at. These are the ones you will meet this afternoon:
+
+| Option | Output file | One row per |
+|---|---|---|
+| `--depth` | `.idepth` | individual — mean depth across sites |
+| `--site-depth` | `.ldepth` | site — summed depth over individuals |
+| `--site-mean-depth` | `.ldepth.mean` | site — mean depth across individuals |
+| `--site-quality` | `.lqual` | site — the `QUAL` field |
+| `--missing-indv` | `.imiss` | individual — how much data it is missing |
+| `--missing-site` | `.lmiss` | site — how many individuals have no call |
+| `--freq` | `.frq` | site — allele frequencies |
+| `--site-pi` | `.sites.pi` | site — nucleotide diversity |
+| `--window-pi` | `.windowed.pi` | window — nucleotide diversity |
+| `--TajimaD` | `.Tajima.D` | bin — Tajima's D |
+| `--weir-fst-pop` | `.weir.fst` / `.windowed.weir.fst` | site or window — Fst |
+| `--hardy` | `.hwe` | site — Hardy–Weinberg test |
+
+All of them also write a `.log`, which records exactly what the command did and how many sites survived. Read it. "After filtering, kept N out of a possible M Sites" is the single most informative line VCFtools prints, and it is how you catch a filter that removed far more — or far less — than you intended.
+:::
+
+::: {.callout-note collapse="true"}
+## Also worth computing before you filter
+
+Two of the thresholds agreed this morning were about missing data, and you cannot apply those without measuring them first:
+
+```{.bash}
+vcftools --vcf --missing-indv
+vcftools --vcf --missing-site
+```
+
+An individual missing most of its genotypes contributes almost nothing except noise, and is a candidate for removal with `--remove-indv`. A site missing in half the individuals is a candidate for removal with `--max-missing`.
+
+Once you have decided, your filters go in one command rather than several, so that the log records the whole decision in one place:
+
+```{.bash}
+vcftools --vcf --minDP --minQ --max-missing --recode --recode-INFO-all --out
+```
+
+`--recode-INFO-all` is worth knowing about: a plain `--recode` drops the `INFO` fields from the output VCF, which is a surprise you only want to have once.
+:::
+
+## Statistics per Chromosome
+
+Keep only the scaffold your group is working on in your folder
+
+```{.bash}
+vcftools --vcf --chr --recode
+```
+
+For downstream analyses, we need to remove all indels from the VCF
+
+```{.bash}
+vcftools --vcf --remove-indels --recode
+```
+
+For most analyses, we only consider bi-allelic sites
+
+```{.bash}
+vcftools --vcf --min-alleles 2 --max-alleles 2 --recode
+```
+
+::: {.callout-note collapse="true"}
+## Why remove indels, and why only two alleles?
+
+Neither of these is housekeeping — both are assumptions you are choosing to make.
+
+**Indels** are harder to call correctly from short reads than substitutions, because they require the aligner to have placed a gap in exactly the right position. In repetitive sequence it frequently does not. Most of the statistics below are also *defined* for single-nucleotide polymorphisms, so an indel in the input is at best ignored and at worst mishandled.
+
+**Bi-allelic sites** are sites with exactly one alternative allele. Tajima's D, Fst and the site frequency spectrum are all formulated in terms of two alleles at a site, so sites with three or more are excluded rather than approximated. Genuine tri-allelic sites exist, but at the depth and sample size we have, a third allele is more often a mapping artefact than biology.
+
+Both filters make your data cleaner and your dataset smaller. Note in your log how many sites each one removed.
+:::
+
+Look at allele frequency
+
+```{.bash}
+vcftools --vcf --freq 
+```
+
+Tajima's D in bins
+
+```{.bash}
+vcftools --vcf --TajimaD 
+```
+
+::: {.callout-note collapse="true"}
+## What Tajima's D is actually comparing
+
+Tajima's D contrasts two different ways of estimating the same quantity — the amount of genetic variation you would expect in a population of constant size that is not under selection.
+
+One estimate comes from the *number* of variable sites, which is sensitive to rare variants. The other comes from the *average number of differences between pairs of individuals*, which is dominated by common variants. Under the neutral, constant-size model the two agree and D is around zero. When they disagree, the sign tells you how:
+
+- **Negative D** — an excess of rare variants relative to common ones. Consistent with a population that has expanded (new mutations have not had time to become common), or with a selective sweep having recently removed variation and new mutations beginning to accumulate.
+- **Positive D** — a deficit of rare variants, or an excess of intermediate-frequency ones. Consistent with a population contraction, with structure that has been pooled together, or with balancing selection maintaining two alleles.
+
+Two cautions that matter more than the interpretation. First, demography affects the whole genome, while selection affects particular regions — so a genome-wide shift in D is a demographic story, and only an *outlier region against that background* is a candidate for selection. With one scaffold you are seeing a small part of that background, which is one reason to compare with other groups. Second, D is sensitive to how you filtered: discarding rare variants with a minor allele frequency cut-off removes exactly the variants that make D negative.
+:::
+
+Pi per site
+
+```{.bash}
+vcftools --vcf --site-pi
+```
+
+Pi per window
+
+```{.bash}
+vcftools --vcf --window-pi
+```
+
+::: {.callout-note collapse="true"}
+## Pi, per site and per window
+
+Nucleotide diversity, π, is the average number of differences per base between two randomly chosen sequences from the population. Per site it is a small number computed at each variable position; per window it is averaged over a stretch of sequence, which is almost always the more useful view.
+
+Window size is a choice you are making, not a detail. Too small and each window contains too few variants to estimate anything stably, so the plot is dominated by noise. Too large and a real signal is averaged away against its surroundings. Try more than one and see how much your conclusions depend on it — if a feature disappears when you change the window size, it was never there.
+
+Watch out for one trap in particular: a window containing almost no callable sites can show spuriously high or low diversity. Always plot the number of variants per window alongside π, so you can see which points are supported by data.
+:::
+
+Fst. Here, create a file of individuals from 6 populations (2 SWF, 2 NEF, Sweden, Poland) that you will use as pop1 and pop2 to do a pairwise Fst analysis to determine what the fixation index is. I have made a list of the individuals per population that you can find in the course repo on Github.
+
+```{.bash}
+vcftools --vcf --weir-fst-pop pop1 --weir-fst-pop pop2 --fst-window-size
+```
+
+::: {.callout-warning}
+Note the two dashes on `--fst-window-size`. A single dash gives `Error: Unknown option`, and because VCFtools stops there, it is an easy one to stare past.
+
+Each population file is a plain list of individual names, one per line, exactly as they are spelled in the VCF. Check them against `bcftools query -l` or the `#CHROM` header line rather than against the paper — a name that does not match a sample in the VCF is silently ignored, so a misspelling shows up as a population that is smaller than you think rather than as an error.
+:::
+
+::: {.callout-note collapse="true"}
+## Reading an Fst value
+
+Fst asks how much of the total genetic variation is explained by the division of individuals into populations. Zero means the populations are indistinguishable — all the variation is within them. One means they are fixed for different alleles, sharing nothing.
+
+Real values for populations of a wind-dispersed forest fungus are usually small, and small is a finding rather than a failure: it means gene flow between the regions is high enough to keep them genetically similar. The paper this data comes from says as much in its title.
+
+Three things to keep in your head while you interpret your numbers:
+
+- A *mean* Fst over your whole scaffold is a statement about the populations. An Fst *outlier window* is a statement about that region of the genome, and the two answer different questions.
+- Per-site Fst estimates are noisy, and individual sites can even come out slightly negative, which simply means no detectable differentiation. Windowed estimates are what you should interpret.
+- Fst depends on how much variation there is overall. A region of low diversity can show high Fst without any selection acting on it, which is why Fst outliers are usually interpreted alongside π and Tajima's D rather than alone.
+:::
+
+::: {.callout-note collapse="true"}
+## Random mating, and a statistic you cannot use here
+
+The obvious next question is whether individuals within a population are mating at random, and the usual test is a comparison of observed and expected genotype frequencies under Hardy–Weinberg equilibrium:
+
+```{.bash}
+vcftools --vcf --hardy
+```
+
+Try it, and then think carefully about what it can possibly mean. Hardy–Weinberg describes how two alleles at a locus combine into *genotypes* — homozygotes and heterozygotes — in a randomly mating diploid population. Our fungus is haploid for most of its life cycle. It has one allele at each locus, so there are no genotypes to count and no heterozygote deficit to measure.
+
+This is not a quirk of the software. It is a reminder that a statistic is a model of a process, and the model has to match the organism. The question "are these individuals mating at random?" is a good one for this fungus, but it has to be asked differently — through linkage disequilibrium, through the distribution of clonal genotypes, or through the structure analyses we do tomorrow.
+
+For an organism where the test does apply, look back at the birch data from this morning: eleven diploid, outcrossing, wind-pollinated trees is exactly the situation Hardy–Weinberg was formulated for.
+:::
+
+PCA that will also be plotted in R. For the PCA, you will plot the eigenvalues to illustrate what each component explains in your data, as well as PC1 and PC2, Pc2 and PC3, and PC3 and PC4.
+
+```{.bash}
+plink --vcf --pca
+```
+
+::: {.callout-tip}
+This is the same analysis we pick up at the start of [Session 5](05_pop_structure.qmd), where the plotting code and the interpretation are set out in full. If you get this far today, you have started tomorrow early.
+:::
+
+If there is a region that is under selection within your data, have a look at the gff3 file to see the genes that are present within the region.
+
+With these kinds of analyses, you are very well on the way to finding regions that are under selection by combining Tajima's D and Fst. You can show which regions have higher SNP density.
+
+::: {.callout-note}
+## Discussion
+
+1. Where did you set your depth and quality thresholds, and how many sites did each filter remove? Did any of them remove more than you expected?
+2. What is the mean Fst between your two populations? Is it small, and if so, what does that tell you about this species?
+3. Is Tajima's D on your scaffold mostly positive, mostly negative, or centred on zero? Is that a statement about the population or about this region of the genome?
+4. Do your Tajima's D and Fst outliers coincide? If a window stands out in both, what would you need in order to claim it is under selection — and what else could produce the same pattern?
+5. Compare with the group next to you. Does your scaffold look like theirs?
+6. Which of your filtering decisions would most change your answer to question 3 if you had chosen differently?
+:::
+
+## Before we stop
+
+- [ ] I know which scaffold is mine and have a VCF containing only that scaffold
+- [ ] My VCF is filtered, and I can say what each filter did and why
+- [ ] I have allele frequencies, π and Tajima's D for my scaffold
+- [ ] I have a pairwise Fst between two populations, with population files I have checked against the VCF
+- [ ] I have at least one plot with the population or location metadata attached to it
+- [ ] I can state one thing my scaffold suggests, and one reason it might be wrong
+
+## Where to look things up
+
+- [VCFtools manual](https://vcftools.sourceforge.net/man_latest.html) — the authoritative list of options and what they output
+- [Haploid-aware VCFtools](https://github.com/jydu/vcftools) — the build we use here
+- [vcfR introduction](https://cran.r-project.org/web/packages/vcfR/vignettes/intro_to_vcfR.html) — for doing the same work inside R
+- [The paper](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.16369) and its supplementary material — the analyses you are reproducing
+- [PLINK 1.9 documentation](https://www.cog-genomics.org/plink/1.9/) — for the PCA
+
+::: {.callout-note collapse="true"}
+## Troubleshooting quick reference
+
+| Symptom | Usual cause |
+|---|---|
+| `Error: Unknown option` | A single dash where two are needed, or a typo in the option name |
+| The output VCF has lost its `INFO` fields | `--recode` without `--recode-INFO-all` |
+| "kept 0 out of a possible N Sites" | A filter is stricter than you meant, or `--chr` does not match any name in the file |
+| A population looks smaller than it should | Names in the population file do not match the VCF exactly |
+| Fst comes out as `-nan` or blank in a window | No variable sites in that window after filtering |
+| Tajima's D or π looks wildly spiky | Windows containing very few callable sites — plot the variant count per window too |
+| A statistic looks implausible given the ploidy | The diploid VCFtools build was used where the haploid one was needed |
+:::
