@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>pop_stats – Fungal Population Genomics</title>
+<title>Session 4: Population Statistics – Fungal Population Genomics</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -25,6 +25,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -46,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-fae47caf9e852e6e4b6ee8ceec8e0f71.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-d24e9988e144b212bf8980b3ab8c7ee6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,7 +150,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./04_pop_stats.html">04_pop_stats.html</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./04_pop_stats.html">Session 4: Population Statistics</a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -224,7 +259,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04_pop_stats.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">04_pop_stats.html</span></a>
+ <span class="menu-text">Session 4: Population Statistics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -272,17 +307,642 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#data-we-will-be-using" id="toc-data-we-will-be-using" class="nav-link" data-scroll-target="#data-we-will-be-using">Data we will be using</a></li>
+  <li><a href="#tools-available" id="toc-tools-available" class="nav-link" data-scroll-target="#tools-available">Tools available</a></li>
+  <li><a href="#r-scripts" id="toc-r-scripts" class="nav-link" data-scroll-target="#r-scripts">R scripts</a></li>
+  <li><a href="#assessing-quality-of-the-vcf" id="toc-assessing-quality-of-the-vcf" class="nav-link" data-scroll-target="#assessing-quality-of-the-vcf">Assessing quality of the VCF</a></li>
+  <li><a href="#statistics-per-chromosome" id="toc-statistics-per-chromosome" class="nav-link" data-scroll-target="#statistics-per-chromosome">Statistics per Chromosome</a></li>
+  <li><a href="#before-we-stop" id="toc-before-we-stop" class="nav-link" data-scroll-target="#before-we-stop">Before we stop</a></li>
+  <li><a href="#where-to-look-things-up" id="toc-where-to-look-things-up" class="nav-link" data-scroll-target="#where-to-look-things-up">Where to look things up</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content" tabindex="-1"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./04_pop_stats.html">04_pop_stats.html</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./04_pop_stats.html">Session 4: Population Statistics</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Session 4: Population Statistics</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
 
 
+</header>
 
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>A variant call format (VCF) is a type of file that stores all the information regarding variant and non-variant sites of individuals mapped to a reference assembly. This assembly can be a single chromosome, or a collection of scaffolds- there really is no limit!</p>
+<p>This morning we learned to <a href="./03_qc_nextflow-output.html">read a VCF and judge the data behind it</a>. This afternoon we start asking questions of one: how variable is it, how is that variation distributed along a chromosome, and how is it partitioned between populations.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Plan for the session
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Get your group’s scaffold and set up the metadata you will need for every plot</li>
+<li>Assess the quality of the VCF and decide how to filter it</li>
+<li>Calculate allele frequencies, nucleotide diversity, Tajima’s D and Fst</li>
+<li>Plot the results and work out what they are telling you</li>
+</ol>
+<p>The commands are the quick part. Deciding what the numbers mean is the session.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>We change dataset here
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This morning’s data was silver birch — a diploid tree, assessed to learn how to read pipeline output. From here to the end of the course we work on a forest fungus instead: haploid, smaller, and supplied with the population metadata that these statistics require.</p>
+<p>The filtering reasoning you agreed on before lunch carries over. The thresholds themselves you will have to think about again, on a different organism.</p>
+</div>
+</div>
+</section>
+<section id="data-we-will-be-using" class="level2">
+<h2 class="anchored" data-anchor-id="data-we-will-be-using">Data we will be using</h2>
+<p>To get familiar with the kind of tools and data one typically uses in bioinformatics analyses, I have selected a case from literature.</p>
+<ol type="1">
+<li>Paper: <a href="https://onlinelibrary.wiley.com/doi/full/10.1111/mec.16369">Population genomics of a forest fungus reveals high gene flow and climate adaptation signatures</a></li>
+<li>Data availability: <a href="https://datadryad.org/stash/dataset/doi:10.5061/dryad.7d7wm37wr">Dryad dataset doi:10.5061/dryad.7d7wm37wr</a></li>
+<li>Reference genome: <a href="https://mycocosm.jgi.doe.gov/Pheni1/Pheni1.home.html"><em>Phellopilus nigrolimitatus</em> (Pheni1) at JGI MycoCosm</a></li>
+</ol>
+<p>To get around storage and computational time restrictions, you will divide into groups of two and I will assign a scaffold to your group. You’ll try to redo some of the analyses and statistics that are presented in the supplementary material, discover if there are any regions under selection in your scaffold</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each group gets a different scaffold, which means that by the end of the afternoon the room collectively holds a picture of the whole genome that no single group has. Compare your numbers with the group next to you — if your scaffold behaves differently from theirs, that difference is a result, not a mistake.</p>
+</div>
+</div>
+</section>
+<section id="tools-available" class="level2">
+<h2 class="anchored" data-anchor-id="tools-available">Tools available</h2>
+<p>There are a multitude of tools available for the analysis of VCFs. It is almost entirely up to the researcher as to how they wish to interact with these files. Some bioinformaticians prefer to analyse files in the CLI and only plot the final data in R or python, while others prefer to do everything with R packages. For this part of the workshop, I will show you bits of both aspects.</p>
+<p>One popular R package for VCF analyses is <a href="https://cran.r-project.org/web/packages/vcfR/vignettes/intro_to_vcfR.html">vcfR</a>.</p>
+<p>To plot data, we will be using ggplot2, and some functions of the dplyr package.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The commands on this page are deliberately incomplete
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You will notice that the commands below look like this:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--site-depth</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The input file name, the output name and in several cases a window or bin size are missing on purpose. Filling them in is the exercise: you are expected to read <a href="https://vcftools.sourceforge.net/man_latest.html">the VCFtools manual</a>, work out which arguments each option takes, and decide what to call the output.</p>
+<p>A useful habit while you do that: <code>--out</code> sets the output <em>prefix</em>, and VCFtools chooses the extension itself according to what you asked for. Knowing which extension to expect tells you whether the command did what you thought.</p>
+</div>
+</div>
+</section>
+<section id="r-scripts" class="level2">
+<h2 class="anchored" data-anchor-id="r-scripts">R scripts</h2>
+<p>To ensure that your plots are easy to understand, it is important to have some metadata stored in the data you wish to plot. This can be sampling location, identity to ancestral genetic population, sampling year, and so on.</p>
+<p>The data we will be using has really neat identifiers as the individual names start with the population. This should act as an example for you to assign good names to your own data to ensure that as much as possible can be automated to reduce the chance of human error (as careful as you are, mistakes can happen very easily with large amounts of data and automation ensures that mistakes can easily be caught and corrected!) Have a look in the online data to see if you can see where this comes from.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> input_data <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Population =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Bil"</span>) <span class="sc">~</span> <span class="st">"bil"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Bnp"</span>) <span class="sc">~</span> <span class="st">"bnp"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"her"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"iss"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"kai"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"koi"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"kot"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"luu"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"met"</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"mor"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"mus"</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"myl"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"pam"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"pat"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"pet"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"puk"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"rus"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"sig"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"skj"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"spk"</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"sus"</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"ulv"</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"van"</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"ves"</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a> input_data <span class="sc">%&gt;%</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Location =</span> <span class="fu">case_when</span>(</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Bil"</span>) <span class="sc">~</span> <span class="st">"Sweden"</span>,</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Bnp"</span>) <span class="sc">~</span> <span class="st">"Poland"</span>,</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Her"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Iss"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kai"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Koi"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Kot"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Luu"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Met"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mor"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Mus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Myl"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pam"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pat"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Pet"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Puk"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Rus"</span>) <span class="sc">~</span> <span class="st">"Russia"</span>,</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sig"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Skj"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"eSK"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Spk"</span>) <span class="sc">~</span> <span class="st">"Norway"</span>,</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Sus"</span>) <span class="sc">~</span> <span class="st">"SWF"</span>,</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ulv"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Van"</span>) <span class="sc">~</span> <span class="st">"NEF"</span>,</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>    <span class="fu">startsWith</span>(ID, <span class="st">"Ves"</span>) <span class="sc">~</span> <span class="st">"SWF"</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In the supplementary data, the authors forgot to add the location of the kai population, so I just assigned it to NEF. Let us see if that was the correct designation.</p>
+<p>Key:</p>
+<ul>
+<li>SWF: South Western Finland</li>
+<li>NEF: North Eastern Finland</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Hold on to that <code>kai</code> question. It is a small, real, checkable claim about the dataset, and by the end of tomorrow you will have two independent ways of testing it: where <code>kai</code> individuals sit in a PCA, and which ancestry cluster they are assigned in the sNMF analysis. Few exercises in a course have an answer that is genuinely unknown to the person setting them.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>You have done this in bash already
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>On Tuesday morning you wrote a loop that pulled the sample names out of a VCF header and split them into per-population files on the same three-letter prefix. The <code>case_when</code> blocks above are the R version of that idea, and the per-population files from the bash version are what the Fst analysis later on this page needs.</p>
+<p>Two languages, one principle: never type out a mapping you can derive from the data. A typo in a hand-made population assignment will not announce itself — it will just quietly move one individual into the wrong group and bias every comparison that uses it.</p>
+</div>
+</div>
+</div>
+<p>To change the header of a column in R</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">names</span>(df)[<span class="fu">names</span>(df) <span class="sc">==</span> <span class="st">'old.var.name'</span>] <span class="ot">&lt;-</span> <span class="st">'new.var.name'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A basic barplot in ggplot. We can talk about facet wrap,</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(input_file, <span class="fu">aes</span>(<span class="at">x=</span>Individual, <span class="at">y =</span>Mean.Depth, <span class="at">fill=</span>Population)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">facet_wrap</span>(<span class="sc">~</span>Location, <span class="at">scales =</span> <span class="st">"free_x"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What <code>facet_wrap</code> buys you here
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>facet_wrap(~Location, scales = "free_x")</code> splits one crowded plot into one small panel per location, each with its own x axis. With twenty-five populations on a single axis the labels are unreadable and nothing is comparable; split by location, you can see at a glance whether, say, the Norwegian samples were sequenced more deeply than the Finnish ones.</p>
+<p>That is not a cosmetic question. Systematic differences in depth between the groups you intend to compare are a competing explanation for any difference you later find between them — the same point we made about the birch samples this morning, now with your own data.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="assessing-quality-of-the-vcf" class="level2">
+<h2 class="anchored" data-anchor-id="assessing-quality-of-the-vcf">Assessing quality of the VCF</h2>
+<p>We have a special version of VCFtools that supports haploid data (<a href="https://github.com/jydu/vcftools" class="uri">https://github.com/jydu/vcftools</a>). Everything remains the same as the original version of VCFtools, with added support for haploid datasets that becomes important for some of the summary statistics. Have a look at the VCFtools manual to see the range of possible functions within this software (<a href="https://vcftools.sourceforge.net/man_latest.html" class="uri">https://vcftools.sourceforge.net/man_latest.html</a>).</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Which binary to run, and when it matters
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is the point we flagged this morning, arriving in practice. Our fungus carries one copy of each chromosome, but a VCF records genotypes in a format designed for diploids, and statistics that are defined in terms of genotype counts therefore need to know which they are looking at.</p>
+<p>Depth and quality metrics do not care about ploidy — they count reads and read qualities. Anything derived from allele or genotype counts does: allele frequencies, nucleotide diversity, Tajima’s D, Fst, and anything involving Hardy–Weinberg.</p>
+<p>Unless you are told otherwise, use the haploid-aware build for everything on this page, and be able to say which of your numbers would have changed if you had not.</p>
+</div>
+</div>
+<p>In VCFtools, it is important to remember to use the –recode option if you would like to output a new VCF that is filtered or contains a subset of positions or individuals. –out only sets the name of the output file. Use concise names so that it is easy for you to see what’s in the output.</p>
+<p>Let us start by having a look at the sequencing depth of various aspects of the VCF. From the manual, figure out what each function means. Use less to see what’s in each of these output files.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools-haploid</span> <span class="at">--vcf</span> <span class="at">--depth</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--site-depth</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span>  <span class="at">--site-mean-depth</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Next, we want to see what the quality per site is</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--site-quality</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>I prefer analysing these outputs in R. From there, decide on upper and lower boundaries to filter the variants on your scaffold. Justify why you think these filtering criteria are suitable.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Which file each option writes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The extension tells you what you are looking at. These are the ones you will meet this afternoon:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Output file</th>
+<th>One row per</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>--depth</code></td>
+<td><code>.idepth</code></td>
+<td>individual — mean depth across sites</td>
+</tr>
+<tr class="even">
+<td><code>--site-depth</code></td>
+<td><code>.ldepth</code></td>
+<td>site — summed depth over individuals</td>
+</tr>
+<tr class="odd">
+<td><code>--site-mean-depth</code></td>
+<td><code>.ldepth.mean</code></td>
+<td>site — mean depth across individuals</td>
+</tr>
+<tr class="even">
+<td><code>--site-quality</code></td>
+<td><code>.lqual</code></td>
+<td>site — the <code>QUAL</code> field</td>
+</tr>
+<tr class="odd">
+<td><code>--missing-indv</code></td>
+<td><code>.imiss</code></td>
+<td>individual — how much data it is missing</td>
+</tr>
+<tr class="even">
+<td><code>--missing-site</code></td>
+<td><code>.lmiss</code></td>
+<td>site — how many individuals have no call</td>
+</tr>
+<tr class="odd">
+<td><code>--freq</code></td>
+<td><code>.frq</code></td>
+<td>site — allele frequencies</td>
+</tr>
+<tr class="even">
+<td><code>--site-pi</code></td>
+<td><code>.sites.pi</code></td>
+<td>site — nucleotide diversity</td>
+</tr>
+<tr class="odd">
+<td><code>--window-pi</code></td>
+<td><code>.windowed.pi</code></td>
+<td>window — nucleotide diversity</td>
+</tr>
+<tr class="even">
+<td><code>--TajimaD</code></td>
+<td><code>.Tajima.D</code></td>
+<td>bin — Tajima’s D</td>
+</tr>
+<tr class="odd">
+<td><code>--weir-fst-pop</code></td>
+<td><code>.weir.fst</code> / <code>.windowed.weir.fst</code></td>
+<td>site or window — Fst</td>
+</tr>
+<tr class="even">
+<td><code>--hardy</code></td>
+<td><code>.hwe</code></td>
+<td>site — Hardy–Weinberg test</td>
+</tr>
+</tbody>
+</table>
+<p>All of them also write a <code>.log</code>, which records exactly what the command did and how many sites survived. Read it. “After filtering, kept N out of a possible M Sites” is the single most informative line VCFtools prints, and it is how you catch a filter that removed far more — or far less — than you intended.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Also worth computing before you filter
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Two of the thresholds agreed this morning were about missing data, and you cannot apply those without measuring them first:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--missing-indv</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--missing-site</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>An individual missing most of its genotypes contributes almost nothing except noise, and is a candidate for removal with <code>--remove-indv</code>. A site missing in half the individuals is a candidate for removal with <code>--max-missing</code>.</p>
+<p>Once you have decided, your filters go in one command rather than several, so that the log records the whole decision in one place:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--minDP</span> <span class="at">--minQ</span> <span class="at">--max-missing</span> <span class="at">--recode</span> <span class="at">--recode-INFO-all</span> <span class="at">--out</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>--recode-INFO-all</code> is worth knowing about: a plain <code>--recode</code> drops the <code>INFO</code> fields from the output VCF, which is a surprise you only want to have once.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="statistics-per-chromosome" class="level2">
+<h2 class="anchored" data-anchor-id="statistics-per-chromosome">Statistics per Chromosome</h2>
+<p>Keep only the scaffold your group is working on in your folder</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--chr</span> <span class="at">--recode</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For downstream analyses, we need to remove all indels from the VCF</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--remove-indels</span> <span class="at">--recode</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For most analyses, we only consider bi-allelic sites</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--min-alleles</span> 2 <span class="at">--max-alleles</span> 2 <span class="at">--recode</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why remove indels, and why only two alleles?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Neither of these is housekeeping — both are assumptions you are choosing to make.</p>
+<p><strong>Indels</strong> are harder to call correctly from short reads than substitutions, because they require the aligner to have placed a gap in exactly the right position. In repetitive sequence it frequently does not. Most of the statistics below are also <em>defined</em> for single-nucleotide polymorphisms, so an indel in the input is at best ignored and at worst mishandled.</p>
+<p><strong>Bi-allelic sites</strong> are sites with exactly one alternative allele. Tajima’s D, Fst and the site frequency spectrum are all formulated in terms of two alleles at a site, so sites with three or more are excluded rather than approximated. Genuine tri-allelic sites exist, but at the depth and sample size we have, a third allele is more often a mapping artefact than biology.</p>
+<p>Both filters make your data cleaner and your dataset smaller. Note in your log how many sites each one removed.</p>
+</div>
+</div>
+</div>
+<p>Look at allele frequency</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--freq</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Tajima’s D in bins</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--TajimaD</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What Tajima’s D is actually comparing
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Tajima’s D contrasts two different ways of estimating the same quantity — the amount of genetic variation you would expect in a population of constant size that is not under selection.</p>
+<p>One estimate comes from the <em>number</em> of variable sites, which is sensitive to rare variants. The other comes from the <em>average number of differences between pairs of individuals</em>, which is dominated by common variants. Under the neutral, constant-size model the two agree and D is around zero. When they disagree, the sign tells you how:</p>
+<ul>
+<li><strong>Negative D</strong> — an excess of rare variants relative to common ones. Consistent with a population that has expanded (new mutations have not had time to become common), or with a selective sweep having recently removed variation and new mutations beginning to accumulate.</li>
+<li><strong>Positive D</strong> — a deficit of rare variants, or an excess of intermediate-frequency ones. Consistent with a population contraction, with structure that has been pooled together, or with balancing selection maintaining two alleles.</li>
+</ul>
+<p>Two cautions that matter more than the interpretation. First, demography affects the whole genome, while selection affects particular regions — so a genome-wide shift in D is a demographic story, and only an <em>outlier region against that background</em> is a candidate for selection. With one scaffold you are seeing a small part of that background, which is one reason to compare with other groups. Second, D is sensitive to how you filtered: discarding rare variants with a minor allele frequency cut-off removes exactly the variants that make D negative.</p>
+</div>
+</div>
+</div>
+<p>Pi per site</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--site-pi</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Pi per window</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--window-pi</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Pi, per site and per window
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Nucleotide diversity, π, is the average number of differences per base between two randomly chosen sequences from the population. Per site it is a small number computed at each variable position; per window it is averaged over a stretch of sequence, which is almost always the more useful view.</p>
+<p>Window size is a choice you are making, not a detail. Too small and each window contains too few variants to estimate anything stably, so the plot is dominated by noise. Too large and a real signal is averaged away against its surroundings. Try more than one and see how much your conclusions depend on it — if a feature disappears when you change the window size, it was never there.</p>
+<p>Watch out for one trap in particular: a window containing almost no callable sites can show spuriously high or low diversity. Always plot the number of variants per window alongside π, so you can see which points are supported by data.</p>
+</div>
+</div>
+</div>
+<p>Fst. Here, create a file of individuals from 6 populations (2 SWF, 2 NEF, Sweden, Poland) that you will use as pop1 and pop2 to do a pairwise Fst analysis to determine what the fixation index is. I have made a list of the individuals per population that you can find in the course repo on Github.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--weir-fst-pop</span> pop1 <span class="at">--weir-fst-pop</span> pop2 <span class="at">--fst-window-size</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note the two dashes on <code>--fst-window-size</code>. A single dash gives <code>Error: Unknown option</code>, and because VCFtools stops there, it is an easy one to stare past.</p>
+<p>Each population file is a plain list of individual names, one per line, exactly as they are spelled in the VCF. Check them against <code>bcftools query -l</code> or the <code>#CHROM</code> header line rather than against the paper — a name that does not match a sample in the VCF is silently ignored, so a misspelling shows up as a population that is smaller than you think rather than as an error.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Reading an Fst value
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Fst asks how much of the total genetic variation is explained by the division of individuals into populations. Zero means the populations are indistinguishable — all the variation is within them. One means they are fixed for different alleles, sharing nothing.</p>
+<p>Real values for populations of a wind-dispersed forest fungus are usually small, and small is a finding rather than a failure: it means gene flow between the regions is high enough to keep them genetically similar. The paper this data comes from says as much in its title.</p>
+<p>Three things to keep in your head while you interpret your numbers:</p>
+<ul>
+<li>A <em>mean</em> Fst over your whole scaffold is a statement about the populations. An Fst <em>outlier window</em> is a statement about that region of the genome, and the two answer different questions.</li>
+<li>Per-site Fst estimates are noisy, and individual sites can even come out slightly negative, which simply means no detectable differentiation. Windowed estimates are what you should interpret.</li>
+<li>Fst depends on how much variation there is overall. A region of low diversity can show high Fst without any selection acting on it, which is why Fst outliers are usually interpreted alongside π and Tajima’s D rather than alone.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Random mating, and a statistic you cannot use here
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The obvious next question is whether individuals within a population are mating at random, and the usual test is a comparison of observed and expected genotype frequencies under Hardy–Weinberg equilibrium:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">vcftools</span> <span class="at">--vcf</span> <span class="at">--hardy</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Try it, and then think carefully about what it can possibly mean. Hardy–Weinberg describes how two alleles at a locus combine into <em>genotypes</em> — homozygotes and heterozygotes — in a randomly mating diploid population. Our fungus is haploid for most of its life cycle. It has one allele at each locus, so there are no genotypes to count and no heterozygote deficit to measure.</p>
+<p>This is not a quirk of the software. It is a reminder that a statistic is a model of a process, and the model has to match the organism. The question “are these individuals mating at random?” is a good one for this fungus, but it has to be asked differently — through linkage disequilibrium, through the distribution of clonal genotypes, or through the structure analyses we do tomorrow.</p>
+<p>For an organism where the test does apply, look back at the birch data from this morning: eleven diploid, outcrossing, wind-pollinated trees is exactly the situation Hardy–Weinberg was formulated for.</p>
+</div>
+</div>
+</div>
+<p>PCA that will also be plotted in R. For the PCA, you will plot the eigenvalues to illustrate what each component explains in your data, as well as PC1 and PC2, Pc2 and PC3, and PC3 and PC4.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--vcf</span> <span class="at">--pca</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is the same analysis we pick up at the start of <a href="./05_pop_structure.html">Session 5</a>, where the plotting code and the interpretation are set out in full. If you get this far today, you have started tomorrow early.</p>
+</div>
+</div>
+<p>If there is a region that is under selection within your data, have a look at the gff3 file to see the genes that are present within the region.</p>
+<p>With these kinds of analyses, you are very well on the way to finding regions that are under selection by combining Tajima’s D and Fst. You can show which regions have higher SNP density.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Discussion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Where did you set your depth and quality thresholds, and how many sites did each filter remove? Did any of them remove more than you expected?</li>
+<li>What is the mean Fst between your two populations? Is it small, and if so, what does that tell you about this species?</li>
+<li>Is Tajima’s D on your scaffold mostly positive, mostly negative, or centred on zero? Is that a statement about the population or about this region of the genome?</li>
+<li>Do your Tajima’s D and Fst outliers coincide? If a window stands out in both, what would you need in order to claim it is under selection — and what else could produce the same pattern?</li>
+<li>Compare with the group next to you. Does your scaffold look like theirs?</li>
+<li>Which of your filtering decisions would most change your answer to question 3 if you had chosen differently?</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="before-we-stop" class="level2">
+<h2 class="anchored" data-anchor-id="before-we-stop">Before we stop</h2>
+<ul class="task-list">
+<li><label><input type="checkbox">I know which scaffold is mine and have a VCF containing only that scaffold</label></li>
+<li><label><input type="checkbox">My VCF is filtered, and I can say what each filter did and why</label></li>
+<li><label><input type="checkbox">I have allele frequencies, π and Tajima’s D for my scaffold</label></li>
+<li><label><input type="checkbox">I have a pairwise Fst between two populations, with population files I have checked against the VCF</label></li>
+<li><label><input type="checkbox">I have at least one plot with the population or location metadata attached to it</label></li>
+<li><label><input type="checkbox">I can state one thing my scaffold suggests, and one reason it might be wrong</label></li>
+</ul>
+</section>
+<section id="where-to-look-things-up" class="level2">
+<h2 class="anchored" data-anchor-id="where-to-look-things-up">Where to look things up</h2>
+<ul>
+<li><a href="https://vcftools.sourceforge.net/man_latest.html">VCFtools manual</a> — the authoritative list of options and what they output</li>
+<li><a href="https://github.com/jydu/vcftools">Haploid-aware VCFtools</a> — the build we use here</li>
+<li><a href="https://cran.r-project.org/web/packages/vcfR/vignettes/intro_to_vcfR.html">vcfR introduction</a> — for doing the same work inside R</li>
+<li><a href="https://onlinelibrary.wiley.com/doi/full/10.1111/mec.16369">The paper</a> and its supplementary material — the analyses you are reproducing</li>
+<li><a href="https://www.cog-genomics.org/plink/1.9/">PLINK 1.9 documentation</a> — for the PCA</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Troubleshooting quick reference
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symptom</th>
+<th>Usual cause</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Error: Unknown option</code></td>
+<td>A single dash where two are needed, or a typo in the option name</td>
+</tr>
+<tr class="even">
+<td>The output VCF has lost its <code>INFO</code> fields</td>
+<td><code>--recode</code> without <code>--recode-INFO-all</code></td>
+</tr>
+<tr class="odd">
+<td>“kept 0 out of a possible N Sites”</td>
+<td>A filter is stricter than you meant, or <code>--chr</code> does not match any name in the file</td>
+</tr>
+<tr class="even">
+<td>A population looks smaller than it should</td>
+<td>Names in the population file do not match the VCF exactly</td>
+</tr>
+<tr class="odd">
+<td>Fst comes out as <code>-nan</code> or blank in a window</td>
+<td>No variable sites in that window after filtering</td>
+</tr>
+<tr class="even">
+<td>Tajima’s D or π looks wildly spiky</td>
+<td>Windows containing very few callable sites — plot the variant count per window too</td>
+</tr>
+<tr class="odd">
+<td>A statistic looks implausible given the ploidy</td>
+<td>The diploid VCFtools build was used where the haploid one was needed</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
