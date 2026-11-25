@@ -3,6 +3,7 @@ title: "Extra: Simulation tools"
 ---
 
 Here are some tutorials where you can change assumptions to see how your populations are affected:
-- * [PopG Online](https://ug.sebc.me/labs/popg)
-- * [learnPopGen](http://www.phytools.org/PopGen/)
-- * [POPGENEJS](https://popgenejs.bioinformat.org)
+
+- [PopG Online](https://ug.sebc.me/labs/popg)
+- [learnPopGen](http://www.phytools.org/PopGen/)
+- [POPGENEJS](https://popgenejs.bioinformat.org)
