@@ -33,6 +33,7 @@ website:
           - 03_qc_nextflow-output.qmd
           - 04_pop_stats.qmd
           - 05_pop_structure.qmd
+          - extra_simulation_tools.qmd
           - extra_genome_annotation.qmd
           - extra_solutions.qmd
       - section: "Discussion"
