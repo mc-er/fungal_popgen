@@ -1,5 +1,5 @@
 ---
-title: "Genome Annotation"
+title: "Extra: Genome Annotation"
 ---
 
 It is all good and well to find signatures of selection across the genome, but if a genome is not annotated, you cannot say much more beyond "region xyz has a negative Tajima's D", for instance. In this course, you got a GFF3 with an annotation, but if you work with your own system, you might not have this.
