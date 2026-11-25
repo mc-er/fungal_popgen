@@ -25,24 +25,6 @@ title: "Discussion Guiding Questions"
 10. How do we make use of the principles of homology and orthology in functional and structural prediction?
 
 
-
-
-does chr match genomewide 
-
-annotate proteins alphafold3 deeploc2
-
-extract specific gene seq tools
-
-circos :/ 
-
-
-Here are some tutorials where you can change assumptions to see how your populations are affected
-* [PopG Online](https://ug.sebc.me/labs/popg)
-* [learnPopGen](http://www.phytools.org/PopGen/)
-* [POPGENEJS](https://popgenejs.bioinformat.org)
-
-If you would like to master some more bash skills have a look at [bandit](https://overthewire.org/wargames/bandit/)
-
 ## End of Course Evaluation
 
 1. During the course, you have completed several exercises on a chromosome. As a final assignment, please compile your code and your results into a markdown document and render it. You are welcome to use Quarto or R Markdown.
