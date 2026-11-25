@@ -2,23 +2,81 @@
 title: "Session 5: Population Structure"
 ---
 
+## Introduction
+
+Yesterday afternoon you measured variation on your scaffold and compared two populations with it. Today we ask a different question, and we stop assuming we know who the populations are. Given only the genotypes, how do these individuals group together?
+
+Two complementary methods answer that. A PCA makes no assumptions about populations at all and simply asks which individuals resemble each other. sNMF fits an explicit model in which each individual draws its ancestry from some number of genetic clusters. When the two agree, you have something. When they disagree, you have something more interesting.
+
+::: {.callout-note}
+## Plan for the session
+
+1. Finish plotting the statistics from yesterday — π, Tajima's D and Fst along your scaffold
+2. Run a PCA on the genotypes and plot it
+3. Run sNMF, choose a value of K, and make an admixture plot
+4. Put the two side by side and decide what they are telling you, and what they are not
+
+The morning is for getting the analyses to run. The afternoon is for interpretation, and for the group discussion of what the whole room has found.
+:::
 
 ::: {.callout-note}
 Differentiate which commands are bash commands, which commands call dependencies within your Pixi environment, and which ones call on containers
 :::
 
+::: {.callout-tip}
+## Yesterday's plots first
+
+Before starting anything new, finish the plots from [Session 4](04_pop_stats.qmd): nucleotide diversity, Tajima's D and Fst along your scaffold, with the position on the x axis.
+
+Plot them one above the other on a shared axis. A region that stands out in all three is the thing you spent yesterday looking for, and it is much easier to see in aligned panels than in three separate figures. Remember to plot the number of variants per window as well, so you can tell a real feature from an empty window.
+:::
 
 ## PCA
+
 Replace underscores with nothing
+
+```{.bash}
+VCF=your_scaffold_filtered.vcf
+sed "s/_//g" "$VCF" > "${VCF%.vcf}_renamed.vcf"
+```
+
+Run PCA generation through plink
+
+```{.bash}
+plink --vcf "${VCF%.vcf}_renamed.vcf" --allow-extra-chr --pca
+```
+
+::: {.callout-note collapse="true"}
+## Why the underscores have to go, and a shell trap in the original
+
+PLINK reads a VCF's sample names into a `.fam` file with two identifier columns, a family ID and an individual ID, and it splits names containing an underscore between the two. Watch what it does to our naming convention:
+
+```text
+sample in VCF      FID     IID
+Bil_01       ->    Bil     01
+Her_03       ->    Her     03
+```
+
+The sample is now called `01`, in a family called `Bil`. Every downstream step that matches on the individual name then fails or, worse, silently matches the wrong thing. Stripping the underscores first keeps each name whole, so `Bil01` appears as both the family and the individual ID — which is exactly what the R code below depends on when it reads column `V1` and calls it `ID`.
+
+There is a cleaner, more surgical alternative worth knowing:
+
+```{.bash}
+plink --vcf "$VCF" --allow-extra-chr --double-id --pca
+```
+
+`--double-id` tells PLINK to use the whole sample name for both ID columns and not split on the underscore at all, which leaves your VCF untouched.
+
+**The shell trap.** The original form of the first command was:
+
 ```{.bash}
 sed "s/_//g" $VCF > $VCF_renamed.vcf
 ```
 
-Run PCA generation through plink
-```{.bash}
-plink --vcf $VCF_renamed.vcf --allow-extra-chr --pca
-```
+In bash, `$VCF_renamed` is not "the variable `VCF` followed by the text `_renamed`" — it is a *different variable*, named `VCF_renamed`, which does not exist. It expands to nothing, so the command writes to a file called `.vcf` and your real output never appears. Underscores are legal in variable names, which is precisely why this fails silently. If you want to append text to a variable, brace it: `${VCF}_renamed.vcf`.
 
+Also note what the `sed` affects: it removes every underscore in the whole file, including from chromosome and scaffold names. If your scaffold is called `scaffold_12` it is now `scaffold12`, which matters when you cross-reference positions against the GFF3.
+:::
 
 ::: {.callout-tip}
 
@@ -26,6 +84,13 @@ plink v1.9 is a lot better and more reliable than plink v2. Always check which v
 
 :::
 
+::: {.callout-note collapse="true"}
+## What `--allow-extra-chr` is for, and the warning you will see
+
+PLINK was written for human data and expects chromosomes named 1–22, X, Y and MT. A scaffold name from a fungal assembly is none of those, and without `--allow-extra-chr` PLINK stops rather than guessing. This is the same human-centric assumption we met in the pipeline on Tuesday, in a different tool.
+
+You will also probably see a warning recommending a minor allele frequency filter. Take it seriously: a PCA is strongly influenced by rare variants, and singletons — variants seen in exactly one individual — can pull that individual away from everyone else and produce a component that describes nothing but sequencing noise. Try the PCA with and without `--maf`, and see whether your conclusions survive.
+:::
 
 ```{.r}
 #PCA
@@ -102,7 +167,48 @@ ggplot(pca_eigenvec, aes(x= V4, y= V3, col = Population)) +
   geom_point()
 ```
 
+::: {.callout-note collapse="true"}
+## Which column is which
+
+`--pca` writes two files, and knowing their layout saves a lot of confusion:
+
+| File | Contents |
+|---|---|
+| `plink.eigenval` | One row per component, holding its eigenvalue |
+| `plink.eigenvec` | One row per individual: family ID, individual ID, then one column per component |
+
+So in `plink.eigenvec`, read as a headerless table:
+
+| Column | Holds |
+|---|---|
+| `V1` | Family ID — the sample name, once the underscores are gone |
+| `V2` | Individual ID — the same name again |
+| `V3` | PC1 |
+| `V4` | PC2 |
+| `V5` | PC3 |
+| `V6` | PC4 |
+
+The plot in the code above therefore puts PC2 on the x axis and PC1 on the y. For the other pairs you were asked for, PC2 against PC3 is `V4` and `V5`, and PC3 against PC4 is `V5` and `V6`.
+
+Two notes on the code as written. The file paths are from my machine, so change them to yours. And a PCA has no inherent orientation — the sign of a component is arbitrary, so your plot may be a mirror image of your neighbour's even when the analysis is identical. That is not a mistake, and it is a good reason never to describe a result as "on the left".
+:::
+
+::: {.callout-note collapse="true"}
+## What a PCA of genotypes is actually doing
+
+Each individual is a long vector of genotypes. A PCA finds the directions in that high-dimensional space along which individuals differ most, and gives you each individual's position along those directions. No population labels go in; any grouping you see in the output came out of the genotypes themselves.
+
+That is its strength and its limitation.
+
+**The eigenvalues matter.** Each eigenvalue is the amount of variance its component explains, which is why you were asked to plot them. If PC1 explains a few per cent more than PC2 and the rest trail off evenly, no component is capturing a strong structure, and reading a story into the scatter plot is over-interpretation. Plotting the eigenvalues first is what stops you doing that.
+
+**Distance in a PCA is not a tree, and clusters are not populations.** Individuals close together are genetically similar, which can mean shared ancestry, but can equally mean similar amounts of missing data, similar sequencing depth, or similar rates of relatedness. More subtly, a continuous gradient of ancestry across geography — isolation by distance — also produces smooth, structured PCA axes, and those can look convincingly like discrete clusters when you only have a sample of individuals.
+
+So before concluding anything: colour your PCA by sequencing depth and by missingness as well as by population. If PC1 correlates with depth rather than with geography, PC1 is a technical artefact and you have just saved yourself an embarrassing conclusion.
+:::
+
 ## LD (We are not going to do this in the course today)
+
 Use scaffolds where _ are removed. This step is usually very memory intensive, so splitting the dataset into scaffolds is usually necessary. Under normal assumptions you would not expect unique chromosomes to be linked
 
 ```{.bash}
@@ -115,13 +221,11 @@ library(dplyr)
 library(stringr)
 library(ggplot2)
 
-dfr <-read.delim("in_file",sep="",hea
-der=F,check.names=F,stringsAsFactors=F)
+dfr <-read.delim("in_file",sep="",header=F,check.names=F,stringsAsFactors=F)
 colnames(dfr) <- c("dist","rsq")
 dfr$distc <- cut(dfr$dist,breaks=seq(from=min(dfr$dist)-1,to=max(dfr$dist)+1,by=10000))
 dfr1 <- dfr %>% group_by(distc) %>% summarise(mean=mean(rsq),median=median(rsq))
-dfr1 <- dfr1 %>% mutate(start=as.integer(str_extract(str_replace_all(distc,"[\\(\\)\\[\\]]",""),"^[0-9-
-e+.]+")),
+dfr1 <- dfr1 %>% mutate(start=as.integer(str_extract(str_replace_all(distc,"[\\(\\)\\[\\]]",""),"^[0-9-e+.]+")),
 
 end=as.integer(str_extract(str_replace_all(distc,"[\\(\\)\\[\\]]",""),"[0-9-e+.]+$")),
 mid=start+((end-start)/2))
@@ -132,12 +236,21 @@ ggplot(dfr1, aes(x=start,y=mean))+
 
 ```
 
+::: {.callout-note collapse="true"}
+## What this would tell you, if we had time
+
+Linkage disequilibrium is the association between alleles at different positions. Two variants that are inherited together more often than chance are in LD, and because recombination breaks those associations up over time, LD decays with physical distance along a chromosome. The code above bins pairs of variants by the distance between them and plots mean r² against that distance.
+
+The shape of that decay is informative in itself. LD that decays within a few kilobases indicates frequent recombination, which in a fungus means regular sexual reproduction and outcrossing. LD that stays high over long distances indicates the opposite: clonal or highly selfing reproduction, where whole haplotypes are passed on intact.
+
+That is the question yesterday's Hardy–Weinberg test could not answer for a haploid organism. LD decay is one of the ways you *can* ask it. If you want something to do after the course, this is the analysis to come back to.
+:::
+
 ## Population Structure
 
 There are many ways to determine population structure. We will use sNMF.
 
-
-Convert the VCF to a .geno file with LEA in R. Here is some (example code)[https://rdrr.io/bioc/LEA/man/vcf2geno.html]
+Convert the VCF to a .geno file with LEA in R. Here is some [example code](https://rdrr.io/bioc/LEA/man/vcf2geno.html)
 
 ```{.r}
 library(LEA)
@@ -170,7 +283,9 @@ output = vcf2geno("example.vcf", "plop.geno")
 # nothing happens.
 output = vcf2geno("example.vcf", force = FALSE)
 ```
+
 The converted file can be used by sNMF to create the admixture plots
+
 ```{.r}
 library(LEA)
 library(tidyverse)
@@ -221,11 +336,95 @@ axis.text.x = element_text(angle = 60, hjust = 1),
 legend.title = element_blank())
 # display the Q-matrix
 #my.colors <- c("tomato", "lightblue",
-"olivedrab", "gold")
+#"olivedrab", "gold")
 #barchart(project.snmf, K = 4, run = best,
-border = NA, space = 0, col = my.colors,
-xlab = "Individuals", ylab = "Ancestry proportions",
-main = "Ancestry matrix") -> bp
+#border = NA, space = 0, col = my.colors,
+#xlab = "Individuals", ylab = "Ancestry proportions",
+#main = "Ancestry matrix") -> bp
 #axis(1, at = 1:length(bp$order),
-labels = bp$order, las = 3, cex.axis = .4)
+#labels = bp$order, las = 3, cex.axis = .4)
 ```
+
+::: {.callout-important}
+## `ploidy = 1`
+
+Note that argument in the `snmf()` call. It is the most important line in the block, and the whole reason we have been careful about ploidy all week: sNMF has to know that each individual carries one allele per locus, not two. Leave it at the default and the model is wrong for this organism, and it will not tell you so — it will return ancestry coefficients that look entirely plausible.
+:::
+
+::: {.callout-warning}
+## Run this on the cluster
+
+`K = 1:20` with `repetitions = 10` is 200 separate runs of the algorithm. On a real dataset that is not a thing to run in an interactive R session while twenty other people are doing the same on the same login node.
+
+Put it in a batch script, as you learned on Tuesday, and submit it. While it runs, plot your PCA. If you want results sooner, narrow the range of K — there is rarely a reason to test twenty clusters for twenty-five populations' worth of individuals, and you can always extend the range afterwards.
+:::
+
+::: {.callout-note collapse="true"}
+## Choosing K, and what the admixture plot does and does not show
+
+sNMF estimates, for each individual, the proportion of its genome attributable to each of K ancestral genetic clusters. You choose K. The cross-entropy criterion — the thing plotted by `plot(project.snmf, ...)` in the code above — helps, by measuring how well each K predicts genotypes that were masked during fitting. Lower is better, and the usual advice is to take the K at which the curve levels off.
+
+Be careful how much weight you put on that.
+
+**K is a parameter of the model, not a property of nature.** There is no true number of populations waiting to be found. Different values of K are different resolutions at which to describe the same data, and several may be worth showing — which is exactly why the code loops over K = 6 to 9 and facets the plot, rather than reporting one number.
+
+**The clusters have no names and no history.** sNMF gives you cluster 1, 2, 3. It does not tell you that cluster 1 is "the Finnish population" — you infer that by looking at which individuals carry it, using metadata that the model never saw. Keep the inference and the output separate in your writing.
+
+**Mixed ancestry is not proof of admixture.** An individual shown as half one cluster and half another is consistent with recent mixing between two populations, but it is equally consistent with being from an unsampled population intermediate between the two, or from a continuous gradient that K clusters cannot represent. Structure plots are routinely over-read on exactly this point in the published literature.
+
+**Run it more than once.** The algorithm starts from a random position and can settle in different places, which is why the code requests ten repetitions and selects the run with the lowest cross-entropy. If repeated runs at the same K give substantially different answers, that instability is itself a result, and reporting only the prettiest run is not honest.
+:::
+
+::: {.callout-tip}
+## The `kai` question
+
+Yesterday you were told that the authors did not report a location for the `kai` population, and that it had been assigned to north-eastern Finland. You now have two independent ways of checking that, neither of which uses the assignment itself:
+
+- In the PCA, do the `kai` individuals sit among the other NEF populations, or somewhere else?
+- In the sNMF output, do they carry the same ancestry proportions as the NEF populations?
+
+If both say NEF, the guess was good. If they disagree with each other, think about why two methods on the same genotypes might reach different answers — that is a more interesting outcome than either verdict.
+:::
+
+::: {.callout-note}
+## Discussion
+
+1. How much variance do your first few principal components explain? Is there a strong structure in these data at all?
+2. Does your PCA correlate with anything technical — depth, missingness, the scaffold you were assigned?
+3. Which K does the cross-entropy curve favour? How different do the admixture plots look either side of it?
+4. Do the PCA and the sNMF plot tell the same story? Where exactly do they disagree?
+5. Yesterday's Fst between your populations was presumably low. Is that consistent with what you see today?
+6. The paper reports high gene flow. Having now seen the structure yourself, what in your output supports that, and what would you want before you believed it?
+7. Each group analysed a different scaffold. Should structure estimated from one scaffold agree between groups? What would it mean if it did not?
+:::
+
+## Before we stop
+
+- [ ] Yesterday's statistics are plotted along my scaffold, in aligned panels
+- [ ] I have a PCA, with the eigenvalues plotted as well as the components
+- [ ] My PCA is coloured by population and by at least one technical variable
+- [ ] I have an sNMF run with `ploidy = 1`, and a cross-entropy plot
+- [ ] I have an admixture plot for more than one value of K
+- [ ] I can state one conclusion supported by both methods, and one claim I decided not to make
+
+## Where to look things up
+
+- [LEA package documentation](https://bioconductor.org/packages/release/bioc/html/LEA.html) — `vcf2geno`, `snmf`, `cross.entropy` and `Q`
+- [vcf2geno reference](https://rdrr.io/bioc/LEA/man/vcf2geno.html) — the example code above
+- [PLINK 1.9 documentation](https://www.cog-genomics.org/plink/1.9/) — `--pca`, `--allow-extra-chr`, `--double-id`, `--r2`
+- [The paper](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.16369) — compare your structure results with theirs
+- [Session 4](04_pop_stats.qmd) — the statistics these plots sit alongside
+
+::: {.callout-note collapse="true"}
+## Troubleshooting quick reference
+
+| Symptom | Usual cause |
+|---|---|
+| PLINK refuses to read the file, complaining about chromosome codes | `--allow-extra-chr` is missing |
+| Sample names in `.eigenvec` have been cut in half | Underscores in the names; strip them or use `--double-id` |
+| `sed` produced a file called `.vcf` and nothing else | `$VCF_renamed` instead of `${VCF}_renamed` |
+| `vcf2geno` drops a large number of sites | Non-biallelic or indel records — check the `.removed` file it writes |
+| sNMF gives different answers each time | Too few repetitions, or genuinely unstable at that K |
+| Ancestry proportions look plausible but odd | `ploidy = 1` was not set |
+| The cross-entropy curve never levels off | Little real structure, or K not extended far enough |
+:::
