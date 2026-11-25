@@ -253,7 +253,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03_qc_nextflow-output.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Session 3: Quality Control and the VCF Format</span></a>
+ <span class="menu-text">Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -350,7 +350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>This afternoon we set up <a href="https://github.com/NBISweden/biovat">BioVAT</a> and get it running. That is the whole goal: by the time we stop at 14.30, a pipeline should be running on Kebnekaise and producing output while we go home.</p>
+<p>This afternoon we will set up <a href="https://github.com/NBISweden/biovat">BioVAT</a> and get it running. That is the whole goal: by the time we stop at 14.30, a pipeline should be running on Kebnekaise and producing output while we go home.</p>
 <p>We are deliberately not analysing anything today. Getting a pipeline to start — correct software, correct samplesheet, correct reference, correct cluster settings — is a real part of bioinformatics work, and it is where most of the time goes the first time you meet a new pipeline. Tomorrow morning we look at what came out of it.</p>
 <p>BioVAT, the BIOdiversity Variant Analysis Toolkit, is a Nextflow pipeline from <a href="https://nbis.se">NBIS</a>, built specifically for population genomics in non-model organisms. It takes raw reads and a reference genome, and gives back a multi-sample VCF together with quality reports at every stage — which is exactly the input we need for Wednesday and Thursday.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -373,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Steps 1–3 are the ones that matter. If you get that far and understand what you did, the afternoon was a success.</p>
 </div>
 </div>
-<p>If the words Nextflow, nf-core, container and environment manager are new, the background pages on <a href="./course_nextflow.html">Nextflow</a>, <a href="./course_nf-core.html">nf-core</a>, <a href="./course_containers.html">Containers</a> and <a href="./course_pixi.html">Pixi</a> cover the concepts. This page is only about making it run.</p>
+<p>If the words Nextflow, nf-core, container and environment manager are new, the background pages on <a href="./background_nextflow.html">Nextflow</a>, <a href="./background_nf-core.html">nf-core</a>, <a href="./background_containers.html">Containers</a> and <a href="./background_pixi.html">Pixi</a> cover the concepts. This page is only about making it run.</p>
 </section>
 <section id="what-biovat-does" class="level2">
 <h2 class="anchored" data-anchor-id="what-biovat-does">What BioVAT does</h2>
@@ -947,7 +947,7 @@ Her_03,her</code></pre>
 <p>This is the minimum you need to be able to say, in a methods section, what you actually did. The course dataset was chosen partly because the original authors did this well.</p>
 </div>
 </div>
-<p>Tomorrow at 9.00 we look at the output: the MultiQC report, the QC metrics in <code>01_input_checks/</code> and <code>03_read_alignment/qc/</code>, and what they tell us about whether the variant calls in <code>07_variant_calls/</code> can be trusted. After that we move on to <a href="./course_pop_stats.html">Population Statistics</a>.</p>
+<p>Tomorrow at 9.00 we look at the output: the MultiQC report, the QC metrics in <code>01_input_checks/</code> and <code>03_read_alignment/qc/</code>, and what they tell us about whether the variant calls in <code>07_variant_calls/</code> can be trusted. After that we move on to <a href="./04_pop_stats.html">Population Statistics</a>.</p>
 </section>
 <section id="where-to-look-things-up" class="level2">
 <h2 class="anchored" data-anchor-id="where-to-look-things-up">Where to look things up</h2>

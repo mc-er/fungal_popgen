@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Session 3: Quality Control and the VCF Format – Fungal Population Genomics</title>
+<title>qc_nextflow-output – Fungal Population Genomics</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -150,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./03_qc_nextflow-output.html">Session 3: Quality Control and the VCF Format</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./03_qc_nextflow-output.html">Introduction</a></li></ol></nav>
         <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -253,7 +253,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03_qc_nextflow-output.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Session 3: Quality Control and the VCF Format</span></a>
+ <span class="menu-text">Introduction</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -341,30 +341,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content" tabindex="-1">
-
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./03_qc_nextflow-output.html">Session 3: Quality Control and the VCF Format</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">Session 3: Quality Control and the VCF Format</h1>
-</div>
+<main class="content" id="quarto-document-content" tabindex="-1"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_bash_hpc2n_intro.html">Practicals</a></li><li class="breadcrumb-item"><a href="./03_qc_nextflow-output.html">Introduction</a></li></ol></nav></header>
 
 
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
 
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>Yesterday afternoon we launched a pipeline and left it running. This morning we find out what it did.</p>
+<p>Yesterday afternoon we launched Sarek on eleven silver birch (<em>Betula pendula</em>) individuals from <a href="https://doi.org/10.1038/ng.3862">Salojärvi <em>et al.</em> (2017)</a>, with the reads subset to two chromosomes. This morning we find out what it did.</p>
 <p>This session is different from the others. There are commands to run, but the point of the morning is not the commands — it is judgement. You will be asked to look at a set of quality metrics and decide whether the data behind them can carry the conclusions we want to draw this afternoon. That decision is yours to make and yours to defend, and there is no green tick anywhere that makes it for you.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -577,7 +561,8 @@ Tip
 </table>
 <p>Modern Illumina data sits around Q30–Q36 for most of the read and falls off at the end. That tail is why we trim. What should worry you is a sudden collapse, a read that starts badly, or one sample that looks quite different from the rest.</p>
 <p><strong>Per base sequence content.</strong> The first several bases almost always show a strong, repeatable bias. This is a well-known artefact of the random priming used in library preparation, not a problem with your sample, and FastQC flags it on nearly every genomic library ever made. What is <em>not</em> normal is bias continuing along the whole read, which suggests a composition problem or heavy contamination.</p>
-<p><strong>Per sequence GC content.</strong> This is the module to look at hardest, and the reason is biological. Our isolates were cultured from forest material. If something else came along — a bacterium, a plant, another fungus — its DNA was sequenced too, and because different organisms have different GC content, it shows up as a second peak or a conspicuous shoulder next to the expected unimodal distribution.</p>
+<p><strong>Per sequence GC content.</strong> This is the module to look at hardest, and the reason is biological. The DNA came from the tissue of a tree growing outdoors, and a tree is a habitat: endophytic fungi, epiphytes, bacteria and insects all live in and on it, and whatever came along in the sample was sequenced too. Because different organisms have different GC content, a contaminant shows up as a second peak or a conspicuous shoulder beside the expected unimodal distribution.</p>
+<p>Plant material adds a second, entirely expected source of structure here: chloroplasts and mitochondria are present in many copies per cell and have their own GC content, so organellar reads can form a distinct mode of their own.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -588,7 +573,7 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Contamination is not a hypothetical concern for environmental isolates; it is routine. It also does not announce itself later in the pipeline: contaminant reads either fail to map, which looks like a low mapping rate, or map to repetitive and conserved regions, which looks like variants. A bimodal GC distribution now is much easier to deal with than a strange population structure plot on Thursday.</p>
+<p>Contamination is not a hypothetical concern for field-collected plant material; it is routine. It also does not announce itself later in the pipeline: contaminant reads either fail to map, which looks like a low mapping rate, or map to repetitive and conserved regions, which looks like variants. A bimodal GC distribution now is much easier to deal with than a strange population structure plot on Thursday.</p>
 </div>
 </div>
 <p><strong>Sequence Duplication Levels.</strong> Duplicates arise when the same original DNA fragment is sequenced more than once, usually because PCR amplified it during library preparation. They matter for us because they inflate apparent read depth without adding information: ten reads that are all copies of one fragment look like tenfold coverage but carry one fragment’s worth of evidence. This is exactly why the pipeline marks duplicates before calling variants.</p>
@@ -621,7 +606,7 @@ Warning
 </section>
 <section id="part-2-multiqc" class="level2">
 <h2 class="anchored" data-anchor-id="part-2-multiqc">Part 2: MultiQC</h2>
-<p>With twenty-odd isolates and two files each, nobody opens forty FastQC reports. MultiQC collects the output of every tool in the pipeline, for every sample, into one interactive report.</p>
+<p>With eleven trees and two read files each, that is twenty-two FastQC reports, and nobody opens twenty-two of anything. MultiQC collects the output of every tool in the pipeline, for every sample, into one interactive report.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> results/multiqc/</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># multiqc_report.html   multiqc_data/   multiqc_plots/</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-important callout-titled">
@@ -676,7 +661,8 @@ Warning
 <p>Here is where working on a non-model organism becomes visible in the numbers.</p>
 <section id="mapping-rate-and-reference-bias" class="level3">
 <h3 class="anchored" data-anchor-id="mapping-rate-and-reference-bias">Mapping rate and reference bias</h3>
-<p>Our reference genome was assembled from one isolate. Every other isolate differs from it, and the more an individual differs, the harder its reads are to map. For human data a mapping rate above 95% is routine, because the reference is a well-polished consensus of the species. Do not expect that here, and do not treat a lower number as failure.</p>
+<p>Our reference genome was assembled from one birch tree — and not one of ours. The reference individual, <code>dhBetPend1</code>, was collected in Surrey in the United Kingdom; our eleven trees are Finnish, some two thousand kilometres away. It is also a haplotype-resolved assembly, so the reference is one of that tree’s two haplotypes.</p>
+<p>Every other tree differs from the reference, and the more an individual differs, the harder its reads are to map. Birch is wind-pollinated and outcrossing, so individuals carry a great deal of variation relative to any single reference, and a reference from the far end of the species’ range is a long way from all of our samples. For human data a mapping rate above 95% is routine, because the reference is a well-polished consensus of the species. Do not expect that here, and do not treat a lower number as failure.</p>
 <p>What matters is the comparison across samples. A sample with a markedly lower mapping rate than the rest is telling you something: it may be more divergent, it may be contaminated, or it may not be the species you think it is.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -690,7 +676,7 @@ Warning
 <div class="callout-body-container callout-body">
 <p>Reads carrying the reference allele map slightly more easily than reads carrying an alternative allele, because they match the reference better. The effect is small per read and systematic across the dataset, and it pushes estimated allele frequencies toward the reference.</p>
 <p>That matters for us specifically, because almost everything we do this week is built on allele frequencies: Tajima’s D, Fst, the site frequency spectrum, the PCA. A bias of this kind does not produce an error or an obviously wrong plot. It produces a slightly wrong answer that looks entirely reasonable.</p>
-<p>It also does not fall equally on all samples. Isolates closely related to whichever individual the reference came from are affected less than distant ones — so a bias in mapping can masquerade as a signal of population structure. Hold on to this one; it is worth raising again on Thursday when the structure plots appear.</p>
+<p>It also does not fall equally on all samples. Trees closely related to whichever individual the reference came from are affected less than distant ones — so a bias in mapping can masquerade as a signal of population structure. Hold on to this one; it is worth raising again on Thursday when the structure plots appear.</p>
 </div>
 </div>
 </section>
@@ -701,9 +687,9 @@ Warning
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> results/reports/mosdepth/<span class="op">&lt;</span>sample<span class="op">&gt;</span>/<span class="pp">*</span>.mosdepth.summary.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Three things to look at:</p>
 <ul>
-<li><strong>Mean and median depth per sample.</strong> These should be broadly similar across samples. If one isolate has half the depth of the others, its genotypes are less certain, and it will have more missing data after filtering.</li>
+<li><strong>Mean and median depth per sample.</strong> These should be broadly similar across samples. If one tree has half the depth of the others, its genotypes are less certain, and it will have more missing data after filtering. Be aware that our eleven samples were <em>not</em> sequenced equally: read counts in the published data range from 32.6 to 56.2 million pairs, a spread of about 1.7-fold, so some difference in depth is expected before you even start.</li>
 <li><strong>The cumulative coverage distribution</strong>, in MultiQC. It answers the question you actually care about: what fraction of the genome is covered at at least <em>N</em>× in this sample?</li>
-<li><strong>Coverage per contig.</strong> This one is interesting in a fungus. Expect the mitochondrial contig to be covered far more deeply than the nuclear genome — there are many copies per cell. Expect collapsed repeats to show up as unusually deep. And watch for whole scaffolds with conspicuously high or low coverage across some isolates but not others: many fungi carry accessory chromosomes that are present in some individuals and absent in others, and that is a real biological result rather than a QC problem.</li>
+<li><strong>Coverage per contig.</strong> Our subset contains only two chromosomes, so there is not much to compare — but note what you would look at in a full dataset. The full assembly includes a mitochondrion (744 kb) and a chloroplast (161 kb), and if organellar sequences are in your reference they are covered far more deeply than the nuclear genome, because a cell contains one nucleus and many mitochondria and chloroplasts. Collapsed repeats show up as unusually deep. And a whole scaffold with conspicuously different coverage in some individuals than others is worth investigating rather than ignoring: in plants that can mean a large structural variant, and it can also mean the sample is not the species you think it is.</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
@@ -718,9 +704,10 @@ Warning
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>There is no single number, because it depends on what you are asking.</p>
-<p>Calling a genotype confidently at one site in one individual needs enough reads to rule out sampling error. At 5× coverage of a haploid genome, seeing five identical bases is reasonable evidence; at 2× it is not much evidence at all, and a single sequencing error is indistinguishable from a real variant.</p>
+<p>Calling a genotype confidently at one site in one individual needs enough reads to rule out sampling error, and in a diploid that bar is higher than you might think. A homozygote is easy: every read agrees. A heterozygote requires you to see <em>both</em> alleles, and each read samples one chromosome at random — so at 4× coverage there is a one-in-eight chance that all four reads come from the same chromosome and a true heterozygote is called homozygous.</p>
+<p>That error is not random with respect to what we measure. Missing heterozygotes systematically depresses estimated heterozygosity and distorts allele frequencies, and it does so more in the samples with the lowest coverage — which is exactly why you checked whether depth varies between samples before comparing them.</p>
 <p>But many population-genetic statistics are computed across thousands of sites and many individuals, and they tolerate uncertainty at any single site better than you might expect. This is why low-coverage sequencing of many individuals is often a better use of a budget than high-coverage sequencing of a few — you learn more about a population from 50 individuals at 5× than from 5 individuals at 50×.</p>
-<p>What is <em>not</em> acceptable is coverage that varies systematically with something you intend to compare. If the Finnish isolates were sequenced more deeply than the Swedish ones, then any difference you find between Finland and Sweden has an alternative explanation that has nothing to do with biology. Check this now, before you do the comparison.</p>
+<p>What is <em>not</em> acceptable is coverage that varies systematically with something you intend to compare. If one group of trees was sequenced more deeply than another, then any difference you find between those groups has an alternative explanation that has nothing to do with biology. Check this now, before you do the comparison — and remember that our samples already differ by about 1.7-fold in read count.</p>
 </div>
 </div>
 </div>
@@ -741,7 +728,7 @@ Warning
 </div>
 <div class="callout-body-container callout-body">
 <p>You may find two VCFs here: <code>joint_germline.vcf.gz</code> and <code>joint_germline_recalibrated.vcf.gz</code>. The second has had GATK’s variant quality score recalibration (VQSR) applied, which is a machine-learning filter trained on curated sets of known true variants.</p>
-<p>Those training sets exist for humans. They do not exist for our fungus. Use the unrecalibrated <code>joint_germline.vcf.gz</code>, and filter it ourselves on explicit, defensible thresholds this afternoon — which is what we would have to do anyway for any non-model organism.</p>
+<p>Those training sets exist for humans. They do not exist for birch. Use the unrecalibrated <code>joint_germline.vcf.gz</code>, and filter it ourselves on explicit, defensible thresholds this afternoon — which is what we would have to do anyway for any non-model organism.</p>
 </div>
 </div>
 <section id="looking-at-a-vcf-without-regretting-it" class="level3">
@@ -764,6 +751,7 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <p><code>less -S</code> stops lines from wrapping, which makes a wide file readable: use the arrow keys to scroll sideways, and <code>q</code> to quit. Piping to <code>head</code> is safe even on a huge file — the pipe closes and <code>bcftools</code> stops.</p>
+<p>The <code>CHROM</code> values in your file are whatever the sequence names in the reference FASTA are, which for our assembly means the chromosomes are named <code>1</code> to <code>14</code> — though a subset may have been renamed. Check rather than assume, with <code>cut -f1 reference.fasta.fai</code> or <code>bcftools view -h $VCF | grep contig</code>. A mismatch between what you type in a region query and what is actually in the file returns nothing at all, with no error.</p>
 </div>
 </div>
 </section>
@@ -772,7 +760,7 @@ Tip
 <p>Every VCF has two parts: header lines beginning with <code>##</code>, then one line per variant site. Here is a small, complete example:</p>
 <pre class="text"><code>##fileformat=VCFv4.2
 ##FILTER=&lt;ID=PASS,Description="All filters passed"&gt;
-##contig=&lt;ID=scaffold_1,length=250000&gt;
+##contig=&lt;ID=chr1,length=250000&gt;
 ##INFO=&lt;ID=DP,Number=1,Type=Integer,Description="Approximate read depth"&gt;
 ##INFO=&lt;ID=AF,Number=A,Type=Float,Description="Allele Frequency"&gt;
 ##INFO=&lt;ID=AC,Number=A,Type=Integer,Description="Allele count in genotypes"&gt;
@@ -783,10 +771,10 @@ Tip
 ##FORMAT=&lt;ID=DP,Number=1,Type=Integer,Description="Read depth"&gt;
 ##FORMAT=&lt;ID=GQ,Number=1,Type=Integer,Description="Genotype Quality"&gt;
 ##FORMAT=&lt;ID=PL,Number=G,Type=Integer,Description="Phred-scaled likelihoods"&gt;
-#CHROM  POS ID  REF ALT QUAL    FILTER  INFO    FORMAT  Bil_01  Bil_02  Her_03
-scaffold_1  1420    .   A   G   982.4   PASS    DP=71;AF=0.333;AC=2;AN=6;MQ=60.00   GT:AD:DP:GQ:PL  0/0:24,0:24:72:0,72,1080    1/1:0,19:19:57:855,57,0 0/0:28,0:28:84:0,84,1260
-scaffold_1  1655    .   C   T   45.2    PASS    DP=19;AF=0.167;AC=1;AN=6;MQ=41.00   GT:AD:DP:GQ:PL  0/1:5,4:9:38:38,0,112   0/0:6,0:6:18:0,18,270   ./.:0,0:0:.:.
-scaffold_1  2310    .   G   GAT 721.9   PASS    DP=66;AF=0.500;AC=3;AN=6;MQ=59.00   GT:AD:DP:GQ:PL  1/1:0,22:22:66:990,66,0 0/0:21,0:21:63:0,63,945 1/1:0,23:23:69:1035,69,0</code></pre>
+#CHROM  POS ID  REF ALT QUAL    FILTER  INFO    FORMAT  SAMEA104151691  SAMEA104151857  SAMEA104151870
+chr1    1420    .   A   G   982.4   PASS    DP=71;AF=0.333;AC=2;AN=6;MQ=60.00   GT:AD:DP:GQ:PL  0/0:24,0:24:72:0,72,1080    1/1:0,19:19:57:855,57,0 0/0:28,0:28:84:0,84,1260
+chr1    1655    .   C   T   45.2    PASS    DP=19;AF=0.167;AC=1;AN=6;MQ=41.00   GT:AD:DP:GQ:PL  0/1:5,4:9:38:38,0,112   0/0:6,0:6:18:0,18,270   ./.:0,0:0:.:.
+chr1    2310    .   G   GAT 721.9   PASS    DP=66;AF=0.500;AC=3;AN=6;MQ=59.00   GT:AD:DP:GQ:PL  1/1:0,22:22:66:990,66,0 0/0:21,0:21:63:0,63,945 1/1:0,23:23:69:1035,69,0</code></pre>
 <p>The header is not decoration. It is the file’s own documentation: every <code>INFO</code> and <code>FORMAT</code> field used in the records below is defined there, with its type and a description. When you meet an unfamiliar field — and you will — the definition is in the header of the file in front of you.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-h</span> <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"^##INFO"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The last header line, the one with a single <code>#</code>, is the column header for everything that follows.</p>
@@ -980,6 +968,10 @@ Tip
 </table>
 <p>The genotype encoding uses indices into <code>REF</code> and <code>ALT</code>: <code>0</code> is the reference allele, <code>1</code> is the first alternative, <code>2</code> the second, and so on.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead>
 <tr class="header">
 <th><code>GT</code></th>
@@ -1005,7 +997,7 @@ Tip
 </tr>
 <tr class="odd">
 <td><code>0</code> or <code>1</code></td>
-<td>A haploid call, with a single allele</td>
+<td>A haploid call, with a single allele. Not in this dataset, but you will meet these in the fungal VCF this afternoon</td>
 </tr>
 <tr class="even">
 <td><code>0\|1</code></td>
@@ -1020,19 +1012,36 @@ Tip
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Heterozygous calls in a haploid organism
+<span class="screen-reader-only">Warning</span>Heterozygotes and allele balance
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Our fungus is haploid for most of its life cycle, so in principle <code>0/1</code> should not exist in this dataset. The caller used a diploid model because that is its default, so it will happily report heterozygotes anyway.</p>
-<p>When you see one, it is evidence of something, and the candidates are worth thinking through:</p>
+<p>Silver birch is diploid and outcrossing, so heterozygous calls are not a warning sign here — they are most of the signal. What you check instead is whether each heterozygous call is <em>internally consistent</em>, and <code>AD</code> is how you do it.</p>
+<p>At a true heterozygous site, each read samples one of the two chromosomes at random, so the two <code>AD</code> values should be roughly equal. The call <code>0/1:5,4:9:38:38,0,112</code> has 5 reads against 4, which is exactly what a real heterozygote looks like. A call like <code>0/1:28,3:31:20:...</code> does not: 28 reads against 3 is not a coin flip, and something other than two alleles at one locus is generating it.</p>
+<p>Strong allele imbalance, especially in combination with high depth, usually means one of:</p>
 <ul>
-<li><strong>Collapsed repeats or paralogues</strong> — reads from two similar regions of the genome piled onto one location, so you are seeing a difference between two loci, not two alleles</li>
-<li><strong>Contamination</strong> — reads from a second organism, or a second isolate</li>
+<li><strong>Collapsed repeats or paralogues</strong> — reads from two similar regions of the genome piled onto one location, so the “alleles” are really two different loci</li>
+<li><strong>Contamination</strong> — a few reads from another organism or another individual</li>
 <li><strong>Sequencing error</strong>, particularly at low depth</li>
-<li><strong>Genuine biology</strong> — a heterokaryon, or a sample that is not clonal</li>
 </ul>
-<p>The first is by far the most common, which is one more reason to be suspicious of sites with unusually high depth. The practical point: the fraction of heterozygous calls per sample is a useful QC metric in a haploid organism, and a sample with far more than its neighbours deserves a hard look.</p>
+<p>The per-sample heterozygosity in the MultiQC variant section is worth a look for the same reason. A tree with far more heterozygous calls than the others may be an artefact, but in birch it may also be biology.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why that last point is not hypothetical in birch
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Silver birch, <em>B. pendula</em>, is diploid with 2n = 2x = 28. Downy birch, <em>B. pubescens</em>, grows in the same forests, resembles it closely enough that the two are regularly confused in the field — and is tetraploid. The two species also hybridise, and introgression between them is documented.</p>
+<p>So an unusual pattern of heterozygosity in one sample is a question worth taking seriously rather than filtering away: it could be a collapsed repeat, or it could be telling you something about what that tree actually is. “Check that the sample is the species you think it is” belongs on every QC checklist for wild-collected material — and it is a check nobody can do for you after the fact.</p>
+</div>
 </div>
 </div>
 </section>
@@ -1056,12 +1065,12 @@ Tip
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span> <span class="st">'%POS[\t%SAMPLE=%GT:%DP]\n'</span> <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">head</span></span>
 <span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Everything in one region</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="va">$VCF</span> scaffold_1:1-50000 <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f1,2,4,5,6</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> view <span class="at">-H</span> <span class="va">$VCF</span> chr1:1-50000 <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f1,2,4,5,6</span></span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co"># A summary of the whole file</span></span>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="ex">bcftools</span> stats <span class="va">$VCF</span> <span class="kw">|</span> <span class="fu">less</span> <span class="at">-S</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1070,7 +1079,7 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li>How many variants are in the file, and how many samples?</li>
@@ -1078,10 +1087,10 @@ Tip
 <li>What is the median <code>QUAL</code>? (Hint: <code>bcftools query</code>, then <code>sort -n</code>.)</li>
 <li>Find a site where at least one sample is <code>./.</code>. Why might the call be missing there?</li>
 <li>Find the site with the highest <code>INFO/DP</code> in the first 100 000 bases. Would you trust it?</li>
-<li>For one sample, count how many genotypes are heterozygous. Does that number look reasonable for a haploid organism?</li>
+<li>For one sample, count how many genotypes are heterozygous. Then find a heterozygous call whose <code>AD</code> values are badly unbalanced. Would you trust it?</li>
 <li>What does <code>bcftools stats</code> report for the transition/transversion ratio?</li>
 </ol>
-<p>Question 7 deserves a comment. Ts/Tv is a standard sanity check: transitions are chemically easier than transversions, so real variation shows an excess of transitions, while random sequencing errors do not. In humans the expected value is well established, around 2 for whole genomes. For our fungus nobody has told us what to expect — so use it as a <em>relative</em> measure. Compute it before and after filtering, and if filtering raises it, you removed proportionally more noise than signal.</p>
+<p>Question 7 deserves a comment. Ts/Tv is a standard sanity check: transitions are chemically easier than transversions, so real variation shows an excess of transitions, while random sequencing errors do not. In humans the expected value is well established, around 2 for whole genomes. For birch nobody has told us what to expect — so use it as a <em>relative</em> measure. Compute it before and after filtering, and if filtering raises it, you removed proportionally more noise than signal.</p>
 </div>
 </div>
 </div>
@@ -1089,7 +1098,21 @@ Tip
 </section>
 <section id="part-5-deciding-what-to-do-about-it" class="level2">
 <h2 class="anchored" data-anchor-id="part-5-deciding-what-to-do-about-it">Part 5: Deciding what to do about it</h2>
-<p>The point of the morning is the handover to this afternoon. Before we break, we decide together on the filtering thresholds everyone will apply.</p>
+<p>The point of the morning is the handover to this afternoon. Before we break, we decide together on the filtering thresholds we would apply, and why.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>One thing to be clear about: this afternoon we change dataset. The birch data you have just assessed is a diploid tree, sequenced whole-genome, and we looked at it to learn how to read pipeline output. For the population statistics you will work on a VCF from a forest fungus instead, with one chromosome assigned to each pair, because it is haploid, smaller, and comes with the population metadata that the statistics need.</p>
+<p>What transfers between the two is not the numbers but the reasoning. The thresholds we agree on now are the ones you will justify, adapt and defend on a different file in an hour — which is a fair description of how this works in practice, since you will rarely assess the same dataset twice.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1105,7 +1128,7 @@ Tip
 <li>What minimum depth will we require for a genotype call? What maximum, and why is there a maximum at all?</li>
 <li>What minimum quality? Raw <code>QUAL</code>, or <code>QD</code>?</li>
 <li>How much missing data will we tolerate at a site before we discard the site? How much for an individual?</li>
-<li>We are about to use a haploid-aware VCFtools on a VCF whose genotypes were called under a diploid model. What exactly does that fix, and what does it not fix?</li>
+<li>This VCF came from a diploid organism called with a diploid model, so the genotypes mean what they say. The fungal VCF we move to this afternoon comes from a haploid organism, and some of the statistics we will calculate are defined in terms of diploid genotype counts. What has to change, and what breaks if it does not?</li>
 <li>Every filter removes real variants as well as artefacts. Which direction does each of our filters push the statistics we are about to calculate? A filter on minimum allele frequency, for instance, removes rare variants — and Tajima’s D is a statement about exactly those.</li>
 <li>If this were your project, what would the methods paragraph say? Write three sentences.</li>
 </ol>
@@ -1121,7 +1144,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Write the agreed thresholds down before lunch, with the reason for each next to it. You will use them this afternoon, you will want them for your report, and in a real project you will want them in six months when a reviewer asks why the numbers are what they are.</p>
+<p>Write the agreed thresholds down before lunch, with the reason for each next to it. You will adapt them to the fungal data this afternoon, you will want them for your report, and in a real project you will want them in six months when a reviewer asks why the numbers are what they are.</p>
 </div>
 </div>
 </section>
@@ -1132,10 +1155,10 @@ Tip
 <li><label><input type="checkbox">I have read one FastQC report in full and can explain each red cross in it</label></li>
 <li><label><input type="checkbox">I can name the samples I would drop, and say why</label></li>
 <li><label><input type="checkbox">I know roughly what depth our samples were sequenced to</label></li>
-<li><label><input type="checkbox">I can point at a VCF record and read out the position, the alleles and one sample’s genotype</label></li>
-<li><label><input type="checkbox">My group has written down the filtering thresholds we will use</label></li>
+<li><label><input type="checkbox">I can point at a VCF record and read out the position, the alleles, one sample’s genotype and its allele balance</label></li>
+<li><label><input type="checkbox">My group has written down the filtering thresholds we would use, and why</label></li>
 </ul>
-<p>This afternoon we apply those thresholds and start calculating: allele frequencies, Tajima’s D, Fst. Continue to <a href="./course_pop_stats.html">Population Statistics</a>.</p>
+<p>This afternoon we switch to the fungal dataset and start calculating: allele frequencies, Tajima’s D, Fst. Continue to <a href="./course_pop_stats.html">Population Statistics</a>.</p>
 </section>
 <section id="where-to-look-things-up" class="level2">
 <h2 class="anchored" data-anchor-id="where-to-look-things-up">Where to look things up</h2>
@@ -1144,7 +1167,7 @@ Tip
 <li><a href="https://docs.seqera.io/multiqc">MultiQC documentation</a> — including how to use the toolbox</li>
 <li><a href="https://samtools.github.io/hts-specs/VCFv4.2.pdf">The VCF specification</a> — the authoritative definition. Terse, but short, and worth reading once</li>
 <li><a href="https://samtools.github.io/bcftools/bcftools.html">bcftools manual</a> — especially <code>view</code>, <code>query</code> and <code>stats</code></li>
-<li><a href="https://nf-co.re/sarek/3.11.0/output/">nf-core/sarek output documentation</a> — what every directory in <code>results/</code> contains</li>
+<li><a href="https://nf-co.re/sarek/3.12.0/output/">nf-core/sarek output documentation</a> — what every directory in <code>results/</code> contains</li>
 </ul>
 
 
