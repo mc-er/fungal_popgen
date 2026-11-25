@@ -17,7 +17,9 @@ We are deliberately not analysing anything today. Getting a pipeline to start �
 4. Configure Sarek to submit jobs to SLURM instead of running them where you launched it
 5. Point it at our data and leave it running
 
-Steps 1–3 are the ones that matter. If you get that far and understand what you did, the afternoon was a success.
+Steps 1–3 are the ones that matter. If you get that far and understand what you did, the afternoon was a success
+
+And don't forget to ask questions if something does not behave the way you expect.
 :::
 
 If the words Nextflow, nf-core, container and environment manager are new, the background pages on [Nextflow](./background_nextflow.html), [nf-core](./background_nf-core.html), [Containers](./background_containers.html) and [Pixi](./background_pixi.html) cover the concepts. This page is only about making it run.

@@ -1,3 +1,7 @@
+---
+title: "Session 3: Quality Control and the VCF Format"
+---
+
 ## Introduction
 
 Yesterday afternoon we launched Sarek on eleven silver birch (*Betula pendula*) individuals from [Salojärvi *et al.* (2017)](https://doi.org/10.1038/ng.3862), with the reads subset to two chromosomes. This morning we find out what it did.
@@ -15,6 +19,8 @@ This session is different from the others. There are commands to run, but the po
 6. Decide, as a group, what we are going to filter on this afternoon
 
 Expect to spend roughly half the morning on QC and half on the VCF, with discussion throughout.
+
+And as always: don't forget to ask questions if something does not behave the way you expect.
 :::
 
 ## Finding the output

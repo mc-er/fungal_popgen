@@ -6,7 +6,7 @@ title: "Session 1: Introduction to Bash and HPC2N"
 
 This is the first practical session of the course. The aim of the morning is to get everyone to the same starting point: comfortable enough in a terminal to move around a filesystem and chain a few commands together, and able to log in to HPC2N, load software, and submit a job to the queue.
 
-Everything we do from Tuesday afternoon onwards happens on a cluster. You will not run Nextflow, VCFtools, plink or R on your own laptop for this dataset, so the time you invest this morning pays off for the rest of the week.
+Everything we do from Tuesday afternoon onwards happens on a cluster. You will not run Nextflow, VCFtools, plink or R on your own laptop for these datasets, so the time you invest this morning pays off for the rest of the week.
 
 ::: {.callout-note}
 ## Plan for the morning
@@ -17,8 +17,10 @@ Everything we do from Tuesday afternoon onwards happens on a cluster. You will n
 4. Your first `sbatch` job
 5. Open OnDemand: RStudio and VS Code in the browser
 
-Feel free to ask as soon as something does not behave the way you expect. Working through an error with someone is sometimes the fastest way to learn.
+Feel free to ask questions if something does not behave the way you expect. Working through an error with someone is sometimes the fastest way to learn.
 :::
+
+If you have never used a terminal before, have a quick look at [A Brief Introduction to Linux](./background_linux.html) first. It covers the filesystem, absolute and relative paths, and the handful of commands we use constantly.
 
 ## Part 1: The shell
 
