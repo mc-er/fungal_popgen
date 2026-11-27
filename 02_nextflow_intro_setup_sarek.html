@@ -320,7 +320,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#what-sarek-does" id="toc-what-sarek-does" class="nav-link" data-scroll-target="#what-sarek-does">What Sarek does</a></li>
   <li><a href="#a-human-pipeline-on-a-non-model-organism" id="toc-a-human-pipeline-on-a-non-model-organism" class="nav-link" data-scroll-target="#a-human-pipeline-on-a-non-model-organism">A human pipeline on a non-model organism</a></li>
   <li><a href="#before-you-start" id="toc-before-you-start" class="nav-link" data-scroll-target="#before-you-start">Before you start</a></li>
-  <li><a href="#step-1-nextflow-and-containers" id="toc-step-1-nextflow-and-containers" class="nav-link" data-scroll-target="#step-1-nextflow-and-containers">Step 1: Nextflow and containers</a></li>
+  <li><a href="#step-1" id="toc-step-1" class="nav-link" data-scroll-target="#step-1">Step 1:</a></li>
+  <li><a href="#step-2-nextflow-and-containers" id="toc-step-2-nextflow-and-containers" class="nav-link" data-scroll-target="#step-2-nextflow-and-containers">Step 2: Nextflow and containers</a></li>
   <li><a href="#step-2-the-smoke-test" id="toc-step-2-the-smoke-test" class="nav-link" data-scroll-target="#step-2-the-smoke-test">Step 2: the smoke test</a></li>
   <li><a href="#step-3-what-nextflow-leaves-behind" id="toc-step-3-what-nextflow-leaves-behind" class="nav-link" data-scroll-target="#step-3-what-nextflow-leaves-behind">Step 3: what Nextflow leaves behind</a></li>
   <li><a href="#step-4-making-it-use-the-cluster" id="toc-step-4-making-it-use-the-cluster" class="nav-link" data-scroll-target="#step-4-making-it-use-the-cluster">Step 4: making it use the cluster</a></li>
@@ -474,7 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>All ren are paired-end whole-genome shotgun libraries from one NextSeq 500 platform, one sequencing run each.</p>
+<p>All ten are paired-end whole-genome shotgun libraries from one NextSeq 500 platform, one sequencing run each.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -501,12 +502,18 @@ Note
 <div class="callout-body-container callout-body">
 <p>Look at the “original name” column. It contains <code>Pöytä1</code> and <code>Elimäki1</code>, which have non-ASCII characters, and <code>21271</code> and <code>2-VR-1-111</code>, which begin with a digit.</p>
 <p>Both will cause you trouble. Non-ASCII characters in sample names break tools unpredictably and are miserable to type in a shell; identifiers starting with a digit are mangled by R, and some tools reject them outright. This is exactly the naming problem the <a href="./background_linux.html">Linux page</a> warns about, met in the wild.</p>
-<p>So in the samplesheet we use the <strong>BioSample accession</strong> as the sample identifier. It is stable, unique, ASCII, starts with a letter, and points at a public record anyone can look up. Keep the human-readable names in a separate metadata file, and attach them for plot labels later:</p>
-<pre class="csv"><code>sample,name,run
-SAMEA104151691,2-VR-1-111,ERR2026087
-SAMEA104151870,21271,ERR2026113
-SAMEA104151879,Elimaki1,ERR2026254
-SAMEA104151890,Poyta1,ERR2026265</code></pre>
+<p>So in the samplesheet we use the <strong>BioSample accession</strong> as the sample identifier. It is stable, unique, ASCII, starts with a letter, and points at a public record anyone can look up. We will keep the human-readable names in a separate metadata file <mark>(TODO: inset path)</mark>, which can later be attach for plot labels.</p>
+<pre class="tsv"><code>sample  run name
+SAMEA104151691  ERR2026087  2-VR-1-111
+SAMEA104151870  ERR2026113  21271
+SAMEA104151879  ERR2026254  Elimäki1
+SAMEA104151880  ERR2026255  Kanttarelli1
+SAMEA104151881  ERR2026256  Kyynel1
+SAMEA104151882  ERR2026257  Loimaa1
+SAMEA104151883  ERR2026258  Luuta1
+SAMEA104151889  ERR2026264  Pouta1
+SAMEA104151890  ERR2026265  Pöytä1
+SAMEA104151893  ERR2026266  Ritva1</code></pre>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -722,11 +729,12 @@ Important
 </section>
 <section id="before-you-start" class="level2">
 <h2 class="anchored" data-anchor-id="before-you-start">Before you start</h2>
-<p>From this morning you should have:</p>
+<p>From by now you should have:</p>
 <ul>
 <li>A working login to Kebnekaise</li>
 <li>Your project ID</li>
-<li>A directory of your own in the course project storage under <code>/proj/nobackup/&lt;course-project&gt;/analysis/&lt;group-name&gt;</code></li>
+<li>Your group</li>
+<li>A directory for your group in the course project storage under <code>/proj/nobackup/&lt;course-project&gt;/analysis/&lt;group-name&gt;</code></li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -738,7 +746,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>You will run this in your groups. There is no need to run it both of you since it produces the same result.</p>
+<p>You will run this in your groups. There is no need to run it both of you since it produces the same result. However if you feel like it is helpful for your learning you each can make the necessary input files. If this is the case you can work in the personal directory within your groups directory that was mentioned in <a href="./01_bash_hpc2n_intro.html">Session 1: Introduction to Bash and HPC2N</a></p>
 </div>
 </div>
 <p>Work in the project storage, not in your home directory. Nextflow writes an intermediate <code>work/</code> directory that grows quickly — tens of gigabytes is normal — and a home quota will stop the run dead.</p>
@@ -752,30 +760,28 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Tomorrow when we have the output it is a good idea to remove the <code>work/</code> directory we will not need it’s content anymore and it is good practice to free up space.</p>
-</div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> proj/nobackup/<span class="op">&lt;</span>course-project<span class="op">&gt;</span>/analysis/<span class="op">&lt;</span>group-name<span class="op">&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> sarek_run <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> sarek_run</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Set two environment variables before you launch anything. The first keeps the Nextflow Java process from claiming too much memory on the login node; the second makes containers be downloaded once into a shared cache instead of once per run.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_OPTS</span><span class="op">=</span><span class="st">'-Xms1g -Xmx4g'</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_SINGULARITY_CACHEDIR</span><span class="op">=</span>/proj/nobackup/<span class="op">&lt;</span>course-project<span class="op">&gt;</span>/singularity_cache</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Put both lines in your <code>~/.bashrc</code> so you do not have to remember them. If you forget the cache variable, every run re-downloads several gigabytes of container images, which is slow for you and unkind to everybody else on the system.</p>
+<p>Tomorrow when we have the output it is a good idea to remove the <code>work/</code> directory since we will not need it’s content anymore and it is good practice to free up space.</p>
 </div>
 </div>
 </section>
-<section id="step-1-nextflow-and-containers" class="level2">
-<h2 class="anchored" data-anchor-id="step-1-nextflow-and-containers">Step 1: Nextflow and containers</h2>
+<section id="step-1" class="level2">
+<h2 class="anchored" data-anchor-id="step-1">Step 1:</h2>
+<p>Today we will use VSCode through the OnDemand system at HPC2N.</p>
+<ol type="1">
+<li><p>Go to: <a href="https://portal.hpc2n.umu.se/public/landing_page.html">Open OnDemand</a>. We went through how to start up OnDemand sessions <a href="./01_bash_hpc2n_intro.html">yesterday</a>.</p>
+<p>We will mostly be editing text and performing light tasks so for toyday it is sufficient to use <code>1 core</code>.</p></li>
+<li><p>Make a directory for the Sarek run.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> proj/nobackup/<span class="op">&lt;</span>course-project<span class="op">&gt;</span>/analysis/<span class="op">&lt;</span>group-name<span class="op">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> sarek_run <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> sarek_run</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Set two environment variables before you launch anything. The first keeps the Nextflow Java process from claiming too much memory on the login node; the second makes containers be downloaded once into a shared cache instead of once per run.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_OPTS</span><span class="op">=</span><span class="st">'-Xms1g -Xmx4g'</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_SINGULARITY_CACHEDIR</span><span class="op">=</span>/proj/nobackup/<span class="op">&lt;</span>course-project<span class="op">&gt;</span>/singularity_cache</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>::: {.callout-tip} Put both lines in your <code>~/.bashrc</code> so you do not have to remember them. If you forget the cache variable, every run re-downloads several gigabytes of container images, which is slow for you and unkind to everybody else on the system. Side note: Here we have set <code>NXF_SINGULARITY_CACHEDIR</code> in the current project directory. If you have it in your <code>~./bashrc</code> this will break when the course directory does not excist anymore (not an issue for the duration fo this course). :::</p></li>
+</ol>
+<p>TODO: edit from here</p>
+</section>
+<section id="step-2-nextflow-and-containers" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-nextflow-and-containers">Step 2: Nextflow and containers</h2>
 <p>Find and load Nextflow:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> spider Nextflow</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load Nextflow/<span class="op">&lt;</span>version<span class="op">&gt;</span></span>
@@ -833,7 +839,7 @@ Tip
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -842,7 +848,7 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Work through this in order — it is almost always one of these:</p>
 <ol type="1">
@@ -955,7 +961,7 @@ Warning
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -964,7 +970,7 @@ Warning
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>nf-core maintains ready-made configurations for many clusters, loaded with <code>-profile &lt;institution&gt;</code>. There is a <code>naiss</code> profile, but at the time of writing it only configures Arrhenius specifically, so we write our own small config for Kebnekaise instead.</p>
 <p>The <code>resourceLimits</code> values above are a starting point, not a measurement. Check them against the node sizes in HPC2N’s documentation, and against what the execution report says your processes actually used.</p>
@@ -1096,7 +1102,7 @@ Tip
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">-params-file</span> params.yaml <span class="dt">\</span></span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">-resume</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1105,7 +1111,7 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li><code>tools: 'haplotypecaller'</code> — GATK HaplotypeCaller is the general-purpose germline caller. Strelka, the default in the test profile, is tuned for human data.</li>
@@ -1166,7 +1172,7 @@ Tip
 <li><a href="https://nf-co.re/join/slack">nf-core Slack</a> — including a channel for HPC users in Sweden</li>
 </ul>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1175,7 +1181,7 @@ Tip
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-25" class="callout-25-contents callout-collapse collapse">
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <table class="caption-top table">
 <colgroup>
