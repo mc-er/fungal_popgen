@@ -45,7 +45,7 @@ The reads are public, in ENA study [PRJEB14544](https://www.ebi.ac.uk/ena/browse
 | `SAMEA104151890` | `ERR2026265` | Pöytä1 | 33.5 M | 10.4 |
 | `SAMEA104151893` | `ERR2026266` | Ritva1 | 39.0 M | 12.0 |
 
-All ren are paired-end whole-genome shotgun libraries from one NextSeq 500 platform, one sequencing run each.
+All ten are paired-end whole-genome shotgun libraries from one NextSeq 500 platform, one sequencing run each.
 
 ::: {.callout-note}
 **The reads you will be given have been subset to two chromosomes.** This is just to save time and space. Every step of the pipeline is genuinely identical on a subset — the same tools, the same parameters, the same output structure — so nothing you learn here is specific to the reduced data.
@@ -60,14 +60,20 @@ Look at the "original name" column. It contains `Pöytä1` and `Elimäki1`, whic
 
 Both will cause you trouble. Non-ASCII characters in sample names break tools unpredictably and are miserable to type in a shell; identifiers starting with a digit are mangled by R, and some tools reject them outright. This is exactly the naming problem the [Linux page](./background_linux.html) warns about, met in the wild.
 
-So in the samplesheet we use the **BioSample accession** as the sample identifier. It is stable, unique, ASCII, starts with a letter, and points at a public record anyone can look up. Keep the human-readable names in a separate metadata file, and attach them for plot labels later:
+So in the samplesheet we use the **BioSample accession** as the sample identifier. It is stable, unique, ASCII, starts with a letter, and points at a public record anyone can look up. We will keep the human-readable names in a separate metadata file <mark>(TODO: inset path)</mark>, which can later be attach for plot labels.
 
-```csv
-sample,name,run
-SAMEA104151691,2-VR-1-111,ERR2026087
-SAMEA104151870,21271,ERR2026113
-SAMEA104151879,Elimaki1,ERR2026254
-SAMEA104151890,Poyta1,ERR2026265
+```tsv
+sample	run	name
+SAMEA104151691	ERR2026087	2-VR-1-111
+SAMEA104151870	ERR2026113	21271
+SAMEA104151879	ERR2026254	Elimäki1
+SAMEA104151880	ERR2026255	Kanttarelli1
+SAMEA104151881	ERR2026256	Kyynel1
+SAMEA104151882	ERR2026257	Loimaa1
+SAMEA104151883	ERR2026258	Luuta1
+SAMEA104151889	ERR2026264	Pouta1
+SAMEA104151890	ERR2026265	Pöytä1
+SAMEA104151893	ERR2026266	Ritva1
 ```
 :::
 
@@ -160,40 +166,54 @@ Same pipeline, same default, right answer for one organism and wrong for the oth
 
 ## Before you start
 
-From this morning you should have:
+From by now you should have:
 
 - A working login to Kebnekaise
 - Your project ID
-- A directory of your own in the course project storage under `/proj/nobackup/<course-project>/analysis/<group-name>`
+- Your group
+- A directory for your group in the course project storage under `/proj/nobackup/<course-project>/analysis/<group-name>`
 
 ::: {.callout-note}
-You will run this in your groups. There is no need to run it both of you since it produces the same result. 
+You will run this in your groups. There is no need to run it both of you since it produces the same result. However if you feel like it is helpful for your learning you each can make the necessary input files. If this is the case you can work in the personal directory within your groups directory that was mentioned in [Session 1: Introduction to Bash and HPC2N](./01_bash_hpc2n_intro.html)
 :::
 
 Work in the project storage, not in your home directory. Nextflow writes an intermediate `work/` directory that grows quickly — tens of gigabytes is normal — and a home quota will stop the run dead.
 
 ::: {.callout-important}
-Tomorrow when we have the output it is a good idea to remove the `work/` directory we will not need it's content anymore and it is good practice to free up space. 
+Tomorrow when we have the output it is a good idea to remove the `work/` directory since we will not need it's content anymore and it is good practice to free up space. 
 :::
 
+## Step 1: 
 
-```bash
-cd proj/nobackup/<course-project>/analysis/<group-name>
-mkdir -p sarek_run && cd sarek_run
-```
+Today we will use VSCode through the OnDemand system at HPC2N. 
 
-Set two environment variables before you launch anything. The first keeps the Nextflow Java process from claiming too much memory on the login node; the second makes containers be downloaded once into a shared cache instead of once per run.
+1. Go to: [Open OnDemand](https://portal.hpc2n.umu.se/public/landing_page.html). We went through how to start up OnDemand sessions [yesterday](./01_bash_hpc2n_intro.html).
 
-```bash
-export NXF_OPTS='-Xms1g -Xmx4g'
-export NXF_SINGULARITY_CACHEDIR=/proj/nobackup/<course-project>/singularity_cache
-```
+    We will mostly be editing text and performing light tasks so for toyday it is sufficient to use `1 core`.
 
-::: {.callout-tip}
-Put both lines in your `~/.bashrc` so you do not have to remember them. If you forget the cache variable, every run re-downloads several gigabytes of container images, which is slow for you and unkind to everybody else on the system.
-:::
+2. Make a directory for the Sarek run.
 
-## Step 1: Nextflow and containers
+    ```bash
+    cd proj/nobackup/<course-project>/analysis/<group-name>
+    mkdir -p sarek_run && cd sarek_run
+    ```
+
+3. Set two environment variables before you launch anything. The first keeps the Nextflow Java process from claiming too much memory on the login node; the second makes containers be downloaded once into a shared cache instead of once per run. 
+
+    ```bash
+    export NXF_OPTS='-Xms1g -Xmx4g'
+    export NXF_SINGULARITY_CACHEDIR=/proj/nobackup/<course-project>/singularity_cache
+    ```
+
+    ::: {.callout-tip}
+    Put both lines in your `~/.bashrc` so you do not have to remember them. If you forget the cache variable, every run re-downloads several gigabytes of container images, which is slow for you and unkind to everybody else on the system.
+    Side note: Here we have set `NXF_SINGULARITY_CACHEDIR` in the current project directory. If you have it in your `~./bashrc` this will break when the course directory does not excist anymore (not an issue for the duration fo this course).
+    :::
+
+
+TODO: edit from here
+
+## Step 2: Nextflow and containers
 
 Find and load Nextflow:
 

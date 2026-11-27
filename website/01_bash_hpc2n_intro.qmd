@@ -357,7 +357,7 @@ If you are running something long over an ssh connection, your job dies when you
 
 ## Part 3: Open OnDemand
 
-Not everything is comfortable in a terminal. Plotting is the obvious case: you want to see the figure, adjust it, and see it again. HPC2N provides [Open OnDemand](https://www.hpc2n.umu.se/node/1065), a web portal that gives you graphical applications running on the cluster, in your browser.
+Not everything is comfortable in a terminal. Plotting is the obvious case: you want to see the figure, adjust it, and see it again. HPC2N provides [Open OnDemand](https://portal.hpc2n.umu.se/public/landing_page.html), a web portal that gives you graphical applications running on the cluster, in your browser.
 
 This is what we will use on Wednesday and Thursday for the R work, so it is worth setting up today.
 
