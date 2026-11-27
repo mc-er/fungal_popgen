@@ -390,7 +390,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>Salojärvi, J. <em>et al.</em> (2017) <a href="https://doi.org/10.1038/ng.3862">Genome sequencing and population genomic analyses provide insights into the adaptive landscape of silver birch</a>. <em>Nature Genetics</em> <strong>49</strong>, 904–912.</p>
 </blockquote>
-<p>The reads are public, in ENA study <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB14544">PRJEB14544</a>. We use eleven individuals from it:</p>
+<p>The reads are public, in ENA study <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB14544">PRJEB14544</a>. We use ten individuals from it:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -410,69 +410,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>17.4</td>
 </tr>
 <tr class="even">
-<td><code>SAMEA104151857</code></td>
-<td><code>ERR2026104</code></td>
-<td>21161</td>
-<td>32.6 M</td>
-<td>10.1</td>
-</tr>
-<tr class="odd">
 <td><code>SAMEA104151870</code></td>
 <td><code>ERR2026113</code></td>
 <td>21271</td>
 <td>33.5 M</td>
 <td>10.2</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>SAMEA104151879</code></td>
 <td><code>ERR2026254</code></td>
 <td>Elimäki1</td>
 <td>50.1 M</td>
 <td>15.4</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>SAMEA104151880</code></td>
 <td><code>ERR2026255</code></td>
 <td>Kanttarelli1</td>
 <td>41.9 M</td>
 <td>13.0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>SAMEA104151881</code></td>
 <td><code>ERR2026256</code></td>
 <td>Kyynel1</td>
 <td>50.1 M</td>
 <td>15.5</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>SAMEA104151882</code></td>
 <td><code>ERR2026257</code></td>
 <td>Loimaa1</td>
 <td>55.9 M</td>
 <td>17.3</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>SAMEA104151883</code></td>
 <td><code>ERR2026258</code></td>
 <td>Luuta1</td>
 <td>34.7 M</td>
 <td>10.7</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>SAMEA104151889</code></td>
 <td><code>ERR2026264</code></td>
 <td>Pouta1</td>
 <td>46.7 M</td>
 <td>14.5</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>SAMEA104151890</code></td>
 <td><code>ERR2026265</code></td>
 <td>Pöytä1</td>
 <td>33.5 M</td>
 <td>10.4</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>SAMEA104151893</code></td>
 <td><code>ERR2026266</code></td>
 <td>Ritva1</td>
@@ -481,7 +474,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p>All eleven are paired-end whole-genome shotgun libraries from one NextSeq 500 platform, one sequencing run each.</p>
+<p>All ren are paired-end whole-genome shotgun libraries from one NextSeq 500 platform, one sequencing run each.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -492,7 +485,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>The reads you will be given have been subset to two chromosomes.</strong> Every step of the pipeline is genuinely identical on a subset — the same tools, the same parameters, the same output structure — so nothing you learn here is specific to the reduced data.</p>
+<p><strong>The reads you will be given have been subset to two chromosomes.</strong> This is just to save time and space. Every step of the pipeline is genuinely identical on a subset — the same tools, the same parameters, the same output structure — so nothing you learn here is specific to the reduced data.</p>
 <p>We submit the run to the queue this afternoon and leave it to run overnight, which is how this work is normally done: you do not sit and watch a pipeline. Tomorrow morning the output will be waiting, and that is what we spend the morning on.</p>
 </div>
 </div>
@@ -506,12 +499,12 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Look at the “original name” column. It contains <code>Pöytä1</code> and <code>Elimäki1</code>, which have non-ASCII characters, and <code>21161</code>, <code>21271</code> and <code>2-VR-1-111</code>, which begin with a digit.</p>
+<p>Look at the “original name” column. It contains <code>Pöytä1</code> and <code>Elimäki1</code>, which have non-ASCII characters, and <code>21271</code> and <code>2-VR-1-111</code>, which begin with a digit.</p>
 <p>Both will cause you trouble. Non-ASCII characters in sample names break tools unpredictably and are miserable to type in a shell; identifiers starting with a digit are mangled by R, and some tools reject them outright. This is exactly the naming problem the <a href="./background_linux.html">Linux page</a> warns about, met in the wild.</p>
 <p>So in the samplesheet we use the <strong>BioSample accession</strong> as the sample identifier. It is stable, unique, ASCII, starts with a letter, and points at a public record anyone can look up. Keep the human-readable names in a separate metadata file, and attach them for plot labels later:</p>
 <pre class="csv"><code>sample,name,run
 SAMEA104151691,2-VR-1-111,ERR2026087
-SAMEA104151857,21161,ERR2026104
+SAMEA104151870,21271,ERR2026113
 SAMEA104151879,Elimaki1,ERR2026254
 SAMEA104151890,Poyta1,ERR2026265</code></pre>
 </div>
@@ -585,7 +578,7 @@ SAMEA104151890,Poyta1,ERR2026265</code></pre>
 </div>
 </div>
 <p>Two further details matter, and both are about what a reference genome actually <em>is</em>.</p>
-<p>First, <code>dhBetPend1</code> is one individual tree, <a href="https://www.ebi.ac.uk/ena/browser/view/SAMEA14449811">collected in Surrey in the United Kingdom in 2022</a>. Our eleven resequenced trees are Finnish. The reference is therefore not a neutral backdrop: it is one tree from a different part of the species’ range, roughly two thousand kilometres from the samples we are mapping onto it. We return to what that does to the results tomorrow morning.</p>
+<p>First, <code>dhBetPend1</code> is one individual tree, <a href="https://www.ebi.ac.uk/ena/browser/view/SAMEA14449811">collected in Surrey in the United Kingdom in 2022</a>. Our ten resequenced trees are Finnish. The reference is therefore not a neutral backdrop: it is one tree from a different part of the species’ range, roughly two thousand kilometres from the samples we are mapping onto it. We return to what that does to the results tomorrow morning.</p>
 <p>Second, this is <code>hap1</code> of a haplotype-resolved pair — birch is diploid, the assembly separates the two haplotypes of the reference individual, and we use one of them. <code>hap2</code> exists as a separate accession. So the reference represents a single haplotype of a single tree from a single meadow in Surrey.</p>
 </section>
 </section>
@@ -1015,10 +1008,9 @@ Important
 </div>
 <section id="the-samplesheet" class="level3">
 <h3 class="anchored" data-anchor-id="the-samplesheet">The samplesheet</h3>
-<p>Sarek takes a CSV with one row per sample and lane. Each of our eleven trees was sequenced in a single run, so there is one row per tree:</p>
+<p>Sarek takes a CSV with one row per sample and lane. Each of our to trees was sequenced in a single run, so there is one row per tree:</p>
 <pre class="csv"><code>patient,sex,status,sample,lane,fastq_1,fastq_2
 SAMEA104151691,NA,0,SAMEA104151691,ERR2026087,/proj/.../ERR2026087_1.fastq.gz,/proj/.../ERR2026087_2.fastq.gz
-SAMEA104151857,NA,0,SAMEA104151857,ERR2026104,/proj/.../ERR2026104_1.fastq.gz,/proj/.../ERR2026104_2.fastq.gz
 SAMEA104151870,NA,0,SAMEA104151870,ERR2026113,/proj/.../ERR2026113_1.fastq.gz,/proj/.../ERR2026113_2.fastq.gz
 SAMEA104151879,NA,0,SAMEA104151879,ERR2026254,/proj/.../ERR2026254_1.fastq.gz,/proj/.../ERR2026254_2.fastq.gz</code></pre>
 <table class="caption-top table">
@@ -1074,7 +1066,7 @@ Tip
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Does every file in the samplesheet actually exist?</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-d,</span> <span class="at">-f6,7</span> samplesheet.csv <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> +2 <span class="kw">|</span> <span class="fu">tr</span> <span class="st">','</span> <span class="st">'\n'</span> <span class="kw">|</span> <span class="fu">xargs</span> <span class="at">-n1</span> ls <span class="at">-l</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Eleven samples, eleven rows plus a header?</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ten samples, ten rows plus a header?</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> samplesheet.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Nextflow will tell you about a missing file eventually, but it is more pleasant to find out in two seconds than twenty minutes into a run.</p>
 </div>
@@ -1117,7 +1109,7 @@ Tip
 <div class="callout-body-container callout-body">
 <ul>
 <li><code>tools: 'haplotypecaller'</code> — GATK HaplotypeCaller is the general-purpose germline caller. Strelka, the default in the test profile, is tuned for human data.</li>
-<li><code>joint_germline: true</code> — calls all eleven trees together and gives one multi-sample VCF instead of eleven separate ones. This is what we open tomorrow morning, and it is the only form in which the questions we care about can even be asked: allele frequencies, Fst and population structure are all comparisons <em>between</em> individuals, and a per-individual VCF cannot express them.</li>
+<li><code>joint_germline: true</code> — calls all ten trees together and gives one multi-sample VCF instead of ten separate ones. This is what we open tomorrow morning, and it is the only form in which the questions we care about can even be asked: allele frequencies, Fst and population structure are all comparisons <em>between</em> individuals, and a per-individual VCF cannot express them.</li>
 <li><code>skip_tools: 'baserecalibrator'</code> — base quality score recalibration needs a trusted set of known variants to tell real variation from sequencing error. For human data that is dbSNP. For birch no such set exists, so recalibration would be trained on our own candidate variants, which is circular. Switch it off.</li>
 </ul>
 </div>
