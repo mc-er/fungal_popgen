@@ -183,8 +183,6 @@ Work in the project storage, not in your home directory. Nextflow writes an inte
 Tomorrow when we have the output it is a good idea to remove the `work/` directory since we will not need it's content anymore and it is good practice to free up space. 
 :::
 
-## Step 1: 
-
 Today we will use VSCode through the OnDemand system at HPC2N. 
 
 1. Go to: [Open OnDemand](https://portal.hpc2n.umu.se/public/landing_page.html). We went through how to start up OnDemand sessions [yesterday](./01_bash_hpc2n_intro.html).
@@ -192,6 +190,8 @@ Today we will use VSCode through the OnDemand system at HPC2N.
     We will mostly be editing text and performing light tasks so for toyday it is sufficient to use `1 core`.
 
 2. Make a directory for the Sarek run.
+
+    Open a terminal and run these commands.
 
     ```bash
     cd proj/nobackup/<course-project>/analysis/<group-name>
@@ -205,15 +205,20 @@ Today we will use VSCode through the OnDemand system at HPC2N.
     export NXF_SINGULARITY_CACHEDIR=/proj/nobackup/<course-project>/singularity_cache
     ```
 
-    ::: {.callout-tip}
-    Put both lines in your `~/.bashrc` so you do not have to remember them. If you forget the cache variable, every run re-downloads several gigabytes of container images, which is slow for you and unkind to everybody else on the system.
-    Side note: Here we have set `NXF_SINGULARITY_CACHEDIR` in the current project directory. If you have it in your `~./bashrc` this will break when the course directory does not excist anymore (not an issue for the duration fo this course).
-    :::
+::: {.callout-tip}
+Put both lines in your `~/.bashrc` so you do not have to remember them. If you forget the cache variable, every run re-downloads several gigabytes of container images, which is slow for you and unkind to everybody else on the system.
+
+Side note: Here we have set `NXF_SINGULARITY_CACHEDIR` in the current project directory. If you have it in your `~./bashrc` this will break when thecourse directory does not excist anymore (not an issue for the duration fo this course).
+:::
 
 
-TODO: edit from here
+## Step 1: Nextflow and containers
 
-## Step 2: Nextflow and containers
+Yesterday we went through how to load modules by using `module load` (or `ml`) today we will be using a pixi environment instead, pixi was covered in [Introduction to Pixi](./background_pixi.html) 
+We have alredy made the pixi environment for you the only thing you need to do is to use it.
+
+
+<mark>TODO: edit from here</mark>
 
 Find and load Nextflow:
 
